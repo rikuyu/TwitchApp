@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
 }
 
+apply plugin: 'kotlin-android-extensions'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -13,8 +15,11 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "CLIENT_ID", "\"${project.property("twitch_client_id")}\""
     }
 
     buildTypes {
@@ -66,4 +71,10 @@ dependencies {
 
     // viewModelScope
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+
+    //Gson
+    implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.4.0'
 }

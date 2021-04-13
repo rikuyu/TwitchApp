@@ -1,5 +1,5 @@
 package com.example.twitchapp.model
 
-data class StreamList(
+data class Streams(
     val streams: List<Stream>
 )
