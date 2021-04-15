@@ -15,10 +15,8 @@ import com.example.twitchapp.R
 import com.example.twitchapp.model.Stream
 
 
-class TwitchAdapter(private val context: Context) :
+class TwitchAdapter(private val context: Context, private var streamList: List<Stream>?) :
     RecyclerView.Adapter<TwitchAdapter.TwitchHolder>() {
-
-    private var streamList = ArrayList<Stream>()
 
     inner class TwitchHolder(view: View) : RecyclerView.ViewHolder(view) {
         var thumbnail: ImageView
@@ -26,6 +24,8 @@ class TwitchAdapter(private val context: Context) :
         var viewer: TextView
         var userProfile: ImageView
         var streamLink: TextView
+        var lang: TextView
+        var gameName: TextView
 
         init {
             thumbnail = view.findViewById(R.id.thumbnail)
@@ -33,6 +33,8 @@ class TwitchAdapter(private val context: Context) :
             viewer = view.findViewById(R.id.viewer)
             userProfile = view.findViewById(R.id.user_profile)
             streamLink = view.findViewById(R.id.stream_link)
+            lang = view.findViewById(R.id.lang)
+            gameName = view.findViewById(R.id.gamename)
         }
     }
 
@@ -42,26 +44,32 @@ class TwitchAdapter(private val context: Context) :
     }
 
     override fun onBindViewHolder(holder: TwitchHolder, position: Int) {
-        holder.username.text = streamList[position].channel.name
-        holder.viewer.text = "${streamList[position].viewers} 人視聴中"
+        holder.username.text = streamList!![position].channel.name
+        holder.viewer.text = "${streamList!![position].viewers}"
 
-        Glide.with(context).load(streamList[position].preview.large)
-            .apply(RequestOptions().override(100, 70))
+        Glide.with(context).load(streamList!![position].preview.large)
             .into(holder.thumbnail)
 
-        Glide.with(context).load(streamList[position].channel.logo)
-            .apply(RequestOptions().override(50, 50))
+        Glide.with(context).load(streamList!![position].channel.logo)
+            .apply(RequestOptions.circleCropTransform())
             .into(holder.userProfile)
 
         //holder.streamLink.linksClickable = true
 
         holder.streamLink.movementMethod = LinkMovementMethod.getInstance()
         val link: CharSequence =
-            Html.fromHtml("<a href=\"${streamList[position].channel.url}\">視聴する</a>")
+            Html.fromHtml("<a href=\"${streamList!![position].channel.url}\">視聴する</a>")
         holder.streamLink.text = link
+
+        holder.lang.text = "Lang: ${streamList!![position].channel.language.toUpperCase()}"
+        holder.gameName.text = "Game: ${streamList!![position].game}"
     }
 
     override fun getItemCount(): Int {
-        return streamList.size
+        return streamList!!.size
+    }
+
+    fun setList(list: List<Stream>?) {
+        streamList = list
     }
 }
