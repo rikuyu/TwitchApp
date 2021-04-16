@@ -5,6 +5,7 @@ import com.example.twitchapp.model.Streams
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Query
 
 interface TwitchApi {
 
@@ -16,6 +17,6 @@ interface TwitchApi {
         "Accept: application/vnd.twitchtv.v5+json",
         "Client-ID: $CLIENT_ID"
     )
-    @GET("kraken/streams?game=PUBG Mobile")
-    suspend fun getStream(): Response<Streams>
+    @GET("streams")
+    suspend fun fetchStream(@Query("game") gameTitle: String): Response<Streams>
 }

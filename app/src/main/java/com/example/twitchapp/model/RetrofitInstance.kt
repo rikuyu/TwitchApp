@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 object RetrofitInstance {
-    private val BASE_URL = "https://api.twitch.tv/"
+    private val BASE_URL = "https://api.twitch.tv/kraken/"
 
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 

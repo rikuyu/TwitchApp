@@ -37,13 +37,11 @@ class MainActivity : AppCompatActivity() {
 //            Log.d("通信結果", list.body()!!.streams[0].channel.language)
 //        }
 
-        initTopGameMenu()
-
         repository = TwitchRepository()
         viewModelFactory = MainViewModelFactory(repository)
         mainViewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
-        mainViewModel.getStream()
+        mainViewModel.fetchPubgMobileStream()
         initRecyclerView()
 
         mainViewModel.streams.observe(this, Observer { response ->
@@ -53,6 +51,8 @@ class MainActivity : AppCompatActivity() {
                 recyclerView.adapter = twitchAdapter
             }
         })
+
+        fetchGameStream()
     }
 
     private fun initRecyclerView() {
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
-    private fun initTopGameMenu(){
+    private fun initTopMenu() {
         pubg_mobile.outlineProvider = clipOutlineProvider
         pubg_mobile.clipToOutline = true
         apex.outlineProvider = clipOutlineProvider
@@ -75,6 +75,8 @@ class MainActivity : AppCompatActivity() {
         fortnight.clipToOutline = true
         callofduty.outlineProvider = clipOutlineProvider
         callofduty.clipToOutline = true
+        lol.outlineProvider = clipOutlineProvider
+        lol.clipToOutline = true
     }
 
     private val clipOutlineProvider = object : ViewOutlineProvider() {
@@ -85,6 +87,40 @@ class MainActivity : AppCompatActivity() {
                 view.width,
                 view.height
             )
+        }
+    }
+
+    private fun fetchGameStream() {
+        pubg_mobile.setOnClickListener {
+            mainViewModel.fetchPubgMobileStream()
+        }
+
+        apex.setOnClickListener {
+            mainViewModel.fetchApexStream()
+        }
+
+        amongus.setOnClickListener {
+            mainViewModel.fetchAmongusStream()
+        }
+
+        genshin.setOnClickListener {
+            mainViewModel.fetchGenshinStream()
+        }
+
+        minecraft.setOnClickListener {
+            mainViewModel.fetchMinecraftStream()
+        }
+
+        fortnight.setOnClickListener {
+            mainViewModel.fetchFortnightStream()
+        }
+
+        callofduty.setOnClickListener {
+            mainViewModel.fetchCallofdutyStream()
+        }
+
+        lol.setOnClickListener {
+            mainViewModel.fetchLolStream()
         }
     }
 }
