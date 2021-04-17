@@ -1,10 +1,13 @@
 package com.example.twitchapp
 
+import android.content.Intent
 import android.graphics.Outline
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.ViewOutlineProvider
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,6 +40,9 @@ class MainActivity : AppCompatActivity() {
 //            Log.d("通信結果", list.body()!!.streams[0].channel.language)
 //        }
 
+        game_icon.outlineProvider = clipOutlineProvider
+        game_icon.clipToOutline = true
+
         repository = TwitchRepository()
         viewModelFactory = MainViewModelFactory(repository)
         mainViewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
@@ -49,6 +55,14 @@ class MainActivity : AppCompatActivity() {
                 response.body()!!.streams.let { streamList = it }
                 twitchAdapter = TwitchAdapter(this, streamList)
                 recyclerView.adapter = twitchAdapter
+
+                twitchAdapter.setOnItemClickListener(object:TwitchAdapter.OnItemClickListener{
+                    override fun onItemClickListener(view: View, position: Int) {
+                        val uri = Uri.parse(streamList!![position].channel.url)
+                        val intent = Intent(Intent.ACTION_VIEW, uri)
+                        startActivity(intent)
+                    }
+                })
             }
         })
 
@@ -58,25 +72,6 @@ class MainActivity : AppCompatActivity() {
     private fun initRecyclerView() {
         recyclerView = findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-    }
-
-    private fun initTopMenu() {
-        pubg_mobile.outlineProvider = clipOutlineProvider
-        pubg_mobile.clipToOutline = true
-        apex.outlineProvider = clipOutlineProvider
-        apex.clipToOutline = true
-        amongus.outlineProvider = clipOutlineProvider
-        amongus.clipToOutline = true
-        genshin.outlineProvider = clipOutlineProvider
-        genshin.clipToOutline = true
-        minecraft.outlineProvider = clipOutlineProvider
-        minecraft.clipToOutline = true
-        fortnight.outlineProvider = clipOutlineProvider
-        fortnight.clipToOutline = true
-        callofduty.outlineProvider = clipOutlineProvider
-        callofduty.clipToOutline = true
-        lol.outlineProvider = clipOutlineProvider
-        lol.clipToOutline = true
     }
 
     private val clipOutlineProvider = object : ViewOutlineProvider() {
