@@ -1,22 +1,16 @@
 package com.example.twitchapp.adapter
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.text.Html
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.R
-import com.example.twitchapp.model.Stream
+import com.example.twitchapp.model.data.Stream
 
 
 class TwitchAdapter(private val context: Context, private var streamList: List<Stream>?) :
@@ -58,13 +52,6 @@ class TwitchAdapter(private val context: Context, private var streamList: List<S
             .apply(RequestOptions.circleCropTransform())
             .into(holder.userProfile)
 
-        //holder.streamLink.linksClickable = true
-
-//        holder.streamLink.movementMethod = LinkMovementMethod.getInstance()
-//        val link: CharSequence =
-//            Html.fromHtml("<a href=\"${streamList!![position].channel.url}\">視聴する</a>")
-//        holder.streamLink.text = link
-
         holder.lang.text = streamList!![position].channel.language.toUpperCase()
         holder.gameName.text = streamList!![position].game
 
@@ -75,10 +62,6 @@ class TwitchAdapter(private val context: Context, private var streamList: List<S
 
     override fun getItemCount(): Int {
         return streamList!!.size
-    }
-
-    fun setList(list: List<Stream>?) {
-        streamList = list
     }
 
     interface OnItemClickListener {

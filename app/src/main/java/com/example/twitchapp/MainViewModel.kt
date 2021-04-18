@@ -3,7 +3,8 @@ package com.example.twitchapp
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.twitchapp.model.Streams
+import com.example.twitchapp.model.data.Game
+import com.example.twitchapp.model.data.Streams
 import com.example.twitchapp.model.repository.TwitchRepository
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -11,6 +12,7 @@ import retrofit2.Response
 class MainViewModel(private val repository: TwitchRepository) : ViewModel() {
 
     val streams: MutableLiveData<Response<Streams>> = MutableLiveData()
+    lateinit var games: MutableList<String>
 
     fun fetchPubgMobileStream() {
         viewModelScope.launch {
@@ -42,9 +44,9 @@ class MainViewModel(private val repository: TwitchRepository) : ViewModel() {
         }
     }
 
-    fun fetchFortnightStream() {
+    fun fetchFortniteStream() {
         viewModelScope.launch {
-            streams.value = repository.fetchFortnightStream()
+            streams.value = repository.fetchFortniteStream()
         }
     }
 
@@ -60,5 +62,8 @@ class MainViewModel(private val repository: TwitchRepository) : ViewModel() {
         }
     }
 
-
+    fun createGameList(): MutableList<String>{
+        games = repository.createGameList()
+        return games
+    }
 }

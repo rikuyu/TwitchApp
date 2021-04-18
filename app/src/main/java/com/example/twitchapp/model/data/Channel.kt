@@ -1,4 +1,4 @@
-package com.example.twitchapp.model
+package com.example.twitchapp.model.data
 
 data class Channel(
     val _id: Int,
@@ -17,11 +17,11 @@ data class Channel(
     val partner: Boolean,
     val privacy_options_enabled: Boolean,
     val private_video: Boolean,
-    val profile_banner: String,
+    val profile_banner: String?,
     val profile_banner_background_color: String,
     val status: String,
     val updated_at: String,
     val url: String,
-    val video_banner: String,
+    val video_banner: String?,
     val views: Int
 )

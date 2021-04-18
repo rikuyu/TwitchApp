@@ -1,4 +1,4 @@
-package com.example.twitchapp.model
+package com.example.twitchapp.model.data
 
 data class Thumbnail (
     val large: String,

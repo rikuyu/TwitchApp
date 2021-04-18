@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/stream"
+        android:icon="@drawable/ic_video"
+        android:title="Live" />
+
+    <item
+        android:id="@+id/game"
+        android:icon="@drawable/ic_game"
+        android:title="Game"
+        />
+
+    <item
+        android:id="@+id/setting"
+        android:icon="@drawable/ic_language"
+        android:title="aaaaa" />
+
+</menu>
