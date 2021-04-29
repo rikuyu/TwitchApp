@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/game"
-        android:name="com.example.twitchapp.fragment.GameFragment"
+        android:name="com.example.twitchapp.ui.fragment.GameFragment"
         android:label="fragment_game"
         tools:layout="@layout/fragment_game" />
 
     <fragment
         android:id="@+id/stream"
-        android:name="com.example.twitchapp.fragment.StreamFragment"
+        android:name="com.example.twitchapp.ui.fragment.StreamFragment"
         android:label="fragment_stream"
         tools:layout="@layout/fragment_stream" />
 

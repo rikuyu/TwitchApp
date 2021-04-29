@@ -1,4 +1,4 @@
-package com.example.twitchapp.fragment
+package com.example.twitchapp.ui.fragment
 
 import android.content.Intent
 import android.graphics.Outline
@@ -9,13 +9,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.twitchapp.MainActivity
-import com.example.twitchapp.MainViewModel
+import com.example.twitchapp.ui.MainActivity
+import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.adapter.TwitchAdapter
 import com.example.twitchapp.databinding.FragmentStreamBinding
 import com.example.twitchapp.model.data.Stream
+import com.example.twitchapp.util.Resource
 
 class StreamFragment : Fragment() {
 
@@ -46,24 +48,38 @@ class StreamFragment : Fragment() {
         viewModel = (activity as MainActivity).mainViewModel
 
         viewModel.streams.observe(viewLifecycleOwner, Observer { response ->
-            if (response.isSuccessful) {
-                response.body()!!.streams.let { streamList = it }
-                twitchAdapter = TwitchAdapter(requireContext(), streamList)
-                binding.streamRecyclerView.adapter = twitchAdapter
+            when (response) {
+                is Resource.Success -> {
+                    hideProgressBar()
+                    response.data?.let { response ->
+                        streamList = response.streams
+                        twitchAdapter = TwitchAdapter(requireContext(), streamList)
+                        binding.streamRecyclerView.adapter = twitchAdapter
 
-                twitchAdapter.setOnItemClickListener(object : TwitchAdapter.OnItemClickListener {
-                    override fun onItemClickListener(view: View, position: Int) {
-                        val uri = Uri.parse(streamList!![position].channel.url)
-                        val intent = Intent(Intent.ACTION_VIEW, uri)
-                        startActivity(intent)
+                        twitchAdapter.setOnItemClickListener(object :
+                            TwitchAdapter.OnItemClickListener {
+                            override fun onItemClickListener(view: View, position: Int) {
+                                val uri = Uri.parse(streamList!![position].channel.url)
+                                val intent = Intent(Intent.ACTION_VIEW, uri)
+                                startActivity(intent)
+                            }
+                        })
                     }
-                })
+                }
+                is Resource.Error -> {
+                    hideProgressBar()
+                    Toast.makeText(requireContext(), "通信エラー", Toast.LENGTH_LONG).show()
+                }
+                is Resource.Loading -> {
+                    showProgressBar()
+                }
             }
         })
 
-        fetchGameStream(view)
+        fetchGameStream()
 
-        binding.streamRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.streamRecyclerView.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
     override fun onDestroyView() {
@@ -83,8 +99,15 @@ class StreamFragment : Fragment() {
         }
     }
 
-    private fun fetchGameStream(view: View) {
+    private fun hideProgressBar() {
+//        paginationProgressBar.visibility = View.INVISIBLE
+    }
 
+    private fun showProgressBar() {
+//        paginationProgressBar.visibility = View.VISIBLE
+    }
+
+    private fun fetchGameStream() {
         binding.pubgMobile.setOnClickListener {
             viewModel.fetchPubgMobileStream()
         }

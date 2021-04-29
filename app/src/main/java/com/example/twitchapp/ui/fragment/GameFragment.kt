@@ -1,21 +1,15 @@
-package com.example.twitchapp.fragment
+package com.example.twitchapp.ui.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.GridView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.twitchapp.MainViewModel
-import com.example.twitchapp.MainViewModelFactory
+import com.example.twitchapp.ui.MainViewModel
+import com.example.twitchapp.ui.MainViewModelFactory
 import com.example.twitchapp.R
 import com.example.twitchapp.adapter.GameAdapter
-import com.example.twitchapp.adapter.TwitchAdapter
 import com.example.twitchapp.model.repository.TwitchRepository
 
 class GameFragment : Fragment(R.layout.fragment_game) {

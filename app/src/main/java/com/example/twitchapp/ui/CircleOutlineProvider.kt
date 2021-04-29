@@ -1,4 +1,4 @@
-package com.example.twitchapp
+package com.example.twitchapp.ui
 
 import android.R
 import android.graphics.Outline

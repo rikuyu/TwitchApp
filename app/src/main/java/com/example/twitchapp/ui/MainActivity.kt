@@ -1,17 +1,12 @@
-package com.example.twitchapp
+package com.example.twitchapp.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.RecyclerView
-import com.example.twitchapp.adapter.GameAdapter
+import com.example.twitchapp.R
 import com.example.twitchapp.databinding.ActivityMainBinding
-import com.example.twitchapp.fragment.GameFragment
-import com.example.twitchapp.fragment.StreamFragment
 import com.example.twitchapp.model.repository.TwitchRepository
 import kotlinx.android.synthetic.main.activity_main.*
 

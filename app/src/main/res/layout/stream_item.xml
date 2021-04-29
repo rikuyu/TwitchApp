@@ -114,7 +114,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="@+id/viewer"
-            app:layout_constraintTop_toBottomOf="@+id/thumbnail" />
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

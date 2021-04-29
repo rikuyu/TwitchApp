@@ -1,4 +1,4 @@
-package com.example.twitchapp
+package com.example.twitchapp.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
