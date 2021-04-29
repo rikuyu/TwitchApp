@@ -18,7 +18,7 @@ import com.example.twitchapp.adapter.GameAdapter
 import com.example.twitchapp.adapter.TwitchAdapter
 import com.example.twitchapp.model.repository.TwitchRepository
 
-class GameFragment : Fragment() {
+class GameFragment : Fragment(R.layout.fragment_game) {
 
     private lateinit var repository: TwitchRepository
     private lateinit var mainViewModel: MainViewModel
@@ -27,11 +27,8 @@ class GameFragment : Fragment() {
     private lateinit var gameAdapter: GameAdapter
     private lateinit var recyclerView: RecyclerView
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_game, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         repository = TwitchRepository()
         viewModelFactory = MainViewModelFactory(repository)
@@ -40,9 +37,7 @@ class GameFragment : Fragment() {
         recyclerView = view.findViewById(R.id.game_recycler_view)
         recyclerView.layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
 
-        gameAdapter = GameAdapter(context!!, mainViewModel.createGameList())
+        gameAdapter = GameAdapter(requireContext(), mainViewModel.createGameList())
         recyclerView.adapter = gameAdapter
-
-        return view
     }
 }

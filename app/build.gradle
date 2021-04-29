@@ -35,6 +35,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -72,6 +75,10 @@ dependencies {
 
     // viewModelScope
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0'
+
+    // Navigation
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
 
     //Gson
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'

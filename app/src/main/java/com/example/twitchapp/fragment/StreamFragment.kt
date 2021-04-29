@@ -9,54 +9,47 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
-import android.widget.ImageView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.twitchapp.MainActivity
 import com.example.twitchapp.MainViewModel
-import com.example.twitchapp.MainViewModelFactory
-import com.example.twitchapp.R
 import com.example.twitchapp.adapter.TwitchAdapter
+import com.example.twitchapp.databinding.FragmentStreamBinding
 import com.example.twitchapp.model.data.Stream
-import com.example.twitchapp.model.repository.TwitchRepository
 
 class StreamFragment : Fragment() {
 
-    private lateinit var repository: TwitchRepository
-    private lateinit var mainViewModel: MainViewModel
-    private lateinit var viewModelFactory: MainViewModelFactory
+    lateinit var viewModel: MainViewModel
 
     private lateinit var twitchAdapter: TwitchAdapter
-    private lateinit var recyclerView: RecyclerView
-
     private var streamList: List<Stream>? = null
+
+    private var _binding: FragmentStreamBinding? = null
+    private val binding
+        get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentStreamBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        val view = inflater.inflate(R.layout.fragment_stream, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        repository = TwitchRepository()
-        viewModelFactory = MainViewModelFactory(repository)
-        mainViewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+        // 左上のゲームアイコンを円形にする
+        binding.gameIcon.outlineProvider = clipOutlineProvider
+        binding.gameIcon.clipToOutline = true
 
-        mainViewModel.fetchPubgMobileStream()
-        recyclerView = view.findViewById(R.id.stream_recycler_view)
-        recyclerView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        viewModel = (activity as MainActivity).mainViewModel
 
-        val gameIcon: ImageView = view.findViewById(R.id.game_icon)
-        gameIcon.outlineProvider = clipOutlineProvider
-        gameIcon.clipToOutline = true
-
-        mainViewModel.streams.observe(this, Observer { response ->
+        viewModel.streams.observe(viewLifecycleOwner, Observer { response ->
             if (response.isSuccessful) {
                 response.body()!!.streams.let { streamList = it }
-                twitchAdapter = TwitchAdapter(context!!, streamList)
-                recyclerView.adapter = twitchAdapter
+                twitchAdapter = TwitchAdapter(requireContext(), streamList)
+                binding.streamRecyclerView.adapter = twitchAdapter
 
                 twitchAdapter.setOnItemClickListener(object : TwitchAdapter.OnItemClickListener {
                     override fun onItemClickListener(view: View, position: Int) {
@@ -70,9 +63,15 @@ class StreamFragment : Fragment() {
 
         fetchGameStream(view)
 
-        return view
+        binding.streamRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    // 左上のゲームアイコンを円形にする
     private val clipOutlineProvider = object : ViewOutlineProvider() {
         override fun getOutline(view: View, outline: Outline) {
             outline.setOval(
@@ -85,45 +84,37 @@ class StreamFragment : Fragment() {
     }
 
     private fun fetchGameStream(view: View) {
-        val pubgmobile: ImageView = view.findViewById(R.id.pubg_mobile)
-        val apex: ImageView = view.findViewById(R.id.apex)
-        val amongus: ImageView = view.findViewById(R.id.amongus)
-        val genshin: ImageView = view.findViewById(R.id.genshin)
-        val minecraft: ImageView = view.findViewById(R.id.minecraft)
-        val fortnite: ImageView = view.findViewById(R.id.fortnite)
-        val callofduty: ImageView = view.findViewById(R.id.callofduty)
-        val lol: ImageView = view.findViewById(R.id.lol)
 
-        pubgmobile.setOnClickListener {
-            mainViewModel.fetchPubgMobileStream()
+        binding.pubgMobile.setOnClickListener {
+            viewModel.fetchPubgMobileStream()
         }
 
-        apex.setOnClickListener {
-            mainViewModel.fetchApexStream()
+        binding.apex.setOnClickListener {
+            viewModel.fetchApexStream()
         }
 
-        amongus.setOnClickListener {
-            mainViewModel.fetchAmongusStream()
+        binding.amongus.setOnClickListener {
+            viewModel.fetchAmongusStream()
         }
 
-        genshin.setOnClickListener {
-            mainViewModel.fetchGenshinStream()
+        binding.genshin.setOnClickListener {
+            viewModel.fetchGenshinStream()
         }
 
-        minecraft.setOnClickListener {
-            mainViewModel.fetchMinecraftStream()
+        binding.minecraft.setOnClickListener {
+            viewModel.fetchMinecraftStream()
         }
 
-        fortnite.setOnClickListener {
-            mainViewModel.fetchFortniteStream()
+        binding.fortnite.setOnClickListener {
+            viewModel.fetchFortniteStream()
         }
 
-        callofduty.setOnClickListener {
-            mainViewModel.fetchCallofdutyStream()
+        binding.callofduty.setOnClickListener {
+            viewModel.fetchCallofdutyStream()
         }
 
-        lol.setOnClickListener {
-            mainViewModel.fetchLolStream()
+        binding.lol.setOnClickListener {
+            viewModel.fetchLolStream()
         }
     }
 }

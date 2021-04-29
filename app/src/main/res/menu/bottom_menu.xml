@@ -12,9 +12,4 @@
         android:title="Game"
         />
 
-    <item
-        android:id="@+id/setting"
-        android:icon="@drawable/ic_language"
-        android:title="aaaaa" />
-
 </menu>

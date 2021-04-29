@@ -14,6 +14,10 @@ class MainViewModel(private val repository: TwitchRepository) : ViewModel() {
     val streams: MutableLiveData<Response<Streams>> = MutableLiveData()
     lateinit var games: MutableList<String>
 
+    init {
+        fetchPubgMobileStream()
+    }
+
     fun fetchPubgMobileStream() {
         viewModelScope.launch {
             streams.value = repository.fetchPubgMobileStream()

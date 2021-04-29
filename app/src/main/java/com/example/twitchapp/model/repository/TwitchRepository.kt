@@ -1,8 +1,6 @@
 package com.example.twitchapp.model.repository
 
-import android.widget.ImageView
 import com.example.twitchapp.model.RetrofitInstance
-import com.example.twitchapp.model.data.Game
 import com.example.twitchapp.model.data.Streams
 import retrofit2.Response
 
