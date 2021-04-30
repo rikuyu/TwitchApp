@@ -3,8 +3,8 @@ package com.example.twitchapp.ui
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.twitchapp.model.data.Game
-import com.example.twitchapp.model.data.Streams
+import com.example.twitchapp.model.data.clipdata.Clip
+import com.example.twitchapp.model.data.streamdata.Streams
 import com.example.twitchapp.model.repository.TwitchRepository
 import com.example.twitchapp.util.Resource
 import kotlinx.coroutines.launch
@@ -13,10 +13,11 @@ import retrofit2.Response
 class MainViewModel(private val repository: TwitchRepository) : ViewModel() {
 
     val streams: MutableLiveData<Resource<Streams>> = MutableLiveData()
-    lateinit var games: MutableList<String>
+    val clips: MutableLiveData<Resource<Clip>> = MutableLiveData()
 
     init {
         fetchPubgMobileStream()
+        fetchPubgMobileClip()
     }
 
     fun fetchPubgMobileStream() {
@@ -83,12 +84,71 @@ class MainViewModel(private val repository: TwitchRepository) : ViewModel() {
         }
     }
 
-    fun createGameList(): MutableList<String> {
-        games = repository.createGameList()
-        return games
+    fun fetchPubgMobileClip() {
+        viewModelScope.launch {
+            clips.postValue(Resource.Loading())
+            val response = repository.fetchPubgMobileClip()
+            clips.postValue(handleStreamResponse(response))
+        }
     }
 
-    private fun handleStreamResponse(response: Response<Streams>): Resource<Streams> {
+    fun fetchApexClip() {
+        viewModelScope.launch {
+            clips.postValue(Resource.Loading())
+            val response = repository.fetchApexClip()
+            clips.postValue(handleStreamResponse(response))
+        }
+    }
+
+    fun fetchAmongusClip() {
+        viewModelScope.launch {
+            clips.postValue(Resource.Loading())
+            val response = repository.fetchAmongusClip()
+            clips.postValue(handleStreamResponse(response))
+        }
+    }
+
+    fun fetchGenshinClip() {
+        viewModelScope.launch {
+            clips.postValue(Resource.Loading())
+            val response = repository.fetchGenshinClip()
+            clips.postValue(handleStreamResponse(response))
+        }
+    }
+
+    fun fetchMinecraftClip() {
+        viewModelScope.launch {
+            clips.postValue(Resource.Loading())
+            val response = repository.fetchMinecratClip()
+            clips.postValue(handleStreamResponse(response))
+        }
+    }
+
+    fun fetchFortniteClip() {
+        viewModelScope.launch {
+            clips.postValue(Resource.Loading())
+            val response = repository.fetchFortniteClip()
+            clips.postValue(handleStreamResponse(response))
+        }
+    }
+
+    fun fetchCallofdutyClip() {
+        viewModelScope.launch {
+            clips.postValue(Resource.Loading())
+            val response = repository.fetchCallofdutyClip()
+            clips.postValue(handleStreamResponse(response))
+        }
+    }
+
+    fun fetchLolClip() {
+        viewModelScope.launch {
+            clips.postValue(Resource.Loading())
+            val response = repository.fetchLolClip()
+            clips.postValue(handleStreamResponse(response))
+        }
+    }
+
+    private fun <T> handleStreamResponse(response: Response<T>): Resource<T> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)

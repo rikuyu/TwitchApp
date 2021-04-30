@@ -1,11 +1,9 @@
 package com.example.twitchapp.model
 
 import com.example.twitchapp.model.api.TwitchApi
-import com.google.gson.Gson
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 object RetrofitInstance {

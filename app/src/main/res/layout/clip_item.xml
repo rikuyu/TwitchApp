@@ -53,10 +53,11 @@
             app:layout_constraintTop_toTopOf="@id/user_profile" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/thumbnail_card"
             android:layout_width="280dp"
             android:layout_height="160dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             app:cardCornerRadius="5dp"
             app:layout_constraintBottom_toTopOf="@+id/gamename"
             app:layout_constraintLeft_toRightOf="@id/user_profile"
@@ -68,8 +69,16 @@
                 android:layout_width="280dp"
                 android:layout_height="160dp" />
 
-
         </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/heart_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/ic_favorite_border"
+            app:layout_constraintBottom_toBottomOf="@+id/gamename"
+            app:layout_constraintLeft_toLeftOf="@+id/thumbnail_card"
+            app:layout_constraintTop_toTopOf="@+id/gamename" />
 
         <ImageView
             android:id="@+id/lang_icon"
@@ -79,9 +88,7 @@
             android:src="@drawable/ic_language"
             app:layout_constraintBottom_toBottomOf="@+id/gamename"
             app:layout_constraintRight_toLeftOf="@+id/lang"
-            app:layout_constraintTop_toTopOf="@+id/gamename"
-
-            />
+            app:layout_constraintTop_toTopOf="@+id/gamename" />
 
         <TextView
             android:id="@+id/lang"
@@ -111,8 +118,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="@+id/viewer"
-            />
+            app:layout_constraintRight_toRightOf="@+id/viewer" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

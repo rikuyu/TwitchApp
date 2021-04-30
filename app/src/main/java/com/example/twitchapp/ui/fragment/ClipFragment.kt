@@ -1,32 +1,31 @@
 package com.example.twitchapp.ui.fragment
 
-import android.content.Intent
 import android.graphics.Outline
-import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.twitchapp.ui.MainActivity
 import com.example.twitchapp.ui.MainViewModel
-import com.example.twitchapp.adapter.TwitchAdapter
-import com.example.twitchapp.databinding.FragmentStreamBinding
-import com.example.twitchapp.model.data.streamdata.Stream
+import com.example.twitchapp.R
+import com.example.twitchapp.adapter.ClipAdapter
+import com.example.twitchapp.databinding.FragmentClipBinding
+import com.example.twitchapp.model.data.clipdata.Clip
+import com.example.twitchapp.model.data.clipdata.ClipItem
+import com.example.twitchapp.ui.MainActivity
 import com.example.twitchapp.util.Resource
 
-class StreamFragment : Fragment() {
+class ClipFragment : Fragment(R.layout.fragment_clip) {
+    private lateinit var viewModel: MainViewModel
 
-    lateinit var viewModel: MainViewModel
+    private lateinit var clipAdapter: ClipAdapter
+    private var clipList: List<ClipItem>? = null
 
-    private lateinit var twitchAdapter: TwitchAdapter
-    private var streamList: List<Stream>? = null
-
-    private var _binding: FragmentStreamBinding? = null
+    private var _binding: FragmentClipBinding? = null
     private val binding
         get() = _binding!!
 
@@ -34,7 +33,7 @@ class StreamFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentStreamBinding.inflate(inflater, container, false)
+        _binding = FragmentClipBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -47,23 +46,14 @@ class StreamFragment : Fragment() {
 
         viewModel = (activity as MainActivity).mainViewModel
 
-        viewModel.streams.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.clips.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
                     response.data?.let { response ->
-                        streamList = response.streams
-                        twitchAdapter = TwitchAdapter(requireContext(), streamList)
-                        binding.streamRecyclerView.adapter = twitchAdapter
-
-                        twitchAdapter.setOnItemClickListener(object :
-                            TwitchAdapter.OnItemClickListener {
-                            override fun onItemClickListener(view: View, position: Int) {
-                                val uri = Uri.parse(streamList!![position].channel.url)
-                                val intent = Intent(Intent.ACTION_VIEW, uri)
-                                startActivity(intent)
-                            }
-                        })
+                        clipList = response.clips
+                        clipAdapter = ClipAdapter(requireContext(), clipList)
+                        binding.clipRecyclerView.adapter = clipAdapter
                     }
                 }
                 is Resource.Error -> {
@@ -76,15 +66,21 @@ class StreamFragment : Fragment() {
             }
         })
 
-        fetchGameStream()
-
-        binding.streamRecyclerView.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.clipRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun hideProgressBar() {
+        binding.progressbar.visibility = View.INVISIBLE
+    }
+
+    private fun showProgressBar() {
+        binding.progressbar.visibility = View.VISIBLE
     }
 
     // 左上のゲームアイコンを円形にする
@@ -99,45 +95,37 @@ class StreamFragment : Fragment() {
         }
     }
 
-    private fun hideProgressBar() {
-        binding.progressbar.visibility = View.INVISIBLE
-    }
-
-    private fun showProgressBar() {
-        binding.progressbar.visibility = View.VISIBLE
-    }
-
-    private fun fetchGameStream() {
+    private fun fetchGameClip() {
         binding.pubgMobile.setOnClickListener {
-            viewModel.fetchPubgMobileStream()
+            viewModel.fetchPubgMobileClip()
         }
 
         binding.apex.setOnClickListener {
-            viewModel.fetchApexStream()
+            viewModel.fetchApexClip()
         }
 
         binding.amongus.setOnClickListener {
-            viewModel.fetchAmongusStream()
+            viewModel.fetchAmongusClip()
         }
 
         binding.genshin.setOnClickListener {
-            viewModel.fetchGenshinStream()
+            viewModel.fetchGenshinClip()
         }
 
         binding.minecraft.setOnClickListener {
-            viewModel.fetchMinecraftStream()
+            viewModel.fetchMinecraftClip()
         }
 
         binding.fortnite.setOnClickListener {
-            viewModel.fetchFortniteStream()
+            viewModel.fetchFortniteClip()
         }
 
         binding.callofduty.setOnClickListener {
-            viewModel.fetchCallofdutyStream()
+            viewModel.fetchCallofdutyClip()
         }
 
         binding.lol.setOnClickListener {
-            viewModel.fetchLolStream()
+            viewModel.fetchLolClip()
         }
     }
 }

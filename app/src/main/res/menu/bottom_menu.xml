@@ -12,4 +12,10 @@
         android:title="Game"
         />
 
+    <item
+        android:id="@+id/favorite"
+        android:icon="@drawable/ic_favorite"
+        android:title="Game"
+        />
+
 </menu>
