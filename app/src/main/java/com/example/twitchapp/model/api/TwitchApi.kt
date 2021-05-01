@@ -1,7 +1,7 @@
 package com.example.twitchapp.model.api
 
 import com.example.twitchapp.BuildConfig
-import com.example.twitchapp.model.data.clipdata.Clip
+import com.example.twitchapp.model.data.clipdata.ClipResponse
 import com.example.twitchapp.model.data.streamdata.Streams
 import retrofit2.Response
 import retrofit2.http.GET
@@ -28,6 +28,7 @@ interface TwitchApi {
     @GET("clips/top")
     suspend fun fetchClip(
         @Query("trending") trend: Boolean = true,
+        @Query("period") period: String = "day",
         @Query("game") gameTitle: String
-    ): Response<Clip>
+    ): Response<ClipResponse>
 }

@@ -14,7 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.ui.MainActivity
 import com.example.twitchapp.ui.MainViewModel
-import com.example.twitchapp.adapter.TwitchAdapter
+import com.example.twitchapp.adapter.StreamAdapter
 import com.example.twitchapp.databinding.FragmentStreamBinding
 import com.example.twitchapp.model.data.streamdata.Stream
 import com.example.twitchapp.util.Resource
@@ -23,7 +23,7 @@ class StreamFragment : Fragment() {
 
     lateinit var viewModel: MainViewModel
 
-    private lateinit var twitchAdapter: TwitchAdapter
+    private lateinit var twitchAdapter: StreamAdapter
     private var streamList: List<Stream>? = null
 
     private var _binding: FragmentStreamBinding? = null
@@ -53,11 +53,11 @@ class StreamFragment : Fragment() {
                     hideProgressBar()
                     response.data?.let { response ->
                         streamList = response.streams
-                        twitchAdapter = TwitchAdapter(requireContext(), streamList)
+                        twitchAdapter = StreamAdapter(requireContext(), streamList)
                         binding.streamRecyclerView.adapter = twitchAdapter
 
                         twitchAdapter.setOnItemClickListener(object :
-                            TwitchAdapter.OnItemClickListener {
+                            StreamAdapter.OnItemClickListener {
                             override fun onItemClickListener(view: View, position: Int) {
                                 val uri = Uri.parse(streamList!![position].channel.url)
                                 val intent = Intent(Intent.ACTION_VIEW, uri)

@@ -6,14 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ToggleButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.R
-import com.example.twitchapp.model.data.clipdata.ClipItem
+import com.example.twitchapp.model.data.clipdata.Clip
 
-class ClipAdapter(private val context: Context, private val clipList: List<ClipItem>?) :
+class ClipAdapter(private val context: Context, private val clipList: List<Clip>?) :
     RecyclerView.Adapter<ClipAdapter.ClipHolder>() {
+
+    private lateinit var thumbnailListener: ShowClip
+    private lateinit var favoIconListener: HandleDatabase
 
     inner class ClipHolder(view: View) : RecyclerView.ViewHolder(view) {
         var thumbnail: ImageView
@@ -22,7 +26,7 @@ class ClipAdapter(private val context: Context, private val clipList: List<ClipI
         var userProfile: ImageView
         var lang: TextView
         var gameName: TextView
-        var favoIcon: ImageView
+        var favoIcon: ToggleButton
 
         init {
             thumbnail = view.findViewById(R.id.thumbnail)
@@ -44,6 +48,10 @@ class ClipAdapter(private val context: Context, private val clipList: List<ClipI
         holder.gameName.text = clipList!![position].game
         holder.username.text = clipList!![position].curator.name
         holder.lang.text = clipList!![position].language
+        holder.viewer.text = clipList!![position].views.toString()
+        holder.favoIcon.text = null
+        holder.favoIcon.textOn = null
+        holder.favoIcon.textOff = null
 
         Glide.with(context).load(clipList!![position].thumbnails.medium)
             .into(holder.thumbnail)
@@ -51,9 +59,33 @@ class ClipAdapter(private val context: Context, private val clipList: List<ClipI
         Glide.with(context).load(clipList!![position].thumbnails.medium)
             .apply(RequestOptions.circleCropTransform())
             .into(holder.userProfile)
+
+        holder.thumbnail.setOnClickListener {
+            thumbnailListener.showClip(it, position)
+        }
+
+        holder.favoIcon.setOnClickListener {
+            favoIconListener.handleDatabase(clipList[position])
+        }
     }
 
     override fun getItemCount(): Int {
         return clipList!!.size
+    }
+
+    interface ShowClip {
+        fun showClip(view: View, position: Int)
+    }
+
+    fun setOnThumbnailClickListener(listener: ShowClip) {
+        this.thumbnailListener = listener
+    }
+
+    interface HandleDatabase {
+        fun handleDatabase(clip: Clip)
+    }
+
+    fun setOnFavoIconClickListener(listener: HandleDatabase) {
+        this.favoIconListener = listener
     }
 }

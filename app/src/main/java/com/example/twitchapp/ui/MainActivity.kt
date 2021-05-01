@@ -7,6 +7,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.ActivityMainBinding
+import com.example.twitchapp.db.TwitchDatabase
 import com.example.twitchapp.model.repository.TwitchRepository
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val repository = TwitchRepository()
+        val repository = TwitchRepository(TwitchDatabase.getInstance(this))
         val viewModelFactory = MainViewModelFactory(repository)
         mainViewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 

@@ -1,6 +1,8 @@
 package com.example.twitchapp.ui.fragment
 
+import android.content.Intent
 import android.graphics.Outline
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
@@ -15,15 +17,15 @@ import com.example.twitchapp.R
 import com.example.twitchapp.adapter.ClipAdapter
 import com.example.twitchapp.databinding.FragmentClipBinding
 import com.example.twitchapp.model.data.clipdata.Clip
-import com.example.twitchapp.model.data.clipdata.ClipItem
 import com.example.twitchapp.ui.MainActivity
 import com.example.twitchapp.util.Resource
+import kotlinx.android.synthetic.main.clip_item.view.*
 
 class ClipFragment : Fragment(R.layout.fragment_clip) {
     private lateinit var viewModel: MainViewModel
 
     private lateinit var clipAdapter: ClipAdapter
-    private var clipList: List<ClipItem>? = null
+    private var clipList: List<Clip>? = null
 
     private var _binding: FragmentClipBinding? = null
     private val binding
@@ -54,6 +56,26 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
                         clipList = response.clips
                         clipAdapter = ClipAdapter(requireContext(), clipList)
                         binding.clipRecyclerView.adapter = clipAdapter
+
+                        clipAdapter.setOnThumbnailClickListener(object :
+                            ClipAdapter.ShowClip {
+                            override fun showClip(view: View, position: Int) {
+                                val uri = Uri.parse(clipList!![position].url)
+                                val intent = Intent(Intent.ACTION_VIEW, uri)
+                                startActivity(intent)
+                            }
+                        })
+                        clipAdapter.setOnFavoIconClickListener(object:
+                            ClipAdapter.HandleDatabase{
+                            override fun handleDatabase(clip: Clip) {
+                                if(binding.clipRecyclerView.heart_icon.isChecked){
+                                    viewModel.insertClip(clip)
+                                }else{
+                                    viewModel.deleteClip(clip)
+                                }
+                            }
+                            }
+                        )
                     }
                 }
                 is Resource.Error -> {
@@ -65,6 +87,8 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
                 }
             }
         })
+
+        fetchGameClip()
 
         binding.clipRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

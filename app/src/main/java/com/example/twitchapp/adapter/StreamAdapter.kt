@@ -13,12 +13,12 @@ import com.example.twitchapp.R
 import com.example.twitchapp.model.data.streamdata.Stream
 
 
-class TwitchAdapter(private val context: Context, private var streamList: List<Stream>?) :
-    RecyclerView.Adapter<TwitchAdapter.TwitchHolder>() {
+class StreamAdapter(private val context: Context, private var streamList: List<Stream>?) :
+    RecyclerView.Adapter<StreamAdapter.StreamHolder>() {
 
-    lateinit var listener: OnItemClickListener
+    private lateinit var listener: OnItemClickListener
 
-    inner class TwitchHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class StreamHolder(view: View) : RecyclerView.ViewHolder(view) {
         var thumbnail: ImageView
         var username: TextView
         var viewer: TextView
@@ -36,12 +36,12 @@ class TwitchAdapter(private val context: Context, private var streamList: List<S
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TwitchHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.stream_item, parent, false)
-        return TwitchHolder(view)
+        return StreamHolder(view)
     }
 
-    override fun onBindViewHolder(holder: TwitchHolder, position: Int) {
+    override fun onBindViewHolder(holder: StreamHolder, position: Int) {
         holder.username.text = streamList!![position].channel.name
         holder.viewer.text = "${streamList!![position].viewers}"
 
