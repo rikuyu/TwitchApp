@@ -5,21 +5,22 @@ import android.graphics.Outline
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.R
 import com.example.twitchapp.adapter.ClipAdapter
 import com.example.twitchapp.databinding.FragmentClipBinding
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainActivity
+import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.util.Resource
 import kotlinx.android.synthetic.main.clip_item.view.*
+
 
 class ClipFragment : Fragment(R.layout.fragment_clip) {
     private lateinit var viewModel: MainViewModel
@@ -66,16 +67,17 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
                             }
                         })
 
-                        clipAdapter.setOnFavoIconClickListener(object:
-                            ClipAdapter.HandleDatabase{
+                        clipAdapter.setOnFavoIconClickListener(object :
+                            ClipAdapter.HandleDatabase {
                             override fun handleDatabase(clip: Clip) {
-                                if(binding.clipRecyclerView.heart_icon.isChecked){
+                                if (binding.clipRecyclerView.heart_icon.isChecked) {
                                     viewModel.insertClip(clip)
-                                }else{
+                                    Toast.makeText(requireContext(), "Gameに保存されました", Toast.LENGTH_SHORT).show()
+                                } else {
                                     viewModel.deleteClip(clip)
                                 }
                             }
-                            }
+                        }
                         )
                     }
                 }

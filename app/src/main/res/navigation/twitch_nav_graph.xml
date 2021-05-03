@@ -5,19 +5,19 @@
     android:id="@+id/twitch_nav_graph"
     app:startDestination="@id/stream">
 
-    <fragment
+    <custom_fragment
         android:id="@+id/game"
         android:name="com.example.twitchapp.ui.fragment.ClipFragment"
         android:label="fragment_game"
         tools:layout="@layout/fragment_clip" />
 
-    <fragment
+    <custom_fragment
         android:id="@+id/stream"
         android:name="com.example.twitchapp.ui.fragment.StreamFragment"
         android:label="fragment_stream"
         tools:layout="@layout/fragment_stream" />
 
-    <fragment
+    <custom_fragment
         android:id="@+id/favorite"
         android:name="com.example.twitchapp.ui.fragment.FavoriteFragment"
         android:label="fragment_favorite"
