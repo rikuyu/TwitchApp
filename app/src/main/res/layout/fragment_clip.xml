@@ -175,7 +175,7 @@
             app:layout_constraintTop_toBottomOf="@+id/menu_game" />
 
         <TextView
-            android:id="@+id/stream_title"
+            android:id="@+id/clip_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -192,7 +192,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stream_title" />
+            app:layout_constraintTop_toBottomOf="@+id/clip_title"
+            />
 
         <ProgressBar
             android:id="@+id/progressbar"
@@ -205,8 +206,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stream_title" />
-
+            app:layout_constraintTop_toBottomOf="@+id/clip_title" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -59,12 +59,13 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
 
                         clipAdapter.setOnThumbnailClickListener(object :
                             ClipAdapter.ShowClip {
-                            override fun showClip(view: View, position: Int) {
-                                val uri = Uri.parse(clipList!![position].url)
+                            override fun showClip(url: String) {
+                                val uri = Uri.parse(url)
                                 val intent = Intent(Intent.ACTION_VIEW, uri)
                                 startActivity(intent)
                             }
                         })
+
                         clipAdapter.setOnFavoIconClickListener(object:
                             ClipAdapter.HandleDatabase{
                             override fun handleDatabase(clip: Clip) {

@@ -58,8 +58,8 @@ class StreamFragment : Fragment() {
 
                         twitchAdapter.setOnItemClickListener(object :
                             StreamAdapter.OnItemClickListener {
-                            override fun onItemClickListener(view: View, position: Int) {
-                                val uri = Uri.parse(streamList!![position].channel.url)
+                            override fun onItemClickListener(url: String) {
+                                val uri = Uri.parse(url)
                                 val intent = Intent(Intent.ACTION_VIEW, uri)
                                 startActivity(intent)
                             }

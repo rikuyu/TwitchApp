@@ -23,7 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/twitch_nav_graph" />
+            app:navGraph="@navigation/twitch_nav_graph"
+            android:layout_marginBottom="200px"
+            />
 
     </FrameLayout>
 
@@ -31,7 +33,6 @@
         android:id="@+id/bottom_line"
         android:layout_width="fill_parent"
         android:layout_height="2dp"
-        android:layout_marginTop="6dp"
         android:background="@color/theme"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
         app:layout_constraintLeft_toLeftOf="parent" />

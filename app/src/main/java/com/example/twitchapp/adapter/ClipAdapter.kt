@@ -46,22 +46,22 @@ class ClipAdapter(private val context: Context, private val clipList: List<Clip>
 
     override fun onBindViewHolder(holder: ClipHolder, position: Int) {
         holder.gameName.text = clipList!![position].game
-        holder.username.text = clipList!![position].curator.name
-        holder.lang.text = clipList!![position].language
-        holder.viewer.text = clipList!![position].views.toString()
+        holder.username.text = clipList[position].curator.name
+        holder.lang.text = clipList[position].language
+        holder.viewer.text = clipList[position].views.toString()
         holder.favoIcon.text = null
         holder.favoIcon.textOn = null
         holder.favoIcon.textOff = null
 
-        Glide.with(context).load(clipList!![position].thumbnails.medium)
+        Glide.with(context).load(clipList[position].thumbnails.medium)
             .into(holder.thumbnail)
 
-        Glide.with(context).load(clipList!![position].thumbnails.medium)
+        Glide.with(context).load(clipList[position].thumbnails.medium)
             .apply(RequestOptions.circleCropTransform())
             .into(holder.userProfile)
 
         holder.thumbnail.setOnClickListener {
-            thumbnailListener.showClip(it, position)
+            thumbnailListener.showClip(clipList[position].url)
         }
 
         holder.favoIcon.setOnClickListener {
@@ -74,7 +74,7 @@ class ClipAdapter(private val context: Context, private val clipList: List<Clip>
     }
 
     interface ShowClip {
-        fun showClip(view: View, position: Int)
+        fun showClip(url: String)
     }
 
     fun setOnThumbnailClickListener(listener: ShowClip) {

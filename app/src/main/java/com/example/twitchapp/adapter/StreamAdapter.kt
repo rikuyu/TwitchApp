@@ -52,11 +52,11 @@ class StreamAdapter(private val context: Context, private var streamList: List<S
             .apply(RequestOptions.circleCropTransform())
             .into(holder.userProfile)
 
-        holder.lang.text = streamList!![position].channel.language.toUpperCase()
+        holder.lang.text = streamList!![position].channel.language
         holder.gameName.text = streamList!![position].game
 
         holder.thumbnail.setOnClickListener {
-            listener.onItemClickListener(it, position)
+            listener.onItemClickListener(streamList!![position].channel.url)
         }
     }
 
@@ -65,7 +65,7 @@ class StreamAdapter(private val context: Context, private var streamList: List<S
     }
 
     interface OnItemClickListener {
-        fun onItemClickListener(view: View, position: Int)
+        fun onItemClickListener(url: String)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {

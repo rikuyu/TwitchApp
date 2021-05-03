@@ -1,5 +1,7 @@
 package com.example.twitchapp.ui.fragment
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -40,6 +42,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as MainActivity).mainViewModel
+        viewModel.getFavoriteClips()
 
         viewModel.dbClips.observe(viewLifecycleOwner, Observer {
             favoList = it
@@ -47,6 +50,15 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             favoriteAdapter = FavoriteAdapter(requireContext(), favoList)
             binding.favoriteRecyclerView.adapter = favoriteAdapter
+
+            favoriteAdapter.setOnThumbnailClickListener(object :
+                FavoriteAdapter.ShowFavoClip {
+                override fun showFavoClip(url: String) {
+                    val uri = Uri.parse(url)
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    startActivity(intent)
+                }
+            })
         })
     }
 

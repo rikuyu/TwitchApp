@@ -15,6 +15,8 @@ import com.example.twitchapp.model.data.clipdata.Clip
 class FavoriteAdapter(private val context: Context, private var favoriteList: List<Clip>?)
     :RecyclerView.Adapter<FavoriteAdapter.FavoriteHolder>(){
 
+    private lateinit var listener: ShowFavoClip
+
     inner class FavoriteHolder(view: View): RecyclerView.ViewHolder(view){
         var thumbnail: ImageView
         var username: TextView
@@ -50,9 +52,21 @@ class FavoriteAdapter(private val context: Context, private var favoriteList: Li
         Glide.with(context).load(favoriteList!![position].thumbnails.medium)
             .apply(RequestOptions.circleCropTransform())
             .into(holder.userProfile)
+
+        holder.thumbnail.setOnClickListener {
+            listener.showFavoClip(favoriteList!![position].url)
+        }
     }
 
     override fun getItemCount(): Int {
         return favoriteList!!.size
+    }
+
+    interface ShowFavoClip{
+        fun showFavoClip(url: String)
+    }
+
+    fun setOnThumbnailClickListener(listener: ShowFavoClip){
+        this.listener = listener
     }
 }
