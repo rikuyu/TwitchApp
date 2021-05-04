@@ -15,7 +15,7 @@ class MainViewModel(private val repository: TwitchRepository) : ViewModel() {
 
     val streams: MutableLiveData<Resource<Streams>> = MutableLiveData()
     val clips: MutableLiveData<Resource<ClipResponse>> = MutableLiveData()
-    val dbClips: MutableLiveData<List<Clip>> = MutableLiveData()
+    val favoriteClips: MutableLiveData<List<Clip>> = MutableLiveData()
 
     init {
         fetchPubgMobileStream()
@@ -174,7 +174,7 @@ class MainViewModel(private val repository: TwitchRepository) : ViewModel() {
 
     fun getFavoriteClips(){
         viewModelScope.launch {
-            dbClips.value = repository.getFavoriteClips()
+            favoriteClips.value = repository.getFavoriteClips()
         }
     }
 }

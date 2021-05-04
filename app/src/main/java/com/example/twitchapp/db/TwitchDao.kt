@@ -1,7 +1,5 @@
 package com.example.twitchapp.db
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import com.example.twitchapp.model.data.clipdata.Clip
 

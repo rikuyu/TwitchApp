@@ -7,12 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
-import com.example.twitchapp.adapter.ClipAdapter
 import com.example.twitchapp.adapter.FavoriteAdapter
-import com.example.twitchapp.databinding.FragmentClipBinding
 import com.example.twitchapp.databinding.FragmentFavoriteBinding
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainActivity
@@ -44,12 +43,26 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         viewModel = (activity as MainActivity).mainViewModel
         viewModel.getFavoriteClips()
 
-        viewModel.dbClips.observe(viewLifecycleOwner, Observer {
+        favoList?.let {
+            if(it.isEmpty()){
+                binding.emptyMag.visibility = View.VISIBLE
+            }else{
+                binding.emptyMag.visibility = View.GONE
+            }
+        }
+
+        viewModel.favoriteClips.observe(viewLifecycleOwner, Observer {
             favoList = it
             binding.favoriteRecyclerView.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             favoriteAdapter = FavoriteAdapter(requireContext(), favoList)
             binding.favoriteRecyclerView.adapter = favoriteAdapter
+
+            if(favoList!!.isEmpty()){
+                binding.emptyMag.visibility = View.VISIBLE
+            }else{
+                binding.emptyMag.visibility = View.GONE
+            }
 
             favoriteAdapter.setOnThumbnailClickListener(object :
                 FavoriteAdapter.ShowFavoClip {
@@ -59,6 +72,15 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                     startActivity(intent)
                 }
             })
+
+            favoriteAdapter.setOnDeleteBtnClickListener(object :
+                FavoriteAdapter.DeleteItem {
+                override fun deleteItem(clip: Clip) {
+                    viewModel.deleteClip(clip)
+                    viewModel.getFavoriteClips()
+                }
+            }
+            )
         })
     }
 

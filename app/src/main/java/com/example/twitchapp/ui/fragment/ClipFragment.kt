@@ -35,7 +35,7 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentClipBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -53,8 +53,8 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
-                    response.data?.let { response ->
-                        clipList = response.clips
+                    response.data?.let {
+                        clipList = it.clips
                         clipAdapter = ClipAdapter(requireContext(), clipList)
                         binding.clipRecyclerView.adapter = clipAdapter
 
@@ -73,8 +73,11 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
                                 if (binding.clipRecyclerView.heart_icon.isChecked) {
                                     viewModel.insertClip(clip)
                                     Toast.makeText(requireContext(), "Gameに保存されました", Toast.LENGTH_SHORT).show()
+                                    viewModel.getFavoriteClips()
                                 } else {
                                     viewModel.deleteClip(clip)
+                                    Toast.makeText(requireContext(), "Gameから削除されました", Toast.LENGTH_SHORT).show()
+                                    viewModel.getFavoriteClips()
                                 }
                             }
                         }

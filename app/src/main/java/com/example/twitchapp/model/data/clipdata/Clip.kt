@@ -6,8 +6,7 @@ import java.io.Serializable
 
 @Entity(tableName = "clips")
 data class Clip(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int? = null,
+    @PrimaryKey val tracking_id: String,
     val broadcaster: Broadcaster,
     val created_at: String,
     val curator: Curator,
@@ -19,7 +18,6 @@ data class Clip(
     val slug: String,
     val thumbnails: Thumbnails,
     val title: String,
-    val tracking_id: String,
     val url: String,
     val views: Int,
     val vod: Vod? = null

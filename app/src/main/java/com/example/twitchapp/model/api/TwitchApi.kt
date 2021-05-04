@@ -28,7 +28,7 @@ interface TwitchApi {
     @GET("clips/top")
     suspend fun fetchClip(
         @Query("trending") trend: Boolean = true,
-        @Query("period") period: String = "day",
+        @Query("period") period: String = "week",
         @Query("game") gameTitle: String
     ): Response<ClipResponse>
 }

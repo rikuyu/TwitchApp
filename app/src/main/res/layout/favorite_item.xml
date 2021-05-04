@@ -1,132 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:dragEdge="right"
+    app:mode="same_level">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/user_profile"
+        <FrameLayout
+            android:id="@+id/btn_delete"
             android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:textColor="@color/white"
-            android:textSize="22sp"
-            app:layout_constraintBottom_toBottomOf="@id/user_profile"
-            app:layout_constraintLeft_toRightOf="@+id/user_profile"
-            app:layout_constraintTop_toTopOf="@id/user_profile" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/holo_red_dark">
 
-        <ImageView
-            android:id="@+id/view_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/ic_eye"
-            app:layout_constraintBottom_toBottomOf="@id/user_profile"
-            app:layout_constraintRight_toLeftOf="@+id/viewer"
-            app:layout_constraintTop_toTopOf="@id/user_profile" />
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_delete"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/viewer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="12dp"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@id/user_profile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/view_img"
-            app:layout_constraintTop_toTopOf="@id/user_profile" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/thumbnail_card"
-            android:layout_width="280dp"
-            android:layout_height="160dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/gamename"
-            app:layout_constraintLeft_toRightOf="@id/user_profile"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_profile">
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/thumbnail"
+                android:id="@+id/user_profile"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="@id/user_profile"
+                app:layout_constraintLeft_toRightOf="@+id/user_profile"
+                app:layout_constraintTop_toTopOf="@id/user_profile" />
+
+            <ImageView
+                android:id="@+id/view_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:src="@drawable/ic_eye"
+                app:layout_constraintBottom_toBottomOf="@id/user_profile"
+                app:layout_constraintRight_toLeftOf="@+id/viewer"
+                app:layout_constraintTop_toTopOf="@id/user_profile" />
+
+            <TextView
+                android:id="@+id/viewer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/user_profile"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/view_img"
+                app:layout_constraintTop_toTopOf="@id/user_profile" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/thumbnail_card"
                 android:layout_width="280dp"
-                android:layout_height="160dp" />
+                android:layout_height="160dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/gamename"
+                app:layout_constraintLeft_toRightOf="@id/user_profile"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/user_profile">
 
-        </androidx.cardview.widget.CardView>
+                <ImageView
+                    android:id="@+id/thumbnail"
+                    android:layout_width="280dp"
+                    android:layout_height="160dp" />
 
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@drawable/ic_play"
-            app:layout_constraintBottom_toBottomOf="@+id/thumbnail_card"
-            app:layout_constraintLeft_toLeftOf="@+id/thumbnail_card"
-            app:layout_constraintRight_toRightOf="@+id/thumbnail_card"
-            app:layout_constraintTop_toTopOf="@+id/thumbnail_card" />
+            </androidx.cardview.widget.CardView>
 
-        <ImageView
-            android:id="@+id/lang_icon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginRight="6dp"
-            android:src="@drawable/ic_language"
-            app:layout_constraintBottom_toBottomOf="@+id/gamename"
-            app:layout_constraintRight_toLeftOf="@+id/lang"
-            app:layout_constraintTop_toTopOf="@+id/gamename"
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_play"
+                app:layout_constraintBottom_toBottomOf="@+id/thumbnail_card"
+                app:layout_constraintLeft_toLeftOf="@+id/thumbnail_card"
+                app:layout_constraintRight_toRightOf="@+id/thumbnail_card"
+                app:layout_constraintTop_toTopOf="@+id/thumbnail_card" />
 
-            />
+            <ImageView
+                android:id="@+id/lang_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="6dp"
+                android:src="@drawable/ic_language"
+                app:layout_constraintBottom_toBottomOf="@+id/gamename"
+                app:layout_constraintRight_toLeftOf="@+id/lang"
+                app:layout_constraintTop_toTopOf="@+id/gamename"
 
-        <TextView
-            android:id="@+id/lang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/gamename"
-            app:layout_constraintRight_toLeftOf="@+id/game_title_icon"
-            app:layout_constraintTop_toTopOf="@+id/gamename" />
+                />
 
-        <ImageView
-            android:id="@+id/game_title_icon"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_marginRight="6dp"
-            android:src="@drawable/game_icon"
-            app:layout_constraintBottom_toBottomOf="@id/gamename"
-            app:layout_constraintRight_toLeftOf="@id/gamename"
-            app:layout_constraintTop_toTopOf="@id/gamename" />
+            <TextView
+                android:id="@+id/lang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/gamename"
+                app:layout_constraintRight_toLeftOf="@+id/game_title_icon"
+                app:layout_constraintTop_toTopOf="@+id/gamename" />
 
-        <TextView
-            android:id="@+id/gamename"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="@+id/viewer" />
+            <ImageView
+                android:id="@+id/game_title_icon"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginRight="6dp"
+                android:src="@drawable/game_icon"
+                app:layout_constraintBottom_toBottomOf="@id/gamename"
+                app:layout_constraintRight_toLeftOf="@id/gamename"
+                app:layout_constraintTop_toTopOf="@id/gamename" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/gamename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/bottom_line_item"
+                app:layout_constraintRight_toRightOf="@+id/viewer" />
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/theme" />
+            <View
+                android:id="@+id/bottom_line_item"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/theme"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gamename" />
 
-</LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

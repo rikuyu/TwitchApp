@@ -33,7 +33,7 @@ class StreamFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentStreamBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -51,8 +51,8 @@ class StreamFragment : Fragment() {
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
-                    response.data?.let { response ->
-                        streamList = response.streams
+                    response.data?.let {
+                        streamList = it.streams
                         twitchAdapter = StreamAdapter(requireContext(), streamList)
                         binding.streamRecyclerView.adapter = twitchAdapter
 
