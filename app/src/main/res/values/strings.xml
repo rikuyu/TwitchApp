@@ -2,4 +2,8 @@
     <string name="app_name">TwitchApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="image_desc">画像がありません</string>
+    <string name="stream_fragment_title">Live Stream</string>
+    <string name="favorite_fragment_title">Favorite Clips</string>
+    <string name="nothing_favo">いいねがありません</string>
 </resources>
