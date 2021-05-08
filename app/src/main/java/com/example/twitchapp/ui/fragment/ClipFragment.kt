@@ -127,35 +127,35 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
 
     private fun fetchGameClip() {
         binding.pubgMobile.setOnClickListener {
-            viewModel.fetchPubgMobileClip()
+            viewModel.fetchClip("PUBG Mobile")
         }
 
         binding.apex.setOnClickListener {
-            viewModel.fetchApexClip()
+            viewModel.fetchClip("Apex Legends")
         }
 
         binding.amongus.setOnClickListener {
-            viewModel.fetchAmongusClip()
+            viewModel.fetchClip("Among Us")
         }
 
         binding.genshin.setOnClickListener {
-            viewModel.fetchGenshinClip()
+            viewModel.fetchClip("Genshin Impact")
         }
 
         binding.minecraft.setOnClickListener {
-            viewModel.fetchMinecraftClip()
+            viewModel.fetchClip("Minecraft")
         }
 
         binding.fortnite.setOnClickListener {
-            viewModel.fetchFortniteClip()
+            viewModel.fetchClip("Fortnite")
         }
 
         binding.callofduty.setOnClickListener {
-            viewModel.fetchCallofdutyClip()
+            viewModel.fetchClip("Call of Duty: Warzone")
         }
 
         binding.lol.setOnClickListener {
-            viewModel.fetchLolClip()
+            viewModel.fetchClip("League of Legends")
         }
     }
 }

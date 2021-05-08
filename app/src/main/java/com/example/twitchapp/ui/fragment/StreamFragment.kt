@@ -12,6 +12,7 @@ import android.view.ViewOutlineProvider
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.twitchapp.R
 import com.example.twitchapp.ui.MainActivity
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.adapter.StreamAdapter
@@ -19,7 +20,7 @@ import com.example.twitchapp.databinding.FragmentStreamBinding
 import com.example.twitchapp.model.data.streamdata.Stream
 import com.example.twitchapp.util.Resource
 
-class StreamFragment : Fragment() {
+class StreamFragment : Fragment(R.layout.fragment_stream) {
 
     lateinit var viewModel: MainViewModel
 
@@ -109,35 +110,35 @@ class StreamFragment : Fragment() {
 
     private fun fetchGameStream() {
         binding.pubgMobile.setOnClickListener {
-            viewModel.fetchPubgMobileStream()
+            viewModel.fetchStream("PUBG Mobile")
         }
 
         binding.apex.setOnClickListener {
-            viewModel.fetchApexStream()
+            viewModel.fetchStream("Apex Legends")
         }
 
         binding.amongus.setOnClickListener {
-            viewModel.fetchAmongusStream()
+            viewModel.fetchStream("Among Us")
         }
 
         binding.genshin.setOnClickListener {
-            viewModel.fetchGenshinStream()
+            viewModel.fetchStream("Genshin Impact")
         }
 
         binding.minecraft.setOnClickListener {
-            viewModel.fetchMinecraftStream()
+            viewModel.fetchStream("Minecraft")
         }
 
         binding.fortnite.setOnClickListener {
-            viewModel.fetchFortniteStream()
+            viewModel.fetchStream("Fortnite")
         }
 
         binding.callofduty.setOnClickListener {
-            viewModel.fetchCallofdutyStream()
+            viewModel.fetchStream("Call of Duty: Warzone")
         }
 
         binding.lol.setOnClickListener {
-            viewModel.fetchLolStream()
+            viewModel.fetchStream("League of Legends")
         }
     }
 }
