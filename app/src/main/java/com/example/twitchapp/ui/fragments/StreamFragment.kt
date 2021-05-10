@@ -1,9 +1,13 @@
-package com.example.twitchapp.ui.fragment
+package com.example.twitchapp.ui.fragments
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Outline
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -46,6 +50,33 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
         binding.gameIcon.outlineProvider = clipOutlineProvider
         binding.gameIcon.clipToOutline = true
 
+//        val connectivityManager = context?.getSystemService(
+//            Context.CONNECTIVITY_SERVICE
+//        ) as ConnectivityManager
+//
+//        if (context == null) {
+//            Toast.makeText(requireContext(), "aaa", Toast.LENGTH_SHORT).show()
+//        }
+//
+//        val capabilities =
+//            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+//
+//        if (capabilities != null) {
+//            when {
+//                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
+//                    Toast.makeText(requireContext(), "Wifiに接続", Toast.LENGTH_LONG).show()
+//                }
+//                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
+//                    Toast.makeText(requireContext(), "モバイル通信に接続しています", Toast.LENGTH_LONG).show()
+//                }
+//                else -> {
+//                    Toast.makeText(requireContext(), "モバイル通信に接続しています", Toast.LENGTH_LONG).show()
+//                }
+//            }
+//        } else {
+//            Toast.makeText(requireContext(), "ネットワークに接続していません", Toast.LENGTH_LONG).show()
+//        }
+
         viewModel = (activity as MainActivity).mainViewModel
 
         viewModel.streams.observe(viewLifecycleOwner, Observer { response ->
@@ -69,7 +100,10 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
                 }
                 is Resource.Error -> {
                     hideProgressBar()
-                    Toast.makeText(requireContext(), "通信エラー", Toast.LENGTH_LONG).show()
+                    response.message?.let{ message ->
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+                        Log.d("Stream", message)
+                    }
                 }
                 is Resource.Loading -> {
                     showProgressBar()
