@@ -1,4 +1,4 @@
-package com.example.twitchapp.ui.fragment
+package com.example.twitchapp.ui.fragments
 
 import android.content.Intent
 import android.graphics.Outline
@@ -72,11 +72,19 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
                             override fun handleDatabase(clip: Clip) {
                                 if (binding.clipRecyclerView.heart_icon.isChecked) {
                                     viewModel.insertClip(clip)
-                                    Toast.makeText(requireContext(), "Gameに保存されました", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Gameに保存されました",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     viewModel.getFavoriteClips()
                                 } else {
                                     viewModel.deleteClip(clip)
-                                    Toast.makeText(requireContext(), "Gameから削除されました", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Gameから削除されました",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                     viewModel.getFavoriteClips()
                                 }
                             }
