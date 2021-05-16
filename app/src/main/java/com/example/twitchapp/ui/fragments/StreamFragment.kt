@@ -1,10 +1,7 @@
 package com.example.twitchapp.ui.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Outline
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -43,39 +40,14 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
         return binding.root
     }
 
+    private var currentGameTitle = "PUBG Mobile"
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         // 左上のゲームアイコンを円形にする
         binding.gameIcon.outlineProvider = clipOutlineProvider
         binding.gameIcon.clipToOutline = true
-
-//        val connectivityManager = context?.getSystemService(
-//            Context.CONNECTIVITY_SERVICE
-//        ) as ConnectivityManager
-//
-//        if (context == null) {
-//            Toast.makeText(requireContext(), "aaa", Toast.LENGTH_SHORT).show()
-//        }
-//
-//        val capabilities =
-//            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-//
-//        if (capabilities != null) {
-//            when {
-//                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
-//                    Toast.makeText(requireContext(), "Wifiに接続", Toast.LENGTH_LONG).show()
-//                }
-//                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-//                    Toast.makeText(requireContext(), "モバイル通信に接続しています", Toast.LENGTH_LONG).show()
-//                }
-//                else -> {
-//                    Toast.makeText(requireContext(), "モバイル通信に接続しています", Toast.LENGTH_LONG).show()
-//                }
-//            }
-//        } else {
-//            Toast.makeText(requireContext(), "ネットワークに接続していません", Toast.LENGTH_LONG).show()
-//        }
 
         viewModel = (activity as MainActivity).mainViewModel
 
@@ -100,7 +72,7 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
                 }
                 is Resource.Error -> {
                     hideProgressBar()
-                    response.message?.let{ message ->
+                    response.message?.let { message ->
                         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
                         Log.d("Stream", message)
                     }
@@ -115,6 +87,14 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
 
         binding.streamRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.fetchStream(currentGameTitle)
+            if (binding.swipeRefresh.isRefreshing) {
+                binding.swipeRefresh.isRefreshing = false;
+                Log.d("Stream", "更新終了")
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -145,34 +125,42 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
     private fun fetchGameStream() {
         binding.pubgMobile.setOnClickListener {
             viewModel.fetchStream("PUBG Mobile")
+            currentGameTitle = "PUBG Mobile"
         }
 
         binding.apex.setOnClickListener {
             viewModel.fetchStream("Apex Legends")
+            currentGameTitle = "Apex Legends"
         }
 
         binding.amongus.setOnClickListener {
             viewModel.fetchStream("Among Us")
+            currentGameTitle = "Among Us"
         }
 
         binding.genshin.setOnClickListener {
             viewModel.fetchStream("Genshin Impact")
+            currentGameTitle = "Genshin Impact"
         }
 
         binding.minecraft.setOnClickListener {
             viewModel.fetchStream("Minecraft")
+            currentGameTitle = "Minecraft"
         }
 
         binding.fortnite.setOnClickListener {
             viewModel.fetchStream("Fortnite")
+            currentGameTitle = "Fortnite"
         }
 
         binding.callofduty.setOnClickListener {
             viewModel.fetchStream("Call of Duty: Warzone")
+            currentGameTitle = "Call of Duty: Warzone"
         }
 
         binding.lol.setOnClickListener {
             viewModel.fetchStream("League of Legends")
+            currentGameTitle = "League of Legends"
         }
     }
 }

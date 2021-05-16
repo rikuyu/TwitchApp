@@ -1,7 +1,6 @@
 package com.example.twitchapp.ui
 
 import android.app.Application
-import android.content.Context
 import android.content.Context.*
 import android.net.ConnectivityManager
 import android.net.ConnectivityManager.*
@@ -9,10 +8,8 @@ import android.net.NetworkCapabilities.*
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.twitchapp.TwitchApplication
 import com.example.twitchapp.model.data.clipdata.Clip
@@ -132,15 +129,16 @@ class MainViewModel(
                 connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
             return when {
                 capabilities.hasTransport(TRANSPORT_WIFI) -> {
-                    Toast.makeText(getApplication(), "Wifi", Toast.LENGTH_LONG).show()
+                    Log.d("Network Type", "Wifi")
                     return true
                 }
                 capabilities.hasTransport(TRANSPORT_CELLULAR) -> {
-                    Toast.makeText(getApplication(), "CELLULAR", Toast.LENGTH_LONG).show()
+                    // 3Gや4G／LTEの電波を使用できるデータ通信をセルラー（CELLULAR）という
+                    Log.d("Network Type", "CELLULAR")
                     return true
                 }
                 capabilities.hasTransport(TRANSPORT_ETHERNET) -> {
-                    Toast.makeText(getApplication(), "ETHERNET", Toast.LENGTH_LONG).show()
+                    Log.d("Network Type", "ETHERNET")
                     return true
                 }
                 else -> false

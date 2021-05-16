@@ -196,12 +196,20 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/midium_line" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/stream_recycler_view"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stream_title" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stream_title">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/stream_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <ProgressBar
             android:id="@+id/progressbar"
@@ -214,7 +222,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stream_recycler_view" />
+            app:layout_constraintTop_toBottomOf="@+id/swipe_refresh" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

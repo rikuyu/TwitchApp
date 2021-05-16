@@ -1,8 +1,5 @@
 package com.example.twitchapp.model.repository
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.bumptech.glide.load.resource.gif.StreamGifDecoder
 import com.example.twitchapp.db.TwitchDatabase
 import com.example.twitchapp.model.RetrofitInstance
 import com.example.twitchapp.model.data.clipdata.Clip
