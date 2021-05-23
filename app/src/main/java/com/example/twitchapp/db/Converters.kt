@@ -87,7 +87,6 @@ class Converters {
 //        @TypeConverter
 //        fun fromVod(vod: Vod?) = Gson().toJson(vod)
 //
-//
 //        @JvmStatic
 //        @TypeConverter
 //        fun toVod(vodJson: String?) = Gson().fromJson(vodJson, Vod::class.java)

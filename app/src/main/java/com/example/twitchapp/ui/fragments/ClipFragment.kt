@@ -21,7 +21,6 @@ import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.util.Resource
 import kotlinx.android.synthetic.main.clip_item.view.*
 
-
 class ClipFragment : Fragment(R.layout.fragment_clip) {
     private lateinit var viewModel: MainViewModel
 
