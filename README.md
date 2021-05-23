@@ -20,6 +20,7 @@ Android Jetpack の学習を行うため。
 - 操作方法が直感的に分かる UI
 - Retrofit を用いた非同期通信において、Resouceクラスを利用し、エラーハンドリングを行った。[付録: ネットワーク ステータスの公開](https://developer.android.com/jetpack/guide?hl=ja)
 - Fragment の状態が保存されるように CustomNavigator を実装した。
+- 機内モード、Wifi未接続状態などのネットワーク接続状況を確認できるようにした。
 
 ## 作者
 [rikuyu](https://github.com/rikuyu)
