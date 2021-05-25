@@ -60,6 +60,8 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
                         twitchAdapter = StreamAdapter(requireContext(), streamList)
                         binding.streamRecyclerView.adapter = twitchAdapter
 
+                        Log.d("Stream", "Success")
+
                         twitchAdapter.setOnItemClickListener(object :
                             StreamAdapter.OnItemClickListener {
                             override fun onItemClickListener(url: String) {
@@ -78,6 +80,7 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
                     }
                 }
                 is Resource.Loading -> {
+                    Log.d("Stream", "Loading")
                     showProgressBar()
                 }
             }

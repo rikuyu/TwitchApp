@@ -61,7 +61,7 @@ class MainViewModel(
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> streams.postValue(Resource.Error("ネットワークエラー"))
+                is IOException -> streams.postValue(Resource.Error(t.message))
                 else -> {
                     Log.d("safeFetchStreamCall", t.message!!)
                     streams.postValue(Resource.Error("内部エラー"))
@@ -81,7 +81,7 @@ class MainViewModel(
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> clips.postValue(Resource.Error("ネットワークエラー"))
+                is IOException -> clips.postValue(Resource.Error(t.message))
                 else -> {
                     Log.d("safeFetchStreamCall", t.message!!)
                     clips.postValue(Resource.Error("内部エラー"))
@@ -130,16 +130,16 @@ class MainViewModel(
             return when {
                 capabilities.hasTransport(TRANSPORT_WIFI) -> {
                     Log.d("Network Type", "Wifi")
-                    return true
+                    true
                 }
                 capabilities.hasTransport(TRANSPORT_CELLULAR) -> {
                     // 3Gや4G／LTEの電波を使用できるデータ通信をセルラー（CELLULAR）という
                     Log.d("Network Type", "CELLULAR")
-                    return true
+                    true
                 }
                 capabilities.hasTransport(TRANSPORT_ETHERNET) -> {
                     Log.d("Network Type", "ETHERNET")
-                    return true
+                    true
                 }
                 else -> false
             }

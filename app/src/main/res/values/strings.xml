@@ -6,4 +6,7 @@
     <string name="stream_fragment_title">Live Stream</string>
     <string name="favorite_fragment_title">Favorite Clips</string>
     <string name="nothing_favo">いいねがありません</string>
+    <string name="menu_stream_title">Live</string>
+    <string name="menu_favorite_title">Like</string>
+    <string name="menu_clip_title">Clip</string>
 </resources>

@@ -4,18 +4,16 @@
     <item
         android:id="@+id/stream"
         android:icon="@drawable/ic_video"
-        android:title="Live" />
+        android:title="@string/menu_stream_title" />
 
     <item
-        android:id="@+id/game"
+        android:id="@+id/clip"
         android:icon="@drawable/ic_clip"
-        android:title="Clip"
-        />
+        android:title="@string/menu_clip_title" />
 
     <item
         android:id="@+id/favorite"
         android:icon="@drawable/ic_favorite"
-        android:title="Like"
-        />
+        android:title="@string/menu_favorite_title" />
 
 </menu>
