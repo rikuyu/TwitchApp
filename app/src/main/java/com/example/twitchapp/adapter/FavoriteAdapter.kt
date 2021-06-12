@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -17,7 +19,7 @@ import com.example.twitchapp.model.data.clipdata.Clip
 
 
 class FavoriteAdapter(private val context: Context, private var favoriteList: List<Clip>?) :
-    RecyclerView.Adapter<FavoriteAdapter.FavoriteHolder>() {
+    ListAdapter<Clip,FavoriteAdapter.FavoriteHolder>(ClipComparator()) {
 
     private lateinit var thumbnailListener: ShowFavoClip
     private lateinit var deleteBtnListener: DeleteItem
@@ -97,5 +99,13 @@ class FavoriteAdapter(private val context: Context, private var favoriteList: Li
 
     fun setOnDeleteBtnClickListener(listener: DeleteItem) {
         this.deleteBtnListener = listener
+    }
+
+    class ClipComparator : DiffUtil.ItemCallback<Clip>() {
+        override fun areItemsTheSame(oldItem: Clip, newItem: Clip) =
+            oldItem.broadcaster == newItem.broadcaster
+
+        override fun areContentsTheSame(oldItem: Clip, newItem: Clip) =
+            oldItem == newItem
     }
 }
