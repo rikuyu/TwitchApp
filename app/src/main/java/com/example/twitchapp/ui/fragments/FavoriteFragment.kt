@@ -25,7 +25,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     private lateinit var viewModel: MainViewModel
 
     private lateinit var favoriteAdapter: FavoriteAdapter
-    private var favoList: List<Clip>? = null
 
     private var _binding: FragmentFavoriteBinding? = null
     private val binding
@@ -45,22 +44,13 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         viewModel = (activity as MainActivity).mainViewModel
         viewModel.getFavoriteClips()
 
-        favoList?.let {
-            if(it.isEmpty()){
-                binding.emptyMag.visibility = View.VISIBLE
-            }else{
-                binding.emptyMag.visibility = View.GONE
-            }
-        }
+        setupRecyclerView()
 
-        viewModel.favoriteClips.observe(viewLifecycleOwner, Observer {
-            favoList = it
-            binding.favoriteRecyclerView.layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-            favoriteAdapter = FavoriteAdapter(requireContext(), favoList)
-            binding.favoriteRecyclerView.adapter = favoriteAdapter
+        viewModel.favoriteClips.observe(viewLifecycleOwner, Observer { favoriteList ->
 
-            if(favoList!!.isEmpty()){
+            favoriteAdapter.submitList(favoriteList)
+
+            if(favoriteList.isEmpty()){
                 binding.emptyMag.visibility = View.VISIBLE
             }else{
                 binding.emptyMag.visibility = View.GONE
@@ -79,7 +69,8 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                 FavoriteAdapter.DeleteItem {
                 override fun deleteItem(clip: Clip) {
                     viewModel.deleteClip(clip)
-                    viewModel.getFavoriteClips()
+                    //viewModel.getFavoriteClips()
+                    favoriteAdapter.submitList(favoriteList)
                 }
             }
             )
@@ -89,5 +80,12 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun setupRecyclerView(){
+        favoriteAdapter = FavoriteAdapter(requireContext())
+        binding.favoriteRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.favoriteRecyclerView.adapter = favoriteAdapter
     }
 }

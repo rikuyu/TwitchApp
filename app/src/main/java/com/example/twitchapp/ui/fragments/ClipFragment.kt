@@ -70,13 +70,12 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
                             ClipAdapter.HandleDatabase {
                             override fun handleDatabase(clip: Clip) {
                                 if (binding.clipRecyclerView.heart_icon.isChecked) {
-                                    viewModel.insertClip(clip)
+                                    viewModel.insertGetClip(clip)
                                     Toast.makeText(
                                         requireContext(),
                                         "Gameに保存されました",
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                    viewModel.getFavoriteClips()
                                 } else {
                                     viewModel.deleteClip(clip)
                                     Toast.makeText(
@@ -84,7 +83,6 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
                                         "Gameから削除されました",
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                    viewModel.getFavoriteClips()
                                 }
                             }
                         }
