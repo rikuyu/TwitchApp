@@ -99,15 +99,17 @@ class MainViewModel(
         return Resource.Error(response.message())
     }
 
-    fun insertClip(clip: Clip) {
+    fun insertGetClip(clip: Clip) {
         viewModelScope.launch {
             repository.insertClip(clip)
+            favoriteClips.value = repository.getFavoriteClips()
         }
     }
-
+    // 上下のメソッドにそのままgetFavoriteClipsを呼び出してもよいのか不明
     fun deleteClip(clip: Clip) {
         viewModelScope.launch {
             repository.deleteClip(clip)
+            favoriteClips.value = repository.getFavoriteClips()
         }
     }
 
