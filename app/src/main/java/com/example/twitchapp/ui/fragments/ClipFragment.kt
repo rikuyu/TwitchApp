@@ -22,7 +22,7 @@ import com.example.twitchapp.util.Resource
 import kotlinx.android.synthetic.main.clip_item.view.*
 
 class ClipFragment : Fragment(R.layout.fragment_clip) {
-    private lateinit var viewModel: MainViewModel
+    private lateinit var mainViewModel: MainViewModel
 
     private lateinit var clipAdapter: ClipAdapter
     private var clipList: List<Clip>? = null
@@ -46,9 +46,9 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
         binding.gameIcon.outlineProvider = clipOutlineProvider
         binding.gameIcon.clipToOutline = true
 
-        viewModel = (activity as MainActivity).mainViewModel
+        mainViewModel = (activity as MainActivity).mainViewModel
 
-        viewModel.clips.observe(viewLifecycleOwner, Observer { response ->
+        mainViewModel.clips.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
@@ -70,14 +70,14 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
                             ClipAdapter.HandleDatabase {
                             override fun handleDatabase(clip: Clip) {
                                 if (binding.clipRecyclerView.heart_icon.isChecked) {
-                                    viewModel.insertGetClip(clip)
+                                    mainViewModel.insertGetClip(clip)
                                     Toast.makeText(
                                         requireContext(),
                                         "Gameに保存されました",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 } else {
-                                    viewModel.deleteClip(clip)
+                                    mainViewModel.deleteClip(clip)
                                     Toast.makeText(
                                         requireContext(),
                                         "Gameから削除されました",
@@ -132,35 +132,35 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
 
     private fun fetchGameClip() {
         binding.pubgMobile.setOnClickListener {
-            viewModel.fetchClip("PUBG Mobile")
+            mainViewModel.fetchClip("PUBG Mobile")
         }
 
         binding.apex.setOnClickListener {
-            viewModel.fetchClip("Apex Legends")
+            mainViewModel.fetchClip("Apex Legends")
         }
 
         binding.amongus.setOnClickListener {
-            viewModel.fetchClip("Among Us")
+            mainViewModel.fetchClip("Among Us")
         }
 
         binding.genshin.setOnClickListener {
-            viewModel.fetchClip("Genshin Impact")
+            mainViewModel.fetchClip("Genshin Impact")
         }
 
         binding.minecraft.setOnClickListener {
-            viewModel.fetchClip("Minecraft")
+            mainViewModel.fetchClip("Minecraft")
         }
 
         binding.fortnite.setOnClickListener {
-            viewModel.fetchClip("Fortnite")
+            mainViewModel.fetchClip("Fortnite")
         }
 
         binding.callofduty.setOnClickListener {
-            viewModel.fetchClip("Call of Duty: Warzone")
+            mainViewModel.fetchClip("Call of Duty: Warzone")
         }
 
         binding.lol.setOnClickListener {
-            viewModel.fetchClip("League of Legends")
+            mainViewModel.fetchClip("League of Legends")
         }
     }
 }

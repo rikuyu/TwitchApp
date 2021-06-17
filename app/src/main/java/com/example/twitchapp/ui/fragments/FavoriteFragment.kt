@@ -1,15 +1,12 @@
 package com.example.twitchapp.ui.fragments
 
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
@@ -22,7 +19,7 @@ import com.example.twitchapp.ui.MainViewModel
 
 class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var mainViewModel: MainViewModel
 
     private lateinit var favoriteAdapter: FavoriteAdapter
 
@@ -41,12 +38,12 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = (activity as MainActivity).mainViewModel
-        viewModel.getFavoriteClips()
+        mainViewModel = (activity as MainActivity).mainViewModel
+        mainViewModel.getFavoriteClips()
 
         setupRecyclerView()
 
-        viewModel.favoriteClips.observe(viewLifecycleOwner, Observer { favoriteList ->
+        mainViewModel.favoriteClips.observe(viewLifecycleOwner, Observer { favoriteList ->
 
             favoriteAdapter.submitList(favoriteList)
 
@@ -68,8 +65,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
             favoriteAdapter.setOnDeleteBtnClickListener(object :
                 FavoriteAdapter.DeleteItem {
                 override fun deleteItem(clip: Clip) {
-                    viewModel.deleteClip(clip)
-                    //viewModel.getFavoriteClips()
+                    mainViewModel.deleteClip(clip)
                     favoriteAdapter.submitList(favoriteList)
                 }
             }

@@ -15,17 +15,21 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    lateinit var mainViewModel: MainViewModel
+    val mainViewModel: MainViewModel
+            by lazy {
+                ViewModelProvider(
+                    this, MainViewModelFactory(
+                        application, TwitchRepository(
+                            TwitchDatabase.getInstance(this)
+                        )
+                    )
+                ).get(MainViewModel::class.java)
+            }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val repository = TwitchRepository(TwitchDatabase.getInstance(this))
-        val viewModelFactory =
-            MainViewModelFactory(application, repository)
-        mainViewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
 
         binding.run {
             bottomNav.setupWithNavController(

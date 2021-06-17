@@ -23,7 +23,7 @@ import com.example.twitchapp.util.Resource
 
 class StreamFragment : Fragment(R.layout.fragment_stream) {
 
-    lateinit var viewModel: MainViewModel
+    lateinit var mainViewModel: MainViewModel
 
     private lateinit var twitchAdapter: StreamAdapter
     private var streamList: List<Stream>? = null
@@ -49,9 +49,9 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
         binding.gameIcon.outlineProvider = clipOutlineProvider
         binding.gameIcon.clipToOutline = true
 
-        viewModel = (activity as MainActivity).mainViewModel
+        mainViewModel = (activity as MainActivity).mainViewModel
 
-        viewModel.streams.observe(viewLifecycleOwner, Observer { response ->
+        mainViewModel.streams.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()
@@ -92,7 +92,7 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         binding.swipeRefresh.setOnRefreshListener {
-            viewModel.fetchStream(currentGameTitle)
+            mainViewModel.fetchStream(currentGameTitle)
             if (binding.swipeRefresh.isRefreshing) {
                 binding.swipeRefresh.isRefreshing = false;
                 Log.d("Stream", "更新終了")
@@ -127,42 +127,42 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
 
     private fun fetchGameStream() {
         binding.pubgMobile.setOnClickListener {
-            viewModel.fetchStream("PUBG Mobile")
+            mainViewModel.fetchStream("PUBG Mobile")
             currentGameTitle = "PUBG Mobile"
         }
 
         binding.apex.setOnClickListener {
-            viewModel.fetchStream("Apex Legends")
+            mainViewModel.fetchStream("Apex Legends")
             currentGameTitle = "Apex Legends"
         }
 
         binding.amongus.setOnClickListener {
-            viewModel.fetchStream("Among Us")
+            mainViewModel.fetchStream("Among Us")
             currentGameTitle = "Among Us"
         }
 
         binding.genshin.setOnClickListener {
-            viewModel.fetchStream("Genshin Impact")
+            mainViewModel.fetchStream("Genshin Impact")
             currentGameTitle = "Genshin Impact"
         }
 
         binding.minecraft.setOnClickListener {
-            viewModel.fetchStream("Minecraft")
+            mainViewModel.fetchStream("Minecraft")
             currentGameTitle = "Minecraft"
         }
 
         binding.fortnite.setOnClickListener {
-            viewModel.fetchStream("Fortnite")
+            mainViewModel.fetchStream("Fortnite")
             currentGameTitle = "Fortnite"
         }
 
         binding.callofduty.setOnClickListener {
-            viewModel.fetchStream("Call of Duty: Warzone")
+            mainViewModel.fetchStream("Call of Duty: Warzone")
             currentGameTitle = "Call of Duty: Warzone"
         }
 
         binding.lol.setOnClickListener {
-            viewModel.fetchStream("League of Legends")
+            mainViewModel.fetchStream("League of Legends")
             currentGameTitle = "League of Legends"
         }
     }
