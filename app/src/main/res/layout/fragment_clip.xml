@@ -23,7 +23,7 @@
             android:id="@+id/menu_game"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/midium_line"
+            app:layout_constraintBottom_toTopOf="@+id/medium_line"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/top_line">
 
@@ -174,7 +174,7 @@
         </HorizontalScrollView>
 
         <View
-            android:id="@+id/midium_line"
+            android:id="@+id/medium_line"
             android:layout_width="fill_parent"
             android:layout_height="2dp"
             android:layout_marginTop="6dp"
@@ -188,13 +188,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Popular Clips"
+            android:text="@string/clip_fragment_title"
             android:textColor="@color/white"
             android:textSize="30sp"
             android:textStyle="italic"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/midium_line" />
+            app:layout_constraintTop_toBottomOf="@+id/medium_line" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/clip_recycler_view"
