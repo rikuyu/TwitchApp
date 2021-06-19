@@ -1,5 +1,7 @@
 package com.example.twitchapp.ui.fragments
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Outline
 import android.net.Uri
@@ -9,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
+import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
@@ -17,7 +21,6 @@ import com.example.twitchapp.databinding.FragmentFavoriteBinding
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainActivity
 import com.example.twitchapp.ui.MainViewModel
-
 
 class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
@@ -53,9 +56,9 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
             favoriteAdapter.submitList(favoriteList)
 
-            if(favoriteList.isEmpty()){
+            if (favoriteList.isEmpty()) {
                 binding.emptyMag.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.emptyMag.visibility = View.GONE
             }
 
@@ -77,6 +80,11 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
             }
             )
         })
+
+        binding.btnEdit.setOnClickListener {
+            EditCustomDialog().show(childFragmentManager, EditCustomDialog::class.simpleName)
+            Toast.makeText(context, EditCustomDialog::class.simpleName, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroyView() {
@@ -95,7 +103,16 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
             )
         }
     }
-    private fun setupRecyclerView(){
+
+    private fun showCustomDialog() {
+        val dialogView = layoutInflater.inflate(R.layout.edit_profile_dialog, null)
+
+        val customDialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .show()
+    }
+
+    private fun setupRecyclerView() {
         favoriteAdapter = FavoriteAdapter(requireContext())
         binding.favoriteRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
