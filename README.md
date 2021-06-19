@@ -1,7 +1,8 @@
-# Twitchゲーム動画視聴アプリ
+# Twitchゲーム動画が探せるアプリ
 Twitch内のライブ動画、クリップ動画を探して視聴できるアプリです。
 
-![twitch](https://user-images.githubusercontent.com/51118613/117419121-2e602300-af57-11eb-9ccd-249a8a7e597b.jpg)
+![t](https://user-images.githubusercontent.com/51118613/122635370-765d9280-d11e-11eb-9895-0f89c010d259.JPG)
+
 
 ## 作成目的
 Android Jetpack の学習を行うため。
