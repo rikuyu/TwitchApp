@@ -1,6 +1,7 @@
 package com.example.twitchapp.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -15,16 +16,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    val mainViewModel: MainViewModel
-            by lazy {
-                ViewModelProvider(
-                    this, MainViewModelFactory(
-                        application, TwitchRepository(
-                            TwitchDatabase.getInstance(this)
-                        )
-                    )
-                ).get(MainViewModel::class.java)
-            }
+
+    private val repo: TwitchRepository by lazy{
+        TwitchRepository(TwitchDatabase.getInstance(this))
+    }
+
+    val mainViewModel by viewModels<MainViewModel> { MainViewModelFactory(application, repo) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

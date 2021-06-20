@@ -93,4 +93,8 @@ dependencies {
 
     // SwipeRefresh
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
+    def ktx_version = "1.1.0"
+    // fragment-ktx
+    implementation "androidx.fragment:fragment-ktx:$ktx_version"
 }
