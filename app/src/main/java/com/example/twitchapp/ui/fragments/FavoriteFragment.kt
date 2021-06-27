@@ -1,7 +1,6 @@
 package com.example.twitchapp.ui.fragments
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Outline
 import android.net.Uri
@@ -11,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
-import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +17,7 @@ import com.example.twitchapp.R
 import com.example.twitchapp.adapter.FavoriteAdapter
 import com.example.twitchapp.databinding.FragmentFavoriteBinding
 import com.example.twitchapp.model.data.clipdata.Clip
+import com.example.twitchapp.ui.EditCustomDialog
 import com.example.twitchapp.ui.MainActivity
 import com.example.twitchapp.ui.MainViewModel
 
@@ -82,8 +81,17 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         })
 
         binding.btnEdit.setOnClickListener {
-            EditCustomDialog().show(childFragmentManager, EditCustomDialog::class.simpleName)
-            Toast.makeText(context, EditCustomDialog::class.simpleName, Toast.LENGTH_SHORT).show()
+            EditCustomDialog
+                .Builder(this)
+                .setName(binding.myName.text.toString())
+                .setPositiveButton {
+                    Toast.makeText(context, "OKが押された", Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton {
+                    Toast.makeText(context, "cancelが押された", Toast.LENGTH_SHORT).show()
+                }
+                .build()
+                .show(childFragmentManager, EditCustomDialog::class.simpleName)
         }
     }
 
