@@ -63,9 +63,6 @@ class EditCustomDialog: DialogFragment() {
         }
         binding.editMyName.setText(name)
 
-        binding.editAvatarImage.outlineProvider = clipOutlineProvider
-        binding.editAvatarImage.clipToOutline = true
-
         binding.btnOk.setOnClickListener {
 
             // OK ボタンが押されたときの関数を渡す
@@ -91,16 +88,5 @@ class EditCustomDialog: DialogFragment() {
 
         dialog.setContentView(binding.root)
         return dialog
-    }
-
-    private val clipOutlineProvider = object : ViewOutlineProvider() {
-        override fun getOutline(view: View, outline: Outline) {
-            outline.setOval(
-                0,
-                0,
-                view.width,
-                view.height
-            )
-        }
     }
 }

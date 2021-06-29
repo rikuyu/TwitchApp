@@ -1,6 +1,5 @@
 package com.example.twitchapp.ui.fragments
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Outline
 import android.net.Uri
@@ -11,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.widget.Toast
-import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
@@ -42,10 +40,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // 左上のゲームアイコンを円形にする
-        binding.avatarImg.outlineProvider = clipOutlineProvider
-        binding.avatarImg.clipToOutline = true
 
         mainViewModel = (activity as MainActivity).mainViewModel
         mainViewModel.getFavoriteClips()
@@ -105,18 +99,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    // 左上のゲームアイコンを円形にする
-    private val clipOutlineProvider = object : ViewOutlineProvider() {
-        override fun getOutline(view: View, outline: Outline) {
-            outline.setOval(
-                0,
-                0,
-                view.width,
-                view.height
-            )
-        }
     }
 
     private fun setupRecyclerView() {

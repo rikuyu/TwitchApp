@@ -97,4 +97,7 @@ dependencies {
     def ktx_version = "1.3.5"
     // fragment-ktx
     implementation "androidx.fragment:fragment-ktx:$ktx_version"
+
+    // CircleImageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }
