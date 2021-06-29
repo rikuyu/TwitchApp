@@ -1,19 +1,14 @@
 package com.example.twitchapp.ui
 
 import android.app.Dialog
-import android.graphics.Color
 import android.graphics.Outline
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
-import com.example.twitchapp.R
 import com.example.twitchapp.databinding.EditProfileDialogBinding
 
 class EditCustomDialog: DialogFragment() {
@@ -72,19 +67,22 @@ class EditCustomDialog: DialogFragment() {
         binding.editAvatarImage.clipToOutline = true
 
         binding.btnOk.setOnClickListener {
-            // ダイアログは自動的に消えないので明示的に消す
-            dismiss()
 
+            // OK ボタンが押されたときの関数を渡す
             setFragmentResult(
                 "PositiveButtonKey",
                 bundleOf()
             )
+
+            // 親のFavoriteFragmentにEditTextの値を渡す
+            val newName = binding.editMyName.text.toString()
+            setFragmentResult("keyClicked", bundleOf("NewNameKey" to newName))
+
+            dismiss()
         }
 
         binding.btnCancel.setOnClickListener {
-            // ダイアログは自動的に消えないので明示的に消す
             dismiss()
-
             setFragmentResult(
                 "NegativeButtonKey",
                 bundleOf()

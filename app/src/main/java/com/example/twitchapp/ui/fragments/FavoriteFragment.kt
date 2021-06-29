@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.widget.Toast
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
@@ -54,6 +55,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         mainViewModel.favoriteClips.observe(viewLifecycleOwner, Observer { favoriteList ->
 
             favoriteAdapter.submitList(favoriteList)
+            binding.numLikes.text = "Likes ${favoriteList.size}"
 
             if (favoriteList.isEmpty()) {
                 binding.emptyMag.visibility = View.VISIBLE
@@ -80,15 +82,20 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
             )
         })
 
+        childFragmentManager.setFragmentResultListener("keyClicked", this) { key, bundle ->
+            val newName = bundle.getString("NewNameKey", "No Name")
+            binding.myName.text = newName
+        }
+
         binding.btnEdit.setOnClickListener {
             EditCustomDialog
                 .Builder(this)
                 .setName(binding.myName.text.toString())
                 .setPositiveButton {
-                    Toast.makeText(context, "OKが押された", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "User Name Changed", Toast.LENGTH_SHORT).show()
                 }
                 .setNegativeButton {
-                    Toast.makeText(context, "cancelが押された", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "canceled", Toast.LENGTH_SHORT).show()
                 }
                 .build()
                 .show(childFragmentManager, EditCustomDialog::class.simpleName)
@@ -110,14 +117,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                 view.height
             )
         }
-    }
-
-    private fun showCustomDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.edit_profile_dialog, null)
-
-        val customDialog = AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .show()
     }
 
     private fun setupRecyclerView() {
