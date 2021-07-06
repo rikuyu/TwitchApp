@@ -1,10 +1,14 @@
 package com.example.twitchapp.ui
 
+import android.app.Activity
 import android.app.Dialog
-import android.graphics.Outline
+import android.content.Intent
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.ViewOutlineProvider
+import android.provider.MediaStore
+import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -14,6 +18,11 @@ import com.example.twitchapp.databinding.EditProfileDialogBinding
 class EditCustomDialog: DialogFragment() {
 
     private var name: String = ""
+    private lateinit var binding: EditProfileDialogBinding
+
+    companion object {
+        private const val READ_REQUEST_CODE: Int = 42
+    }
 
     class Builder(private val fragment: Fragment) {
         private val bundle = Bundle()
@@ -55,13 +64,21 @@ class EditCustomDialog: DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = Dialog(requireContext())
-        val binding = EditProfileDialogBinding.inflate(requireActivity().layoutInflater)
+        binding = EditProfileDialogBinding.inflate(requireActivity().layoutInflater)
 
         // 現在の名前をEditTextに表示するため
         arguments?.let{
             name = it.getString("NameKey", "No Name")
         }
         binding.editMyName.setText(name)
+
+        binding.editAvatarImage.setOnClickListener{
+            val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "image/*"
+            }
+            startActivityForResult(intent, READ_REQUEST_CODE)
+        }
 
         binding.btnOk.setOnClickListener {
 
@@ -88,5 +105,31 @@ class EditCustomDialog: DialogFragment() {
 
         dialog.setContentView(binding.root)
         return dialog
+    }
+
+    // いったんCustomDialogに画像を適用する
+    override fun onActivityResult(
+        requestCode: Int, resultCode: Int,
+        resultData: Intent?
+    ) {
+        if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            var uri: Uri? = null
+            if (resultData != null) {
+                uri = resultData.data
+                if(Build.VERSION.SDK_INT < 28) {
+                    val bitmap =  MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        uri
+                    )
+                    Log.d("bitmap", "画像をセット")
+                    binding.editAvatarImage.setImageBitmap(bitmap)
+                } else {
+                    val source = ImageDecoder.createSource(requireContext().contentResolver, uri!!)
+                    val bitmap = ImageDecoder.decodeBitmap(source)
+                    Log.d("bitmap", "画像をセット")
+                    binding.editAvatarImage.setImageBitmap(bitmap)
+                }
+            }
+        }
     }
 }
