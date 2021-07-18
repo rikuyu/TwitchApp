@@ -1,6 +1,8 @@
 package com.example.twitchapp.ui.fragments
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -24,7 +26,9 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     private lateinit var mainViewModel: MainViewModel
     private lateinit var favoriteAdapter: FavoriteAdapter
 
-    private var newAvatarImageUri: String? = null
+    private var profileImageUri: String? = null
+    private var profileName: String? = null
+    lateinit var dataStore: SharedPreferences
 
     private var _binding: FragmentFavoriteBinding? = null
     private val binding
@@ -45,6 +49,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         mainViewModel.getFavoriteClips()
 
         setupRecyclerView()
+        loadProfileData()
 
         mainViewModel.favoriteClips.observe(viewLifecycleOwner, Observer { favoriteList ->
 
@@ -76,28 +81,8 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
             )
         })
 
-        childFragmentManager.setFragmentResultListener("keyClicked", this) { key, bundle ->
-            val newProfile = bundle.getParcelable<ProfileDialog>("NewProfileKey")
-            binding.myName.text = newProfile!!.name
-            newAvatarImageUri = newProfile.avatarImageUri
-            binding.avatarImg.setImageURI(null)
-            binding.avatarImg.setImageURI(Uri.parse(newAvatarImageUri))
-        }
-
-        binding.btnEdit.setOnClickListener {
-            EditCustomDialog
-                .Builder(this)
-                .setName(binding.myName.text.toString())
-                .setAvatarImage(newAvatarImageUri)
-                .setPositiveButton {
-                    Toast.makeText(context, "User Name Changed", Toast.LENGTH_SHORT).show()
-                }
-                .setNegativeButton {
-                    Toast.makeText(context, "canceled", Toast.LENGTH_SHORT).show()
-                }
-                .build()
-                .show(childFragmentManager, EditCustomDialog::class.simpleName)
-        }
+        receiveDialogData()
+        showEditProfileDialog()
     }
 
     override fun onDestroyView() {
@@ -110,5 +95,51 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         binding.favoriteRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.favoriteRecyclerView.adapter = favoriteAdapter
+    }
+
+    private fun loadProfileData(){
+        dataStore = this.requireActivity().getSharedPreferences("DataStore", Context.MODE_PRIVATE)
+        profileName = dataStore.getString("PROFILE_NAME", null)
+        profileImageUri = dataStore.getString("PROFILE_IMAGE_URI", null)
+
+        profileName?.let{
+            binding.myName.text = profileName
+        }
+        profileImageUri?.let{
+            binding.avatarImg.setImageURI(Uri.parse(profileImageUri))
+        }
+    }
+
+    private fun receiveDialogData(){
+        childFragmentManager.setFragmentResultListener("KEY_CLICKED", this) { key, bundle ->
+            val newProfile = bundle.getParcelable<ProfileDialog>("NEW_PROFILE_KEY")
+
+            binding.myName.text = newProfile!!.name
+            profileImageUri = newProfile.avatarImageUri
+            binding.avatarImg.setImageURI(null)
+            binding.avatarImg.setImageURI(Uri.parse(profileImageUri))
+
+            dataStore.edit().apply{
+                putString("PROFILE_NAME", newProfile.name)
+                putString("PROFILE_IMAGE_URI", newProfile.avatarImageUri)
+            }.apply()
+        }
+    }
+
+    private fun showEditProfileDialog(){
+        binding.btnEdit.setOnClickListener {
+            EditCustomDialog
+                .Builder(this)
+                .setName(binding.myName.text.toString())
+                .setAvatarImage(profileImageUri)
+                .setPositiveButton {
+                    Toast.makeText(context, "User Name Changed", Toast.LENGTH_SHORT).show()
+                }
+                .setNegativeButton {
+                    Toast.makeText(context, "canceled", Toast.LENGTH_SHORT).show()
+                }
+                .build()
+                .show(childFragmentManager, EditCustomDialog::class.simpleName)
+        }
     }
 }
