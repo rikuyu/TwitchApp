@@ -1,22 +1,19 @@
 package com.example.twitchapp.ui.fragments
 
-import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Outline
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewOutlineProvider
 import android.widget.Toast
-import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.adapter.FavoriteAdapter
 import com.example.twitchapp.databinding.FragmentFavoriteBinding
+import com.example.twitchapp.model.data.ProfileDialog
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.EditCustomDialog
 import com.example.twitchapp.ui.MainActivity
@@ -25,8 +22,9 @@ import com.example.twitchapp.ui.MainViewModel
 class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
     private lateinit var mainViewModel: MainViewModel
-
     private lateinit var favoriteAdapter: FavoriteAdapter
+
+    private var newAvatarImageUri: String? = null
 
     private var _binding: FragmentFavoriteBinding? = null
     private val binding
@@ -42,10 +40,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // 左上のゲームアイコンを円形にする
-        binding.avatarImg.outlineProvider = clipOutlineProvider
-        binding.avatarImg.clipToOutline = true
 
         mainViewModel = (activity as MainActivity).mainViewModel
         mainViewModel.getFavoriteClips()
@@ -83,14 +77,18 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         })
 
         childFragmentManager.setFragmentResultListener("keyClicked", this) { key, bundle ->
-            val newName = bundle.getString("NewNameKey", "No Name")
-            binding.myName.text = newName
+            val newProfile = bundle.getParcelable<ProfileDialog>("NewProfileKey")
+            binding.myName.text = newProfile!!.name
+            newAvatarImageUri = newProfile.avatarImageUri
+            binding.avatarImg.setImageURI(null)
+            binding.avatarImg.setImageURI(Uri.parse(newAvatarImageUri))
         }
 
         binding.btnEdit.setOnClickListener {
             EditCustomDialog
                 .Builder(this)
                 .setName(binding.myName.text.toString())
+                .setAvatarImage(newAvatarImageUri)
                 .setPositiveButton {
                     Toast.makeText(context, "User Name Changed", Toast.LENGTH_SHORT).show()
                 }
@@ -105,18 +103,6 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    // 左上のゲームアイコンを円形にする
-    private val clipOutlineProvider = object : ViewOutlineProvider() {
-        override fun getOutline(view: View, outline: Outline) {
-            outline.setOval(
-                0,
-                0,
-                view.width,
-                view.height
-            )
-        }
     }
 
     private fun setupRecyclerView() {

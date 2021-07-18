@@ -17,15 +17,15 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/edit_avatar_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginTop="12dp"
-        android:src="@drawable/avatar"
         android:contentDescription="@string/image_desc"
         app:layout_constraintBottom_toTopOf="@+id/edit_my_name"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:src="@drawable/ic_profile"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
 
