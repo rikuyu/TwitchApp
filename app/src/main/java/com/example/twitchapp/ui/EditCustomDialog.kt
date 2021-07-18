@@ -34,20 +34,20 @@ class EditCustomDialog : DialogFragment() {
 
         fun setName(name: String): Builder {
             return this.apply {
-                bundle.putString("NameKey", name)
+                bundle.putString("NAME_KEY", name)
             }
         }
 
         fun setAvatarImage(oldAvatarImageUri: String?): Builder {
             return this.apply {
-                bundle.putString("ImageKey", oldAvatarImageUri)
+                bundle.putString("IMAGE_KEY", oldAvatarImageUri)
             }
         }
 
         fun setPositiveButton(listener: () -> Unit): Builder {
             fragment.childFragmentManager
                 .setFragmentResultListener(
-                    "PositiveButtonKey",
+                    "POSITIVE_BTN_KEY",
                     fragment.viewLifecycleOwner
                 ) { _, _ ->
                     listener?.invoke()
@@ -58,7 +58,7 @@ class EditCustomDialog : DialogFragment() {
         fun setNegativeButton(listener: () -> Unit): Builder {
             fragment.childFragmentManager
                 .setFragmentResultListener(
-                    "NegativeButtonKey",
+                    "NEGATIVE_BTN_KEY",
                     fragment.viewLifecycleOwner
                 ) { _, _ ->
                     listener?.invoke()
@@ -80,8 +80,8 @@ class EditCustomDialog : DialogFragment() {
 
         // 現在の名前をEditTextに表示するため
         arguments?.let {
-            currentName = it.getString("NameKey", "No Name")
-            currentAvatarImageUri = it.getString("ImageKey")
+            currentName = it.getString("NAME_KEY", "No Name")
+            currentAvatarImageUri = it.getString("IMAGE_KEY")
         }
 
         // 現在のプロフィールをダイアログに反映
@@ -104,25 +104,23 @@ class EditCustomDialog : DialogFragment() {
 
             // OK ボタンが押されたときの関数を渡す
             setFragmentResult(
-                "PositiveButtonKey",
+                "POSITIVE_BTN_KEY",
                 bundleOf()
             )
 
             // 親のFavoriteFragmentにEditTextの値を渡す
             val newName = binding.editMyName.text.toString()
-            // val newAvatarImage = binding.editAvatarImage.drawable.toBitmap()
             val newAvatarImageUri = uri.toString()
-
             val newProfile = ProfileDialog(newName, newAvatarImageUri)
 
-            setFragmentResult("keyClicked", bundleOf("NewProfileKey" to newProfile))
+            setFragmentResult("KEY_CLICKED", bundleOf("NEW_PROFILE_KEY" to newProfile))
             dismiss()
         }
 
         binding.btnCancel.setOnClickListener {
             dismiss()
             setFragmentResult(
-                "NegativeButtonKey",
+                "NEGATIVE_BTN_KEY",
                 bundleOf()
             )
         }
@@ -144,12 +142,10 @@ class EditCustomDialog : DialogFragment() {
                         requireContext().contentResolver,
                         uri
                     )
-                    Log.d("bitmap", "画像をセット")
                     binding.editAvatarImage.setImageBitmap(bitmap)
                 } else {
                     val source = ImageDecoder.createSource(requireContext().contentResolver, uri!!)
                     val bitmap = ImageDecoder.decodeBitmap(source)
-                    Log.d("bitmap", "画像をセット")
                     binding.editAvatarImage.setImageBitmap(bitmap)
                 }
             }
