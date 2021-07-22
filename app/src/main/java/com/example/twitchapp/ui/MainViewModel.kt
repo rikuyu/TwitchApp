@@ -38,55 +38,56 @@ class MainViewModel @Inject constructor (
         getFavoriteClips()
     }
 
+    // viewModelScopeはメインスレッド上で実行されるため、postValueではなく、setValue
     fun fetchStream(gameTitle: String) {
         viewModelScope.launch {
-            streams.postValue(Resource.Loading())
+            streams.setValue(Resource.Loading())
             safeFetchStreamCall(gameTitle)
         }
     }
 
     fun fetchClip(gameTitle: String) {
         viewModelScope.launch {
-            clips.postValue(Resource.Loading())
+            clips.setValue(Resource.Loading())
             safeFetchClipCall(gameTitle)
         }
     }
 
     private suspend fun safeFetchStreamCall(gameTitle: String) {
-        streams.postValue(Resource.Loading())
+        streams.setValue(Resource.Loading())
         try {
             if (hasInternetConnection()) {
                 val response = repository.fetchStream(gameTitle)
-                streams.postValue(handleResponseState(response))
+                streams.setValue(handleResponseState(response))
             } else {
-                streams.postValue(Resource.Error("インターネットに接続してください"))
+                streams.setValue(Resource.Error("インターネットに接続してください"))
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> streams.postValue(Resource.Error(t.message))
+                is IOException -> streams.setValue(Resource.Error(t.message))
                 else -> {
                     Log.d("safeFetchStreamCall", t.message!!)
-                    streams.postValue(Resource.Error("内部エラー"))
+                    streams.setValue(Resource.Error("内部エラー"))
                 }
             }
         }
     }
 
     private suspend fun safeFetchClipCall(gameTitle: String) {
-        clips.postValue(Resource.Loading())
+        clips.setValue(Resource.Loading())
         try {
             if (hasInternetConnection()) {
                 val response = repository.fetchClip(gameTitle)
-                clips.postValue(handleResponseState(response))
+                clips.setValue(handleResponseState(response))
             } else {
-                clips.postValue(Resource.Error("インターネットに接続してください"))
+                clips.setValue(Resource.Error("インターネットに接続してください"))
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> clips.postValue(Resource.Error(t.message))
+                is IOException -> clips.setValue(Resource.Error(t.message))
                 else -> {
                     Log.d("safeFetchStreamCall", t.message!!)
-                    clips.postValue(Resource.Error("内部エラー"))
+                    clips.setValue(Resource.Error("内部エラー"))
                 }
             }
         }
