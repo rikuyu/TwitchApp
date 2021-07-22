@@ -12,8 +12,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.R
 import com.example.twitchapp.model.data.clipdata.Clip
+import javax.inject.Inject
 
-class ClipAdapter(private val context: Context, private val clipList: List<Clip>?) :
+class ClipAdapter (private val context: Context, private val clipList: List<Clip>?) :
     RecyclerView.Adapter<ClipAdapter.ClipHolder>() {
 
     private lateinit var thumbnailListener: ShowClip

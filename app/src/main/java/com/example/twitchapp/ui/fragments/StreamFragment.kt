@@ -1,7 +1,6 @@
 package com.example.twitchapp.ui.fragments
 
 import android.content.Intent
-import android.graphics.Outline
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewOutlineProvider
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +18,9 @@ import com.example.twitchapp.adapter.StreamAdapter
 import com.example.twitchapp.databinding.FragmentStreamBinding
 import com.example.twitchapp.model.data.streamdata.Stream
 import com.example.twitchapp.util.Resource
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class StreamFragment : Fragment(R.layout.fragment_stream) {
 
     lateinit var mainViewModel: MainViewModel

@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.databinding.FavoriteItemBinding
 import com.example.twitchapp.model.data.clipdata.Clip
+import javax.inject.Inject
 
 
 class FavoriteAdapter(private val context: Context) :

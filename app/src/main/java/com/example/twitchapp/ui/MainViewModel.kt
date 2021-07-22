@@ -7,7 +7,6 @@ import android.net.ConnectivityManager.*
 import android.net.NetworkCapabilities.*
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -17,11 +16,14 @@ import com.example.twitchapp.model.data.clipdata.ClipResponse
 import com.example.twitchapp.model.data.streamdata.Streams
 import com.example.twitchapp.model.repository.TwitchRepository
 import com.example.twitchapp.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import java.io.IOException
+import javax.inject.Inject
 
-class MainViewModel(
+@HiltViewModel
+class MainViewModel @Inject constructor (
     app: Application,
     private val repository: TwitchRepository,
 ) : AndroidViewModel(app) {

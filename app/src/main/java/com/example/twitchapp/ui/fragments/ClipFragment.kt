@@ -19,8 +19,10 @@ import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainActivity
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.util.Resource
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.clip_item.view.*
 
+@AndroidEntryPoint
 class ClipFragment : Fragment(R.layout.fragment_clip) {
     private lateinit var mainViewModel: MainViewModel
 

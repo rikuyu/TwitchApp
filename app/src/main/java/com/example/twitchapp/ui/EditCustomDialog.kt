@@ -8,14 +8,15 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import com.example.twitchapp.databinding.EditProfileDialogBinding
 import com.example.twitchapp.model.data.ProfileDialog
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EditCustomDialog : DialogFragment() {
 
     private var currentName: String = ""

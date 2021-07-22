@@ -20,10 +20,13 @@ import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.EditCustomDialog
 import com.example.twitchapp.ui.MainActivity
 import com.example.twitchapp.ui.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
     private lateinit var mainViewModel: MainViewModel
+
     private lateinit var favoriteAdapter: FavoriteAdapter
 
     private var profileImageUri: String? = null
