@@ -15,11 +15,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-    @Provides
-    @Singleton
-    fun provideTwitchDao(twitchDatabase: TwitchDatabase): TwitchDao {
-        return twitchDatabase.twitchDao()
-    }
+//    @Provides
+//    @Singleton
+//    fun provideTwitchDao(twitchDatabase: TwitchDatabase): TwitchDao {
+//        return twitchDatabase.twitchDao()
+//    }
 
     @Provides
     @Singleton

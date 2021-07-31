@@ -44,10 +44,6 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 左上のゲームアイコンを円形にする
-        binding.gameIcon.outlineProvider = clipOutlineProvider
-        binding.gameIcon.clipToOutline = true
-
         mainViewModel = (activity as MainActivity).mainViewModel
 
         mainViewModel.clips.observe(viewLifecycleOwner, Observer { response ->
@@ -118,18 +114,6 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
 
     private fun showProgressBar() {
         binding.progressbar.visibility = View.VISIBLE
-    }
-
-    // 左上のゲームアイコンを円形にする
-    private val clipOutlineProvider = object : ViewOutlineProvider() {
-        override fun getOutline(view: View, outline: Outline) {
-            outline.setOval(
-                0,
-                0,
-                view.width,
-                view.height
-            )
-        }
     }
 
     private fun fetchGameClip() {
