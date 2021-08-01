@@ -10,18 +10,18 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.databinding.FavoriteItemBinding
 import com.example.twitchapp.model.data.clipdata.Clip
-import javax.inject.Inject
 
 
-class FavoriteAdapter(private val context: Context) :
-    ListAdapter<Clip,FavoriteAdapter.FavoriteHolder>(ClipComparator()) {
+class MyProfileAdapter(private val context: Context) :
+    ListAdapter<Clip, MyProfileAdapter.FavoriteHolder>(ClipComparator()) {
 
     private lateinit var thumbnailListener: ShowFavoClip
     private lateinit var deleteBtnListener: DeleteItem
 
-    inner class FavoriteHolder(private val binding: FavoriteItemBinding): RecyclerView.ViewHolder(binding.root) {
+    inner class FavoriteHolder(private val binding: FavoriteItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(clip: Clip){
+        fun bind(clip: Clip) {
             binding.apply {
                 gamename.text = clip.game
                 username.text = clip.curator.name
@@ -47,13 +47,14 @@ class FavoriteAdapter(private val context: Context) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteHolder {
-        val binding = FavoriteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            FavoriteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FavoriteHolder(binding)
     }
 
     override fun onBindViewHolder(holder: FavoriteHolder, position: Int) {
         val currentItem = getItem(position)
-        if(currentItem != null){
+        if (currentItem != null) {
             holder.bind(currentItem)
         }
     }

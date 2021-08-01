@@ -19,8 +19,8 @@
 
     <custom_fragment
         android:id="@+id/favorite"
-        android:name="com.example.twitchapp.ui.fragments.FavoriteFragment"
+        android:name="com.example.twitchapp.ui.fragments.MyProfileFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_my_fragment" />
 
 </navigation>

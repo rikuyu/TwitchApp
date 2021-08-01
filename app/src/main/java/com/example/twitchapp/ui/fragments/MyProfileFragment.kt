@@ -13,8 +13,8 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
-import com.example.twitchapp.adapter.FavoriteAdapter
-import com.example.twitchapp.databinding.FragmentFavoriteBinding
+import com.example.twitchapp.adapter.MyProfileAdapter
+import com.example.twitchapp.databinding.FragmentMyFragmentBinding
 import com.example.twitchapp.model.data.ProfileDialog
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.EditCustomDialog
@@ -23,17 +23,17 @@ import com.example.twitchapp.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
+class MyProfileFragment : Fragment(R.layout.fragment_my_fragment) {
 
     private lateinit var mainViewModel: MainViewModel
 
-    private lateinit var favoriteAdapter: FavoriteAdapter
+    private lateinit var myProfileAdapter: MyProfileAdapter
 
     private var profileImageUri: String? = null
     private var profileName: String? = null
     lateinit var dataStore: SharedPreferences
 
-    private var _binding: FragmentFavoriteBinding? = null
+    private var _binding: FragmentMyFragmentBinding? = null
     private val binding
         get() = _binding!!
 
@@ -41,7 +41,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
+        _binding = FragmentMyFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -56,7 +56,7 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
 
         mainViewModel.favoriteClips.observe(viewLifecycleOwner, Observer { favoriteList ->
 
-            favoriteAdapter.submitList(favoriteList)
+            myProfileAdapter.submitList(favoriteList)
             binding.numLikes.text = "Likes ${favoriteList.size}"
 
             if (favoriteList.isEmpty()) {
@@ -65,8 +65,8 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                 binding.emptyMag.visibility = View.GONE
             }
 
-            favoriteAdapter.setOnThumbnailClickListener(object :
-                FavoriteAdapter.ShowFavoClip {
+            myProfileAdapter.setOnThumbnailClickListener(object :
+                MyProfileAdapter.ShowFavoClip {
                 override fun showFavoClip(url: String) {
                     val uri = Uri.parse(url)
                     val intent = Intent(Intent.ACTION_VIEW, uri)
@@ -74,11 +74,11 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
                 }
             })
 
-            favoriteAdapter.setOnDeleteBtnClickListener(object :
-                FavoriteAdapter.DeleteItem {
+            myProfileAdapter.setOnDeleteBtnClickListener(object :
+                MyProfileAdapter.DeleteItem {
                 override fun deleteItem(clip: Clip) {
                     mainViewModel.deleteClip(clip)
-                    favoriteAdapter.submitList(favoriteList)
+                    myProfileAdapter.submitList(favoriteList)
                 }
             }
             )
@@ -94,26 +94,26 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
     }
 
     private fun setupRecyclerView() {
-        favoriteAdapter = FavoriteAdapter(requireContext())
+        myProfileAdapter = MyProfileAdapter(requireContext())
         binding.favoriteRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.favoriteRecyclerView.adapter = favoriteAdapter
+        binding.favoriteRecyclerView.adapter = myProfileAdapter
     }
 
-    private fun loadProfileData(){
+    private fun loadProfileData() {
         dataStore = this.requireActivity().getSharedPreferences("DataStore", Context.MODE_PRIVATE)
         profileName = dataStore.getString("PROFILE_NAME", null)
         profileImageUri = dataStore.getString("PROFILE_IMAGE_URI", null)
 
-        profileName?.let{
+        profileName?.let {
             binding.myName.text = profileName
         }
-        profileImageUri?.let{
+        profileImageUri?.let {
             binding.avatarImg.setImageURI(Uri.parse(profileImageUri))
         }
     }
 
-    private fun receiveDialogData(){
+    private fun receiveDialogData() {
         childFragmentManager.setFragmentResultListener("KEY_CLICKED", this) { key, bundle ->
             val newProfile = bundle.getParcelable<ProfileDialog>("NEW_PROFILE_KEY")
 
@@ -122,14 +122,14 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
             binding.avatarImg.setImageURI(null)
             binding.avatarImg.setImageURI(Uri.parse(profileImageUri))
 
-            dataStore.edit().apply{
+            dataStore.edit().apply {
                 putString("PROFILE_NAME", newProfile.name)
                 putString("PROFILE_IMAGE_URI", newProfile.avatarImageUri)
             }.apply()
         }
     }
 
-    private fun showEditProfileDialog(){
+    private fun showEditProfileDialog() {
         binding.btnEdit.setOnClickListener {
             EditCustomDialog
                 .Builder(this)

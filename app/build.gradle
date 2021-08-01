@@ -2,10 +2,9 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
 }
-
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
@@ -22,6 +21,14 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "CLIENT_ID", "\"${project.property("twitch_client_id")}\""
+
+        // exportSchema = true にして以下を記述すると、app/schemaにjsonファイルを作成してくれる
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation":"$projectDir/schemas".toString()]
+                // app/schemas/${databaseクラスのFQDN}/$schemaVersion.json が生成されるようになる
+            }
+        }
     }
 
     buildTypes {
@@ -75,6 +82,8 @@ dependencies {
     implementation "androidx.room:room-runtime:2.3.0"
     kapt "androidx.room:room-compiler:2.3.0"
 
+    androidTestImplementation "android.arch.persistence.room:testing"
+
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.3.0"
 
@@ -106,7 +115,7 @@ dependencies {
     // CircleImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
-    //Dagger-Hilt
+    // Dagger-Hilt
     implementation "com.google.dagger:hilt-android:2.33-beta"
     kapt "com.google.dagger:hilt-android-compiler:2.33-beta"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
