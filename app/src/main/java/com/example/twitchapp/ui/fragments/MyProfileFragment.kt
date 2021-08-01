@@ -100,20 +100,20 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_fragment) {
         binding.favoriteRecyclerView.adapter = myProfileAdapter
     }
 
-    private fun loadProfileData(){
+    private fun loadProfileData() {
         dataStore = this.requireActivity().getSharedPreferences("DataStore", Context.MODE_PRIVATE)
         profileName = dataStore.getString("PROFILE_NAME", null)
         profileImageUri = dataStore.getString("PROFILE_IMAGE_URI", null)
 
-        profileName?.let{
+        profileName?.let {
             binding.myName.text = profileName
         }
-        profileImageUri?.let{
+        profileImageUri?.let {
             binding.avatarImg.setImageURI(Uri.parse(profileImageUri))
         }
     }
 
-    private fun receiveDialogData(){
+    private fun receiveDialogData() {
         childFragmentManager.setFragmentResultListener("KEY_CLICKED", this) { key, bundle ->
             val newProfile = bundle.getParcelable<ProfileDialog>("NEW_PROFILE_KEY")
 
@@ -122,14 +122,14 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_fragment) {
             binding.avatarImg.setImageURI(null)
             binding.avatarImg.setImageURI(Uri.parse(profileImageUri))
 
-            dataStore.edit().apply{
+            dataStore.edit().apply {
                 putString("PROFILE_NAME", newProfile.name)
                 putString("PROFILE_IMAGE_URI", newProfile.avatarImageUri)
             }.apply()
         }
     }
 
-    private fun showEditProfileDialog(){
+    private fun showEditProfileDialog() {
         binding.btnEdit.setOnClickListener {
             EditCustomDialog
                 .Builder(this)

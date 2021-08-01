@@ -46,6 +46,13 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
 
         mainViewModel = (activity as MainActivity).mainViewModel
 
+//        mainViewModel.deletedItem.observe(viewLifecycleOwner, { deletedItem ->
+//            val deletedItemInList = clipList?.singleOrNull{ it == deletedItem }
+//            deletedItemInList?.let { clip ->
+//
+//            }
+//        })
+
         mainViewModel.clips.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {

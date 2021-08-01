@@ -8,6 +8,7 @@ import android.net.NetworkCapabilities.*
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.twitchapp.TwitchApplication
@@ -28,9 +29,17 @@ class MainViewModel @Inject constructor (
     private val repository: TwitchRepository,
 ) : AndroidViewModel(app) {
 
-    val streams: MutableLiveData<Resource<Streams>> = MutableLiveData()
-    val clips: MutableLiveData<Resource<ClipResponse>> = MutableLiveData()
-    val favoriteClips: MutableLiveData<List<Clip>> = MutableLiveData()
+    private val _streams: MutableLiveData<Resource<Streams>> = MutableLiveData()
+    val streams: LiveData<Resource<Streams>> = _streams
+
+    private val _clips: MutableLiveData<Resource<ClipResponse>> = MutableLiveData()
+    val clips: LiveData<Resource<ClipResponse>> = _clips
+
+    private val _favoriteClips: MutableLiveData<List<Clip>> = MutableLiveData()
+    val favoriteClips: LiveData<List<Clip>> = _favoriteClips
+
+    private val _deletedItem: MutableLiveData<Clip> = MutableLiveData()
+    val deletedItem: LiveData<Clip> = _deletedItem
 
     init {
         fetchStream("PUBG Mobile")
@@ -41,53 +50,53 @@ class MainViewModel @Inject constructor (
     // viewModelScopeはメインスレッド上で実行されるため、postValueではなく、setValue
     fun fetchStream(gameTitle: String) {
         viewModelScope.launch {
-            streams.setValue(Resource.Loading())
+            _streams.setValue(Resource.Loading())
             safeFetchStreamCall(gameTitle)
         }
     }
 
     fun fetchClip(gameTitle: String) {
         viewModelScope.launch {
-            clips.setValue(Resource.Loading())
+            _clips.setValue(Resource.Loading())
             safeFetchClipCall(gameTitle)
         }
     }
 
     private suspend fun safeFetchStreamCall(gameTitle: String) {
-        streams.setValue(Resource.Loading())
+        _streams.setValue(Resource.Loading())
         try {
             if (hasInternetConnection()) {
                 val response = repository.fetchStream(gameTitle)
-                streams.setValue(handleResponseState(response))
+                _streams.setValue(handleResponseState(response))
             } else {
-                streams.setValue(Resource.Error("インターネットに接続してください"))
+                _streams.setValue(Resource.Error("インターネットに接続してください"))
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> streams.setValue(Resource.Error(t.message))
+                is IOException -> _streams.setValue(Resource.Error(t.message))
                 else -> {
                     Log.d("safeFetchStreamCall", t.message!!)
-                    streams.setValue(Resource.Error("内部エラー"))
+                    _streams.setValue(Resource.Error("内部エラー"))
                 }
             }
         }
     }
 
     private suspend fun safeFetchClipCall(gameTitle: String) {
-        clips.setValue(Resource.Loading())
+        _clips.setValue(Resource.Loading())
         try {
             if (hasInternetConnection()) {
                 val response = repository.fetchClip(gameTitle)
-                clips.setValue(handleResponseState(response))
+                _clips.setValue(handleResponseState(response))
             } else {
-                clips.setValue(Resource.Error("インターネットに接続してください"))
+                _clips.setValue(Resource.Error("インターネットに接続してください"))
             }
         } catch (t: Throwable) {
             when (t) {
-                is IOException -> clips.setValue(Resource.Error(t.message))
+                is IOException -> _clips.setValue(Resource.Error(t.message))
                 else -> {
                     Log.d("safeFetchStreamCall", t.message!!)
-                    clips.setValue(Resource.Error("内部エラー"))
+                    _clips.setValue(Resource.Error("内部エラー"))
                 }
             }
         }
@@ -105,20 +114,21 @@ class MainViewModel @Inject constructor (
     fun insertGetClip(clip: Clip) {
         viewModelScope.launch {
             repository.insertClip(clip)
-            favoriteClips.value = repository.getFavoriteClips()
+            _favoriteClips.value = repository.getFavoriteClips()
         }
     }
     // 上下のメソッドにそのままgetFavoriteClipsを呼び出してもよいのか不明
     fun deleteClip(clip: Clip) {
         viewModelScope.launch {
             repository.deleteClip(clip)
-            favoriteClips.value = repository.getFavoriteClips()
+            _favoriteClips.value = repository.getFavoriteClips()
+            _deletedItem.value = clip
         }
     }
 
     fun getFavoriteClips() {
         viewModelScope.launch {
-            favoriteClips.value = repository.getFavoriteClips()
+            _favoriteClips.value = repository.getFavoriteClips()
         }
     }
 
