@@ -50,20 +50,20 @@ class MainViewModel @Inject constructor (
     // viewModelScopeはメインスレッド上で実行されるため、postValueではなく、setValue
     fun fetchStream(gameTitle: String) {
         viewModelScope.launch {
-            _streams.setValue(Resource.Loading())
+            _streams.value = Resource.Loading()
             safeFetchStreamCall(gameTitle)
         }
     }
 
     fun fetchClip(gameTitle: String) {
         viewModelScope.launch {
-            _clips.setValue(Resource.Loading())
+            _clips.value = Resource.Loading()
             safeFetchClipCall(gameTitle)
         }
     }
 
     private suspend fun safeFetchStreamCall(gameTitle: String) {
-        _streams.setValue(Resource.Loading())
+        _streams.value = Resource.Loading()
         try {
             if (hasInternetConnection()) {
                 val response = repository.fetchStream(gameTitle)
@@ -83,7 +83,7 @@ class MainViewModel @Inject constructor (
     }
 
     private suspend fun safeFetchClipCall(gameTitle: String) {
-        _clips.setValue(Resource.Loading())
+        _clips.value = Resource.Loading()
         try {
             if (hasInternetConnection()) {
                 val response = repository.fetchClip(gameTitle)
