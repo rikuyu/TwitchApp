@@ -35,8 +35,8 @@ class Converters {
     }
 
     @TypeConverter
-    fun toThumbnails(name: String): Thumbnails {
-        return Thumbnails(medium = name)
+    fun toThumbnails(medium: String): Thumbnails {
+        return Thumbnails(medium = medium)
     }
 
     @TypeConverter
@@ -45,8 +45,8 @@ class Converters {
     }
 
     @TypeConverter
-    fun toVod(url: String?): Vod {
-        return Vod()
+    fun toVod(id: String?): Vod {
+        return Vod(id = id)
     }
 
 //    companion object {
