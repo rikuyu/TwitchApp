@@ -57,7 +57,7 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_fragment) {
         mainViewModel.favoriteClips.observe(viewLifecycleOwner, Observer { favoriteList ->
 
             myProfileAdapter.submitList(favoriteList)
-            binding.numLikes.text = "Likes ${favoriteList.size}"
+            binding.numLikes.text = getString(R.string.number_likes, favoriteList.size)
 
             if (favoriteList.isEmpty()) {
                 binding.emptyMag.visibility = View.VISIBLE

@@ -18,4 +18,8 @@
     <string name="dialog_title">Edit Profile</string>
     <string name="dialog_btn_ok">OK</string>
     <string name="dialog_btn_cancel">Cancel</string>
+
+    <!--いいねの数-->
+    <string name="number_likes">Likes %d</string>
+
 </resources>

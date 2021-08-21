@@ -1,7 +1,6 @@
 package com.example.twitchapp.model.repository
 
 import com.example.twitchapp.db.TwitchDatabase
-import com.example.twitchapp.model.RetrofitInstance
 import com.example.twitchapp.model.api.TwitchApi
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.clipdata.ClipResponse
