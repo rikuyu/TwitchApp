@@ -2,7 +2,6 @@ package com.example.twitchapp.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.twitchapp.db.TwitchDao
 import com.example.twitchapp.db.TwitchDatabase
 import dagger.Module
 import dagger.Provides

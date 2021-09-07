@@ -7,7 +7,7 @@ import com.example.twitchapp.model.data.clipdata.Clip
 
 @Database(entities = [Clip::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
-abstract class TwitchDatabase: RoomDatabase() {
+abstract class TwitchDatabase : RoomDatabase() {
 
     abstract fun twitchDao(): TwitchDao
 
