@@ -5,7 +5,6 @@ import com.example.twitchapp.model.data.clipdata.Broadcaster
 import com.example.twitchapp.model.data.clipdata.Curator
 import com.example.twitchapp.model.data.clipdata.Thumbnails
 import com.example.twitchapp.model.data.clipdata.Vod
-import com.google.gson.Gson
 
 class Converters {
 

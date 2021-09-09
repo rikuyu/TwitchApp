@@ -7,4 +7,4 @@ import kotlinx.android.parcel.Parcelize
 data class ProfileDialog(
     val name: String,
     val avatarImageUri: String
-): Parcelable
+) : Parcelable

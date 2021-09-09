@@ -12,23 +12,23 @@ class TwitchRepository @Inject constructor(
     private val db: TwitchDatabase?,
     private val streamApi: TwitchApi
 ) {
-    suspend fun fetchStream(gameTitle: String): Response<Streams>{
+    suspend fun fetchStream(gameTitle: String): Response<Streams> {
         return streamApi.fetchStream(gameTitle)
     }
 
-    suspend fun fetchClip(gameTitle: String): Response<ClipResponse>{
+    suspend fun fetchClip(gameTitle: String): Response<ClipResponse> {
         return streamApi.fetchClip(gameTitle = gameTitle)
     }
 
-    suspend fun insertClip(clip: Clip){
+    suspend fun insertClip(clip: Clip) {
         db!!.twitchDao().insertClip(clip)
     }
 
-    suspend fun deleteClip(clip: Clip){
+    suspend fun deleteClip(clip: Clip) {
         db!!.twitchDao().deleteClip(clip)
     }
 
-    fun getFavoriteClips(): List<Clip>{
+    fun getFavoriteClips(): List<Clip> {
         return db!!.twitchDao().getAllClips()
     }
 }
