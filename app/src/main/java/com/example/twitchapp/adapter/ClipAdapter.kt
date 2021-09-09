@@ -14,30 +14,20 @@ import com.example.twitchapp.R
 import com.example.twitchapp.model.data.clipdata.Clip
 import javax.inject.Inject
 
-class ClipAdapter (private val context: Context, private val clipList: List<Clip>?) :
+class ClipAdapter(private val context: Context, private val clipList: List<Clip>?) :
     RecyclerView.Adapter<ClipAdapter.ClipHolder>() {
 
     private lateinit var thumbnailListener: ShowClip
     private lateinit var favoIconListener: HandleDatabase
 
     inner class ClipHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var thumbnail: ImageView
-        var username: TextView
-        var viewer: TextView
-        var userProfile: ImageView
-        var lang: TextView
-        var gameName: TextView
-        var favoIcon: ToggleButton
-
-        init {
-            thumbnail = view.findViewById(R.id.thumbnail)
-            username = view.findViewById(R.id.username)
-            viewer = view.findViewById(R.id.viewer)
-            userProfile = view.findViewById(R.id.user_profile)
-            lang = view.findViewById(R.id.lang)
-            gameName = view.findViewById(R.id.gamename)
-            favoIcon = view.findViewById(R.id.heart_icon)
-        }
+        var thumbnail: ImageView = view.findViewById(R.id.thumbnail)
+        var username: TextView = view.findViewById(R.id.username)
+        var viewer: TextView = view.findViewById(R.id.viewer)
+        var userProfile: ImageView = view.findViewById(R.id.user_profile)
+        var lang: TextView = view.findViewById(R.id.lang)
+        var gameName: TextView = view.findViewById(R.id.gamename)
+        var favoIcon: ToggleButton = view.findViewById(R.id.heart_icon)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClipHolder {

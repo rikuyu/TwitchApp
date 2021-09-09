@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import android.view.ViewOutlineProvider
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
@@ -24,7 +26,8 @@ import kotlinx.android.synthetic.main.clip_item.view.*
 
 @AndroidEntryPoint
 class ClipFragment : Fragment(R.layout.fragment_clip) {
-    private lateinit var mainViewModel: MainViewModel
+
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     private lateinit var clipAdapter: ClipAdapter
     private var clipList: List<Clip>? = null
@@ -44,16 +47,7 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainViewModel = (activity as MainActivity).mainViewModel
-
-//        mainViewModel.deletedItem.observe(viewLifecycleOwner, { deletedItem ->
-//            val deletedItemInList = clipList?.singleOrNull{ it == deletedItem }
-//            deletedItemInList?.let { clip ->
-//
-//            }
-//        })
-
-        mainViewModel.clips.observe(viewLifecycleOwner, Observer { response ->
+        mainViewModel.clips.observe(viewLifecycleOwner, { response ->
             when (response) {
                 is Resource.Success -> {
                     hideProgressBar()

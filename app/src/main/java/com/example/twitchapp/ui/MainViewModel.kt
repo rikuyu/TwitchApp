@@ -30,16 +30,13 @@ class MainViewModel @Inject constructor (
 ) : AndroidViewModel(app) {
 
     private val _streams: MutableLiveData<Resource<Streams>> = MutableLiveData()
-    val streams: LiveData<Resource<Streams>> = _streams
+    val streams: LiveData<Resource<Streams>> get() = _streams
 
     private val _clips: MutableLiveData<Resource<ClipResponse>> = MutableLiveData()
-    val clips: LiveData<Resource<ClipResponse>> = _clips
+    val clips: LiveData<Resource<ClipResponse>> get() = _clips
 
     private val _favoriteClips: MutableLiveData<List<Clip>> = MutableLiveData()
-    val favoriteClips: LiveData<List<Clip>> = _favoriteClips
-
-    private val _deletedItem: MutableLiveData<Clip> = MutableLiveData()
-    val deletedItem: LiveData<Clip> = _deletedItem
+    val favoriteClips: LiveData<List<Clip>> get() = _favoriteClips
 
     init {
         fetchStream("PUBG Mobile")
@@ -122,7 +119,6 @@ class MainViewModel @Inject constructor (
         viewModelScope.launch {
             repository.deleteClip(clip)
             _favoriteClips.value = repository.getFavoriteClips()
-            _deletedItem.value = clip
         }
     }
 

@@ -14,27 +14,18 @@ import com.example.twitchapp.model.data.streamdata.Stream
 import javax.inject.Inject
 
 
-class StreamAdapter (private val context: Context, private var streamList: List<Stream>?) :
+class StreamAdapter(private val context: Context, private var streamList: List<Stream>?) :
     RecyclerView.Adapter<StreamAdapter.StreamHolder>() {
 
     private lateinit var listener: OnItemClickListener
 
     inner class StreamHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var thumbnail: ImageView
-        var username: TextView
-        var viewer: TextView
-        var userProfile: ImageView
-        var lang: TextView
-        var gameName: TextView
-
-        init {
-            thumbnail = view.findViewById(R.id.thumbnail)
-            username = view.findViewById(R.id.username)
-            viewer = view.findViewById(R.id.viewer)
-            userProfile = view.findViewById(R.id.user_profile)
-            lang = view.findViewById(R.id.lang)
-            gameName = view.findViewById(R.id.gamename)
-        }
+        var thumbnail: ImageView = view.findViewById(R.id.thumbnail)
+        var username: TextView = view.findViewById(R.id.username)
+        var viewer: TextView = view.findViewById(R.id.viewer)
+        var userProfile: ImageView = view.findViewById(R.id.user_profile)
+        var lang: TextView = view.findViewById(R.id.lang)
+        var gameName: TextView = view.findViewById(R.id.gamename)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamHolder {
