@@ -23,5 +23,8 @@ Android Jetpack の学習を行うため。
 - Fragment の状態が保存されるように CustomNavigator を実装した。
 - 機内モード、Wifi未接続状態などのネットワーク接続状況を確認できるようにした。
 
+## 備考
+Twitch Developer アカウントを作成し、クライアントIDを取得しないとローカルで実行できません。
+
 ## 作者
 [rikuyu](https://github.com/rikuyu)
