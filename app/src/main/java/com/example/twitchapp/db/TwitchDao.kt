@@ -2,6 +2,7 @@ package com.example.twitchapp.db
 
 import androidx.room.*
 import com.example.twitchapp.model.data.clipdata.Clip
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TwitchDao {
@@ -12,5 +13,5 @@ interface TwitchDao {
     suspend fun deleteClip(clip: Clip)
 
     @Query("SELECT * FROM clips")
-    fun getAllClips(): List<Clip>
+    fun getAllClips(): Flow<List<Clip>>
 }
