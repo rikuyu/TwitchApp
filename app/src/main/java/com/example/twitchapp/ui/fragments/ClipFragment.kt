@@ -68,21 +68,12 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
                         clipAdapter.setOnFavoIconClickListener(object :
                             ClipAdapter.HandleDatabase {
                             override fun handleDatabase(clip: Clip) {
-                                if (binding.clipRecyclerView.heart_icon.isChecked) {
-                                    mainViewModel.insertGetClip(clip)
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Gameに保存されました",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                } else {
-                                    mainViewModel.deleteClip(clip)
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Gameから削除されました",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
+                                mainViewModel.insertGetClip(clip)
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Gameに保存されました",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                         }
                         )

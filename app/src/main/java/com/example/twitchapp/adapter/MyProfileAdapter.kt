@@ -39,7 +39,7 @@ class MyProfileAdapter(private val context: Context) :
                     thumbnailListener.showFavoClip(clip.url)
                 }
 
-                btnDelete.setOnClickListener {
+                delete.setOnClickListener {
                     deleteBtnListener.deleteItem(clip)
                 }
             }

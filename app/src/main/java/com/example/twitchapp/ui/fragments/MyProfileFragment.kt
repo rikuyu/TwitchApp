@@ -11,20 +11,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.adapter.MyProfileAdapter
-import com.example.twitchapp.databinding.FragmentMyFragmentBinding
+import com.example.twitchapp.databinding.FragmentMyProfileBinding
 import com.example.twitchapp.model.data.ProfileDialog
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.EditCustomDialog
-import com.example.twitchapp.ui.MainActivity
 import com.example.twitchapp.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MyProfileFragment : Fragment(R.layout.fragment_my_fragment) {
+class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
 
     private val mainViewModel: MainViewModel by activityViewModels()
 
@@ -34,7 +32,7 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_fragment) {
     private var profileName: String? = null
     lateinit var dataStore: SharedPreferences
 
-    private var _binding: FragmentMyFragmentBinding? = null
+    private var _binding: FragmentMyProfileBinding? = null
     private val binding
         get() = _binding!!
 
@@ -42,7 +40,7 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_fragment) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMyFragmentBinding.inflate(inflater, container, false)
+        _binding = FragmentMyProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -60,9 +58,9 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_fragment) {
             binding.numLikes.text = getString(R.string.number_likes, favoriteList.size)
 
             if (favoriteList.isEmpty()) {
-                binding.emptyMag.visibility = View.VISIBLE
+                binding.emptyMsg.visibility = View.VISIBLE
             } else {
-                binding.emptyMag.visibility = View.GONE
+                binding.emptyMsg.visibility = View.GONE
             }
 
             myProfileAdapter.setOnThumbnailClickListener(object :

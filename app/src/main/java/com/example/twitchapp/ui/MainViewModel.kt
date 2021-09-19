@@ -7,10 +7,7 @@ import android.net.ConnectivityManager.*
 import android.net.NetworkCapabilities.*
 import android.os.Build
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.twitchapp.TwitchApplication
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.clipdata.ClipResponse
@@ -35,8 +32,7 @@ class MainViewModel @Inject constructor (
     private val _clips: MutableLiveData<Resource<ClipResponse>> = MutableLiveData()
     val clips: LiveData<Resource<ClipResponse>> get() = _clips
 
-    private val _favoriteClips: MutableLiveData<List<Clip>> = MutableLiveData()
-    val favoriteClips: LiveData<List<Clip>> get() = _favoriteClips
+    val favoriteClips: LiveData<List<Clip>> = repository.getFavoriteClips().asLiveData()
 
     init {
         fetchStream("PUBG Mobile")
@@ -111,20 +107,17 @@ class MainViewModel @Inject constructor (
     fun insertGetClip(clip: Clip) {
         viewModelScope.launch {
             repository.insertClip(clip)
-            _favoriteClips.value = repository.getFavoriteClips()
         }
     }
-    // 上下のメソッドにそのままgetFavoriteClipsを呼び出してもよいのか不明
+
     fun deleteClip(clip: Clip) {
         viewModelScope.launch {
             repository.deleteClip(clip)
-            _favoriteClips.value = repository.getFavoriteClips()
         }
     }
 
     fun getFavoriteClips() {
         viewModelScope.launch {
-            _favoriteClips.value = repository.getFavoriteClips()
         }
     }
 

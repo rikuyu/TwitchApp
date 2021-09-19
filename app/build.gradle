@@ -66,6 +66,9 @@ dependencies {
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.2.1"
     androidTestImplementation "androidx.arch.core:core-testing:2.1.0"
 
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
+
     // Retrofit
     def retrofit_version = "2.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"

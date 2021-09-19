@@ -7,33 +7,24 @@
     android:background="@color/black"
     tools:context=".ui.MainActivity">
 
-    <FrameLayout
-        android:id="@+id/fragment_conteiner"
-        android:layout_width="wrap_content"
+    <fragment
+        android:id="@+id/twichNavHostFragment"
+        android:name="com.example.twitchapp.util.CustomNavHostFragment"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_line"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <fragment
-            android:id="@+id/twichNavHostFragment"
-            android:name="com.example.twitchapp.util.CustomNavHostFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:defaultNavHost="true"
-            app:navGraph="@navigation/twitch_nav_graph" />
-
-    </FrameLayout>
+        app:defaultNavHost="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/twitch_nav_graph" />
 
     <View
         android:id="@+id/bottom_line"
         android:layout_width="fill_parent"
         android:layout_height="2dp"
         android:background="@color/theme"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_conteiner"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
@@ -43,9 +34,8 @@
         app:itemIconSize="28dp"
         app:itemIconTint="@drawable/bottom_nav_item_color"
         app:itemTextColor="@drawable/bottom_nav_item_color"
-        app:layout_constraintTop_toBottomOf="@+id/bottom_line"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
