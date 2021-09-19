@@ -1,28 +1,22 @@
 package com.example.twitchapp.ui.fragments
 
 import android.content.Intent
-import android.graphics.Outline
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewOutlineProvider
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.adapter.ClipAdapter
 import com.example.twitchapp.databinding.FragmentClipBinding
 import com.example.twitchapp.model.data.clipdata.Clip
-import com.example.twitchapp.ui.MainActivity
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.clip_item.view.*
 
 @AndroidEntryPoint
 class ClipFragment : Fragment(R.layout.fragment_clip) {
