@@ -14,8 +14,8 @@ class Converters {
     }
 
     @TypeConverter
-    fun toBroadcaster(name: String): Broadcaster {
-        return Broadcaster(name = name)
+    fun toBroadcaster(url: String): Broadcaster {
+        return Broadcaster(channel_url = url)
     }
 
     @TypeConverter

@@ -16,8 +16,9 @@ import com.example.twitchapp.model.data.clipdata.Clip
 class ClipAdapter(private val context: Context, private val clipList: List<Clip>?) :
     RecyclerView.Adapter<ClipAdapter.ClipHolder>() {
 
-    private lateinit var thumbnailListener: ShowClip
-    private lateinit var favoIconListener: HandleDatabase
+    private lateinit var thumbnailListener: OnItemClickListener
+    private lateinit var userProfileListener: OnItemClickListener
+    private lateinit var favoIconListener: OnItemClickListener
 
     inner class ClipHolder(view: View) : RecyclerView.ViewHolder(view) {
         var thumbnail: ImageView = view.findViewById(R.id.thumbnail)
@@ -54,8 +55,12 @@ class ClipAdapter(private val context: Context, private val clipList: List<Clip>
             thumbnailListener.showClip(clipList[position].url)
         }
 
+        holder.userProfile.setOnClickListener {
+            userProfileListener.showProfile(clipList[position].broadcaster.channel_url)
+        }
+
         holder.favoIcon.setOnClickListener {
-            favoIconListener.handleDatabase(clipList[position])
+            favoIconListener.addClip(clipList[position])
         }
     }
 
@@ -63,19 +68,15 @@ class ClipAdapter(private val context: Context, private val clipList: List<Clip>
         return clipList!!.size
     }
 
-    interface ShowClip {
+    interface OnItemClickListener {
         fun showClip(url: String)
+        fun showProfile(url: String)
+        fun addClip(clip: Clip)
     }
 
-    fun setOnThumbnailClickListener(listener: ShowClip) {
+    fun setOnThumbnailClickListener(listener: OnItemClickListener) {
         this.thumbnailListener = listener
-    }
-
-    interface HandleDatabase {
-        fun handleDatabase(clip: Clip)
-    }
-
-    fun setOnFavoIconClickListener(listener: HandleDatabase) {
+        this.userProfileListener = listener
         this.favoIconListener = listener
     }
 }

@@ -1,17 +1,14 @@
 package com.example.twitchapp.ui
 
 import android.os.Bundle
-import androidx.activity.viewModels
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.ActivityMainBinding
-import com.example.twitchapp.db.TwitchDatabase
-import com.example.twitchapp.model.api.TwitchApi
-import com.example.twitchapp.model.repository.TwitchRepository
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -31,5 +28,22 @@ class MainActivity : AppCompatActivity() {
                 )
             )
         }
+
+        findNavController(R.id.twichNavHostFragment).addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.twitchPageFragment -> hideBottomNav()
+                else -> showBottomNav()
+            }
+        }
+    }
+
+    private fun showBottomNav() {
+        binding.bottomNav.visibility = View.VISIBLE
+        binding.bottomLine.visibility = View.VISIBLE
+    }
+
+    private fun hideBottomNav() {
+        binding.bottomNav.visibility = View.INVISIBLE
+        binding.bottomLine.visibility = View.INVISIBLE
     }
 }

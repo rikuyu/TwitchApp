@@ -47,7 +47,7 @@ class StreamAdapter(private val context: Context, private var streamList: List<S
         holder.gameName.text = streamList!![position].game
 
         holder.thumbnail.setOnClickListener {
-            listener.onItemClickListener(streamList!![position].channel.url)
+            listener.onThumbnailClickListener(streamList!![position].channel.url)
         }
     }
 
@@ -56,7 +56,7 @@ class StreamAdapter(private val context: Context, private var streamList: List<S
     }
 
     interface OnItemClickListener {
-        fun onItemClickListener(url: String)
+        fun onThumbnailClickListener(url: String)
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {

@@ -1,7 +1,5 @@
 package com.example.twitchapp.ui.fragments
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.adapter.ClipAdapter
@@ -51,17 +50,22 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
                         binding.clipRecyclerView.adapter = clipAdapter
 
                         clipAdapter.setOnThumbnailClickListener(object :
-                            ClipAdapter.ShowClip {
+                            ClipAdapter.OnItemClickListener {
                             override fun showClip(url: String) {
-                                val uri = Uri.parse(url)
-                                val intent = Intent(Intent.ACTION_VIEW, uri)
-                                startActivity(intent)
+                                findNavController().navigate(
+                                    ClipFragmentDirections
+                                        .actionClipToTwitchPageFragment(url)
+                                )
                             }
-                        })
 
-                        clipAdapter.setOnFavoIconClickListener(object :
-                            ClipAdapter.HandleDatabase {
-                            override fun handleDatabase(clip: Clip) {
+                            override fun showProfile(url: String) {
+                                findNavController().navigate(
+                                    ClipFragmentDirections
+                                        .actionClipToTwitchPageFragment(url)
+                                )
+                            }
+
+                            override fun addClip(clip: Clip) {
                                 mainViewModel.insertGetClip(clip)
                                 Toast.makeText(
                                     requireContext(),
@@ -69,8 +73,7 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
-                        }
-                        )
+                        })
                     }
                 }
                 is Resource.Error -> {
