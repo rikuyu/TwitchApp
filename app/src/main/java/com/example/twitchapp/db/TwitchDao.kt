@@ -1,6 +1,10 @@
 package com.example.twitchapp.db
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.OnConflictStrategy
 import com.example.twitchapp.model.data.clipdata.Clip
 import kotlinx.coroutines.flow.Flow
 

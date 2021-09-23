@@ -1,10 +1,14 @@
 package com.example.twitchapp.ui
 
 import android.app.Application
-import android.content.Context.*
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.net.ConnectivityManager
-import android.net.ConnectivityManager.*
-import android.net.NetworkCapabilities.*
+import android.net.ConnectivityManager.TYPE_ETHERNET
+import android.net.ConnectivityManager.TYPE_WIFI
+import android.net.ConnectivityManager.TYPE_MOBILE
+import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
+import android.net.NetworkCapabilities.TRANSPORT_WIFI
+import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.*
@@ -21,9 +25,9 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor (
+class MainViewModel @Inject constructor(
     app: Application,
-    private val repository: TwitchRepository,
+    private val repository: TwitchRepository
 ) : AndroidViewModel(app) {
 
     private val _streams: MutableLiveData<Resource<Streams>> = MutableLiveData()
@@ -150,9 +154,7 @@ class MainViewModel @Inject constructor (
         } else {
             connectivityManager.activeNetworkInfo?.run {
                 return when (type) {
-                    TYPE_WIFI -> true
-                    TYPE_MOBILE -> true
-                    TYPE_ETHERNET -> true
+                    TYPE_WIFI, TYPE_MOBILE, TYPE_ETHERNET -> true
                     else -> false
                 }
             }

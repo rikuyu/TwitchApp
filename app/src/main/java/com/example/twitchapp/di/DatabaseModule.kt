@@ -10,15 +10,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-//    @Provides
-//    @Singleton
-//    fun provideTwitchDao(twitchDatabase: TwitchDatabase): TwitchDao {
-//        return twitchDatabase.twitchDao()
-//    }
 
     @Provides
     @Singleton

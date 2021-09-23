@@ -11,7 +11,6 @@ import android.webkit.WebViewClient
 import androidx.navigation.fragment.navArgs
 import com.example.twitchapp.databinding.FragmentTwitchPageBinding
 
-
 class TwitchPageFragment : Fragment() {
 
     private val args: TwitchPageFragmentArgs by navArgs()
@@ -21,7 +20,8 @@ class TwitchPageFragment : Fragment() {
         get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentTwitchPageBinding.inflate(inflater, container, false)

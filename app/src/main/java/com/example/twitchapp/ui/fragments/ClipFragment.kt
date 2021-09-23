@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.twitchapp.R
 import com.example.twitchapp.adapter.ClipAdapter
 import com.example.twitchapp.databinding.FragmentClipBinding
 import com.example.twitchapp.model.data.clipdata.Clip
@@ -18,7 +17,7 @@ import com.example.twitchapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ClipFragment : Fragment(R.layout.fragment_clip) {
+class ClipFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
 
@@ -30,7 +29,8 @@ class ClipFragment : Fragment(R.layout.fragment_clip) {
         get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentClipBinding.inflate(inflater, container, false)

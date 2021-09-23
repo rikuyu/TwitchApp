@@ -10,5 +10,4 @@ import com.example.twitchapp.model.data.clipdata.Clip
 abstract class TwitchDatabase : RoomDatabase() {
 
     abstract fun twitchDao(): TwitchDao
-
 }

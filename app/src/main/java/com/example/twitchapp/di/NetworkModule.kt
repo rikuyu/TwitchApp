@@ -11,11 +11,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-    private val BASE_URL = "https://api.twitch.tv/kraken/"
+    private const val BASE_URL = "https://api.twitch.tv/kraken/"
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
     @Singleton

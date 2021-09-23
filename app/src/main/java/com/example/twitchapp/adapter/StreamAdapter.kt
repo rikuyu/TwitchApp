@@ -12,7 +12,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.R
 import com.example.twitchapp.model.data.streamdata.Stream
 
-
 class StreamAdapter(private val context: Context, private var streamList: List<Stream>?) :
     RecyclerView.Adapter<StreamAdapter.StreamHolder>() {
 

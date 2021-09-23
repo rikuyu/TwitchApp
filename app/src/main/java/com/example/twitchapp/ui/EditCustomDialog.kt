@@ -132,7 +132,8 @@ class EditCustomDialog : DialogFragment() {
 
     // いったんCustomDialogに画像を適用する
     override fun onActivityResult(
-        requestCode: Int, resultCode: Int,
+        requestCode: Int,
+        resultCode: Int,
         resultData: Intent?
     ) {
         if (requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK) {

@@ -31,7 +31,8 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
         get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentStreamBinding.inflate(inflater, container, false)
@@ -87,7 +88,7 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
         binding.swipeRefresh.setOnRefreshListener {
             mainViewModel.fetchStream(currentGameTitle)
             if (binding.swipeRefresh.isRefreshing) {
-                binding.swipeRefresh.isRefreshing = false;
+                binding.swipeRefresh.isRefreshing = false
                 Log.d("Stream", "更新終了")
             }
         }
