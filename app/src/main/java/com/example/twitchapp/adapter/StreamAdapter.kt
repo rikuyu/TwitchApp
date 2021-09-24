@@ -6,14 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.R
 import com.example.twitchapp.model.data.streamdata.Stream
 
-class StreamAdapter(private val context: Context, private var streamList: List<Stream>?) :
-    RecyclerView.Adapter<StreamAdapter.StreamHolder>() {
+class StreamAdapter(private val context: Context) :
+    PagingDataAdapter<Stream, StreamAdapter.StreamHolder>(DIFF_CALLBACK) {
 
     private lateinit var listener: OnItemClickListener
 
@@ -32,26 +34,20 @@ class StreamAdapter(private val context: Context, private var streamList: List<S
     }
 
     override fun onBindViewHolder(holder: StreamHolder, position: Int) {
-        holder.username.text = streamList!![position].channel.name
-        holder.viewer.text = "${streamList!![position].viewers}"
+        val stream = getItem(position)
 
-        Glide.with(context).load(streamList!![position].preview.large)
+        holder.username.text = stream!!.channel.name
+        holder.viewer.text = "${stream.viewers}"
+        Glide.with(context).load(stream.preview.large)
             .into(holder.thumbnail)
-
-        Glide.with(context).load(streamList!![position].channel.logo)
+        Glide.with(context).load(stream.channel.logo)
             .apply(RequestOptions.circleCropTransform())
             .into(holder.userProfile)
-
-        holder.lang.text = streamList!![position].channel.language
-        holder.gameName.text = streamList!![position].game
-
+        holder.lang.text = stream.channel.language
+        holder.gameName.text = stream.game
         holder.thumbnail.setOnClickListener {
-            listener.onThumbnailClickListener(streamList!![position].channel.url)
+            listener.onThumbnailClickListener(stream.channel.url)
         }
-    }
-
-    override fun getItemCount(): Int {
-        return streamList!!.size
     }
 
     interface OnItemClickListener {
@@ -60,5 +56,15 @@ class StreamAdapter(private val context: Context, private var streamList: List<S
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener
+    }
+
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Stream>() {
+            override fun areItemsTheSame(oldItem: Stream, newItem: Stream) =
+                oldItem._id == newItem._id
+
+            override fun areContentsTheSame(oldItem: Stream, newItem: Stream) =
+                oldItem == newItem
+        }
     }
 }

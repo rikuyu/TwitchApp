@@ -16,6 +16,7 @@ import javax.inject.Singleton
 object NetworkModule {
     private const val BASE_URL = "https://api.twitch.tv/kraken/"
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+    const val PAGE_SIZE = 7
 
     @Singleton
     @Provides

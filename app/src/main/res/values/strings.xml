@@ -9,6 +9,7 @@
     <string name="clip_fragment_title">Popular Clips</string>
     <string name="nothing_favo">いいねがありません</string>
     <string name="no_name">No Name</string>
+    <string name="paging_error_text">読み込めませんでした</string>
 
     <!--メニューバー-->
     <string name="menu_stream_title">Live</string>

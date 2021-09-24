@@ -12,12 +12,16 @@ import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.*
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.cachedIn
 import com.example.twitchapp.TwitchApplication
+import com.example.twitchapp.di.NetworkModule.PAGE_SIZE
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.clipdata.ClipResponse
-import com.example.twitchapp.model.data.streamdata.Streams
 import com.example.twitchapp.model.repository.TwitchRepository
 import com.example.twitchapp.util.Resource
+import com.example.twitchapp.util.StreamPagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -30,52 +34,26 @@ class MainViewModel @Inject constructor(
     private val repository: TwitchRepository
 ) : AndroidViewModel(app) {
 
-    private val _streams: MutableLiveData<Resource<Streams>> = MutableLiveData()
-    val streams: LiveData<Resource<Streams>> get() = _streams
-
     private val _clips: MutableLiveData<Resource<ClipResponse>> = MutableLiveData()
     val clips: LiveData<Resource<ClipResponse>> get() = _clips
 
     val favoriteClips: LiveData<List<Clip>> = repository.getFavoriteClips().asLiveData()
 
     init {
-        fetchStream("PUBG Mobile")
         fetchClip("PUBG Mobile")
         getFavoriteClips()
     }
 
-    // viewModelScopeはメインスレッド上で実行されるため、postValueではなく、setValue
-    fun fetchStream(gameTitle: String) {
-        viewModelScope.launch {
-            _streams.value = Resource.Loading()
-            safeFetchStreamCall(gameTitle)
-        }
-    }
+    val streamFlow = Pager(
+        PagingConfig(pageSize = PAGE_SIZE, initialLoadSize = PAGE_SIZE)
+    ) {
+        StreamPagingSource(repository)
+    }.flow.cachedIn(viewModelScope)
 
     fun fetchClip(gameTitle: String) {
         viewModelScope.launch {
             _clips.value = Resource.Loading()
             safeFetchClipCall(gameTitle)
-        }
-    }
-
-    private suspend fun safeFetchStreamCall(gameTitle: String) {
-        _streams.value = Resource.Loading()
-        try {
-            if (hasInternetConnection()) {
-                val response = repository.fetchStream(gameTitle)
-                _streams.setValue(handleResponseState(response))
-            } else {
-                _streams.setValue(Resource.Error("インターネットに接続してください"))
-            }
-        } catch (t: Throwable) {
-            when (t) {
-                is IOException -> _streams.setValue(Resource.Error(t.message))
-                else -> {
-                    Log.d("safeFetchStreamCall", t.message!!)
-                    _streams.setValue(Resource.Error("内部エラー"))
-                }
-            }
         }
     }
 

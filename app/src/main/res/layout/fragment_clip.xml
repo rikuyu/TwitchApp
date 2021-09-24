@@ -12,7 +12,7 @@
         android:layout_height="2dp"
         android:background="@color/theme"
         app:layout_constraintBottom_toTopOf="@+id/menu_game"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <HorizontalScrollView
@@ -20,7 +20,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/medium_line"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/top_line">
 
         <LinearLayout
@@ -174,30 +174,39 @@
         android:layout_width="fill_parent"
         android:layout_height="2dp"
         android:layout_marginTop="6dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:background="@color/theme"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/menu_game" />
 
     <TextView
         android:id="@+id/clip_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:text="@string/clip_fragment_title"
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="italic"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/medium_line" />
+
+    <View
+        android:id="@+id/title_bottom_line"
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/theme"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clip_title" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/clip_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clip_title" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_bottom_line" />
 
     <ProgressBar
         android:id="@+id/progressbar"
@@ -208,8 +217,8 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clip_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
