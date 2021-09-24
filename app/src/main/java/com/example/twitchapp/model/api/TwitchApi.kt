@@ -19,7 +19,10 @@ interface TwitchApi {
         "Client-ID: $CLIENT_ID"
     )
     @GET("streams")
-    suspend fun fetchStream(@Query("game") gameTitle: String): Response<Streams>
+    suspend fun fetchStream(
+        @Query("limit") pageSize: Int,
+        @Query("offset") page: Int
+    ): Response<Streams>
 
     @Headers(
         "Accept: application/vnd.twitchtv.v5+json",

@@ -1,6 +1,7 @@
 package com.example.twitchapp.model.repository
 
 import com.example.twitchapp.db.TwitchDatabase
+import com.example.twitchapp.di.NetworkModule.PAGE_SIZE
 import com.example.twitchapp.model.api.TwitchApi
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.clipdata.ClipResponse
@@ -13,8 +14,8 @@ class TwitchRepository @Inject constructor(
     private val db: TwitchDatabase?,
     private val streamApi: TwitchApi
 ) {
-    suspend fun fetchStream(gameTitle: String): Response<Streams> {
-        return streamApi.fetchStream(gameTitle)
+    suspend fun fetchStreamPaging(page: Int): Response<Streams> {
+        return streamApi.fetchStream(PAGE_SIZE, page)
     }
 
     suspend fun fetchClip(gameTitle: String): Response<ClipResponse> {
