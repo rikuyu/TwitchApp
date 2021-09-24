@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.ui.MainViewModel
@@ -44,9 +46,39 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
         binding.streamRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
+        streamAdapter.setOnItemClickListener(
+            object : StreamAdapter.OnItemClickListener {
+                override fun onThumbnailClickListener(url: String) {
+                    findNavController().navigate(
+                        StreamFragmentDirections
+                            .actionStreamToTwitchPageFragment(url)
+                    )
+                }
+            }
+        )
+
         lifecycleScope.launch {
             mainViewModel.streamFlow.collectLatest {
                 streamAdapter.submitData(it)
+            }
+        }
+
+        lifecycleScope.launch {
+            streamAdapter.loadStateFlow.collectLatest { state ->
+                when (state.refresh) {
+                    is LoadState.Loading -> {
+                        binding.progressbar.visibility = View.VISIBLE
+                        binding.pagingErrorMsg.visibility = View.INVISIBLE
+                    }
+                    is LoadState.Error -> {
+                        binding.progressbar.visibility = View.INVISIBLE
+                        binding.pagingErrorMsg.visibility = View.VISIBLE
+                    }
+                    is LoadState.NotLoading -> {
+                        binding.progressbar.visibility = View.INVISIBLE
+                        binding.pagingErrorMsg.visibility = View.INVISIBLE
+                    }
+                }
             }
         }
     }

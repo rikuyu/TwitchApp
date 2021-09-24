@@ -19,7 +19,6 @@ import com.example.twitchapp.TwitchApplication
 import com.example.twitchapp.di.NetworkModule.PAGE_SIZE
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.clipdata.ClipResponse
-import com.example.twitchapp.model.data.streamdata.Streams
 import com.example.twitchapp.model.repository.TwitchRepository
 import com.example.twitchapp.util.Resource
 import com.example.twitchapp.util.StreamPagingSource
@@ -34,9 +33,6 @@ class MainViewModel @Inject constructor(
     app: Application,
     private val repository: TwitchRepository
 ) : AndroidViewModel(app) {
-
-    private val _streams: MutableLiveData<Resource<Streams>> = MutableLiveData()
-    val streams: LiveData<Resource<Streams>> get() = _streams
 
     private val _clips: MutableLiveData<Resource<ClipResponse>> = MutableLiveData()
     val clips: LiveData<Resource<ClipResponse>> get() = _clips

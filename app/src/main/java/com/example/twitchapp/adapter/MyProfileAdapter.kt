@@ -12,7 +12,7 @@ import com.example.twitchapp.databinding.FavoriteItemBinding
 import com.example.twitchapp.model.data.clipdata.Clip
 
 class MyProfileAdapter(private val context: Context) :
-    ListAdapter<Clip, MyProfileAdapter.FavoriteHolder>(ClipComparator()) {
+    ListAdapter<Clip, MyProfileAdapter.FavoriteHolder>(DIFF_CALLBACK) {
 
     private lateinit var thumbnailListener: ShowFavoClip
     private lateinit var deleteBtnListener: DeleteItem
@@ -74,11 +74,13 @@ class MyProfileAdapter(private val context: Context) :
         this.deleteBtnListener = listener
     }
 
-    class ClipComparator : DiffUtil.ItemCallback<Clip>() {
-        override fun areItemsTheSame(oldItem: Clip, newItem: Clip) =
-            oldItem.broadcaster == newItem.broadcaster
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Clip>() {
+            override fun areItemsTheSame(oldItem: Clip, newItem: Clip) =
+                oldItem.broadcaster == newItem.broadcaster
 
-        override fun areContentsTheSame(oldItem: Clip, newItem: Clip) =
-            oldItem == newItem
+            override fun areContentsTheSame(oldItem: Clip, newItem: Clip) =
+                oldItem == newItem
+        }
     }
 }
