@@ -23,8 +23,8 @@
             android:layout_marginHorizontal="16dp"
             android:src="@drawable/ic_delete"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
@@ -41,7 +41,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:contentDescription="@string/image_desc"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:textColor="@color/white"
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="@id/user_profile"
-            app:layout_constraintLeft_toRightOf="@+id/user_profile"
+            app:layout_constraintStart_toEndOf="@+id/user_profile"
             app:layout_constraintTop_toTopOf="@id/user_profile" />
 
         <ImageView
@@ -63,7 +63,7 @@
             android:contentDescription="@string/image_desc"
             android:src="@drawable/ic_eye"
             app:layout_constraintBottom_toBottomOf="@id/user_profile"
-            app:layout_constraintRight_toLeftOf="@+id/viewer"
+            app:layout_constraintEnd_toStartOf="@+id/viewer"
             app:layout_constraintTop_toTopOf="@id/user_profile" />
 
         <TextView
@@ -75,7 +75,7 @@
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@id/user_profile"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/view_img"
+            app:layout_constraintStart_toEndOf="@+id/view_img"
             app:layout_constraintTop_toTopOf="@id/user_profile" />
 
         <androidx.cardview.widget.CardView
@@ -85,9 +85,9 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             app:cardCornerRadius="5dp"
-            app:layout_constraintBottom_toTopOf="@+id/gamename"
-            app:layout_constraintLeft_toRightOf="@id/user_profile"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/game_name"
+            app:layout_constraintStart_toEndOf="@id/user_profile"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/user_profile">
 
             <ImageView
@@ -104,8 +104,8 @@
             android:contentDescription="@string/image_desc"
             android:src="@drawable/ic_play"
             app:layout_constraintBottom_toBottomOf="@+id/thumbnail_card"
-            app:layout_constraintLeft_toLeftOf="@+id/thumbnail_card"
-            app:layout_constraintRight_toRightOf="@+id/thumbnail_card"
+            app:layout_constraintStart_toStartOf="@+id/thumbnail_card"
+            app:layout_constraintEnd_toEndOf="@+id/thumbnail_card"
             app:layout_constraintTop_toTopOf="@+id/thumbnail_card" />
 
         <ImageView
@@ -115,9 +115,9 @@
             android:layout_marginEnd="6dp"
             android:contentDescription="@string/image_desc"
             android:src="@drawable/ic_language"
-            app:layout_constraintBottom_toBottomOf="@+id/gamename"
-            app:layout_constraintRight_toLeftOf="@+id/lang"
-            app:layout_constraintTop_toTopOf="@+id/gamename"
+            app:layout_constraintBottom_toBottomOf="@+id/game_name"
+            app:layout_constraintEnd_toStartOf="@+id/lang"
+            app:layout_constraintTop_toTopOf="@+id/game_name"
 
             />
 
@@ -128,9 +128,9 @@
             android:layout_marginEnd="8dp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/gamename"
-            app:layout_constraintRight_toLeftOf="@+id/game_title_icon"
-            app:layout_constraintTop_toTopOf="@+id/gamename" />
+            app:layout_constraintBottom_toBottomOf="@id/game_name"
+            app:layout_constraintEnd_toStartOf="@+id/game_title_icon"
+            app:layout_constraintTop_toTopOf="@+id/game_name" />
 
         <ImageView
             android:id="@+id/game_title_icon"
@@ -139,19 +139,19 @@
             android:layout_marginEnd="6dp"
             android:contentDescription="@string/image_desc"
             android:src="@drawable/game_icon"
-            app:layout_constraintBottom_toBottomOf="@id/gamename"
-            app:layout_constraintRight_toLeftOf="@id/gamename"
-            app:layout_constraintTop_toTopOf="@id/gamename" />
+            app:layout_constraintBottom_toBottomOf="@id/game_name"
+            app:layout_constraintEnd_toStartOf="@id/game_name"
+            app:layout_constraintTop_toTopOf="@id/game_name" />
 
         <TextView
-            android:id="@+id/gamename"
+            android:id="@+id/game_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/bottom_line_item"
-            app:layout_constraintRight_toRightOf="@+id/viewer" />
+            app:layout_constraintEnd_toEndOf="@+id/viewer" />
 
         <View
             android:id="@+id/bottom_line_item"
@@ -159,7 +159,7 @@
             android:layout_height="1dp"
             android:background="@color/theme"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

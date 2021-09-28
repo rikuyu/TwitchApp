@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.adapter.StreamAdapter
+import com.example.twitchapp.adapter.StreamLoadStateAdapter
 import com.example.twitchapp.databinding.FragmentStreamBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -42,7 +43,10 @@ class StreamFragment : Fragment(R.layout.fragment_stream) {
         super.onViewCreated(view, savedInstanceState)
 
         streamAdapter = StreamAdapter(requireContext())
-        binding.streamRecyclerView.adapter = streamAdapter
+
+        binding.streamRecyclerView.adapter =
+            streamAdapter.withLoadStateFooter(StreamLoadStateAdapter(streamAdapter::retry))
+
         binding.streamRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 

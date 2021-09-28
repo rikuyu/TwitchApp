@@ -22,7 +22,7 @@ class MyProfileAdapter(private val context: Context) :
 
         fun bind(clip: Clip) {
             binding.apply {
-                gamename.text = clip.game
+                gameName.text = clip.game
                 username.text = clip.curator.name
                 lang.text = clip.language
                 viewer.text = clip.views.toString()

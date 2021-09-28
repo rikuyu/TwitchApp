@@ -3,9 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/edit_profile_dialog.xml" value="0.1" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/fragment_clip.xml" value="0.13496376811594202" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/fragment_my_profile.xml" value="0.1" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/fragment_twitch_page.xml" value="0.125" />
+        <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/stream_item.xml" value="0.1" />
+        <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/stream_load_state_item.xml" value="0.16530797101449277" />
       </map>
     </option>
   </component>

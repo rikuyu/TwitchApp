@@ -33,6 +33,9 @@ class StreamPagingSource(private val repository: TwitchRepository) : PagingSourc
     }
 
     override fun getRefreshKey(state: PagingState<Int, Stream>): Int? {
-        return null
+        return state.anchorPosition?.let { anchorPosition ->
+            val anchorPage = state.closestPageToPosition(anchorPosition)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
     }
 }
