@@ -5,11 +5,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
@@ -65,21 +65,21 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
             }
 
             myProfileAdapter.setOnThumbnailClickListener(object :
-                MyProfileAdapter.ShowFavoClip {
-                override fun showFavoClip(url: String) {
-                    val uri = Uri.parse(url)
-                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                    startActivity(intent)
-                }
-            })
+                    MyProfileAdapter.ShowFavoClip {
+                    override fun showFavoClip(url: String) {
+                        val uri = Uri.parse(url)
+                        val intent = Intent(Intent.ACTION_VIEW, uri)
+                        startActivity(intent)
+                    }
+                })
 
             myProfileAdapter.setOnDeleteBtnClickListener(object :
-                MyProfileAdapter.DeleteItem {
-                override fun deleteItem(clip: Clip) {
-                    mainViewModel.deleteClip(clip)
-                    myProfileAdapter.submitList(favoriteList)
+                    MyProfileAdapter.DeleteItem {
+                    override fun deleteItem(clip: Clip) {
+                        mainViewModel.deleteClip(clip)
+                        myProfileAdapter.submitList(favoriteList)
+                    }
                 }
-            }
             )
         })
 

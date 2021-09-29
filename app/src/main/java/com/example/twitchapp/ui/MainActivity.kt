@@ -31,11 +31,11 @@ class MainActivity : AppCompatActivity() {
 
         findNavController(R.id.twichNavHostFragment)
             .addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.twitchPageFragment -> hideBottomNav()
-                else -> showBottomNav()
+                when (destination.id) {
+                    R.id.twitchPageFragment -> hideBottomNav()
+                    else -> showBottomNav()
+                }
             }
-        }
     }
 
     private fun showBottomNav() {
