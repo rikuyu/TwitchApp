@@ -9,11 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.twitchapp.R
 import com.example.twitchapp.adapter.ClipAdapter
 import com.example.twitchapp.databinding.FragmentClipBinding
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.util.Resource
+import com.example.twitchapp.util.UtilObject
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -50,35 +52,39 @@ class ClipFragment : Fragment() {
                         binding.clipRecyclerView.adapter = clipAdapter
 
                         clipAdapter.setOnThumbnailClickListener(object :
-                                ClipAdapter.OnItemClickListener {
-                                override fun showClip(url: String) {
-                                    findNavController().navigate(
-                                        ClipFragmentDirections
-                                            .actionClipToTwitchPageFragment(url)
-                                    )
-                                }
+                            ClipAdapter.OnItemClickListener {
+                            override fun showClip(url: String) {
+                                findNavController().navigate(
+                                    ClipFragmentDirections
+                                        .actionClipToTwitchPageFragment(url)
+                                )
+                            }
 
-                                override fun showProfile(url: String) {
-                                    findNavController().navigate(
-                                        ClipFragmentDirections
-                                            .actionClipToTwitchPageFragment(url)
-                                    )
-                                }
+                            override fun showProfile(url: String) {
+                                findNavController().navigate(
+                                    ClipFragmentDirections
+                                        .actionClipToTwitchPageFragment(url)
+                                )
+                            }
 
-                                override fun addClip(clip: Clip) {
-                                    mainViewModel.insertGetClip(clip)
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Gameに保存されました",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            })
+                            override fun addClip(clip: Clip) {
+                                mainViewModel.insertGetClip(clip)
+                                Toast.makeText(
+                                    requireContext(),
+                                    getString(R.string.clip_save),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
                     }
                 }
                 is Resource.Error -> {
                     hideProgressBar()
-                    Toast.makeText(requireContext(), "通信エラー", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.clip_get_error),
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
                 is Resource.Loading -> {
                     showProgressBar()
@@ -98,11 +104,11 @@ class ClipFragment : Fragment() {
     }
 
     private fun hideProgressBar() {
-        binding.progressbar.visibility = View.INVISIBLE
+        UtilObject.invisible(binding.progressbar)
     }
 
     private fun showProgressBar() {
-        binding.progressbar.visibility = View.VISIBLE
+        UtilObject.visible(binding.progressbar)
     }
 
     private fun fetchGameClip() {

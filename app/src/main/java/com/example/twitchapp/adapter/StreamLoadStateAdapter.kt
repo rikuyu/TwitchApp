@@ -7,6 +7,7 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twitchapp.databinding.StreamLoadStateItemBinding
+import com.example.twitchapp.util.UtilObject
 
 class StreamLoadStateAdapter(
     private val retry: () -> Unit
@@ -17,18 +18,29 @@ class StreamLoadStateAdapter(
         private val binding: StreamLoadStateItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(loadState: LoadState, retry: () -> Unit) {
-            if (loadState is LoadState.Loading) {
-                binding.progressbar.visibility = View.VISIBLE
-            } else {
-                binding.progressbar.visibility = View.INVISIBLE
+            when (loadState) {
+                is LoadState.Loading -> {
+                    binding.apply {
+                        UtilObject.visible(progressbar)
+                        UtilObject.invisible(errorMsg)
+                        UtilObject.invisible(buttonRetry)
+                    }
+                }
+                is LoadState.Error -> {
+                    binding.apply {
+                        UtilObject.invisible(progressbar)
+                        UtilObject.visible(errorMsg)
+                        UtilObject.visible(buttonRetry)
+                    }
+                }
+                is LoadState.NotLoading -> {
+                    binding.apply {
+                        UtilObject.visible(progressbar)
+                        UtilObject.invisible(errorMsg)
+                        UtilObject.invisible(buttonRetry)
+                    }
+                }
             }
-
-            if (loadState is LoadState.Error) {
-                binding.buttonRetry.visibility = View.VISIBLE
-            } else {
-                binding.buttonRetry.visibility = View.INVISIBLE
-            }
-
             binding.buttonRetry.setOnClickListener {
                 retry()
             }

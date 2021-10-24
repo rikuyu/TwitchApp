@@ -47,48 +47,4 @@ class Converters {
     fun toVod(id: String?): Vod {
         return Vod(id = id)
     }
-
-//    companion object {
-//
-//        @JvmStatic
-//        @TypeConverter
-//        fun fromBroadcaster(broadcaster: Broadcaster) = Gson().toJson(broadcaster)
-//
-//
-//        @JvmStatic
-//        @TypeConverter
-//        fun toBroadcaster(broadcasterJson: String?) =
-//            Gson().fromJson(broadcasterJson, Broadcaster::class.java)
-//
-//
-//        @JvmStatic
-//        @TypeConverter
-//        fun fromCurator(curator: Curator) = Gson().toJson(curator)
-//
-//
-//        @JvmStatic
-//        @TypeConverter
-//        fun toCurator(curatorJson: String?) = Gson().fromJson(curatorJson, Curator::class.java)
-//
-//
-//        @JvmStatic
-//        @TypeConverter
-//        fun fromThumbnails(thumbnails: Thumbnails) = Gson().toJson(thumbnails)
-//
-//
-//        @JvmStatic
-//        @TypeConverter
-//        fun toThumbnails(thumbnailsJson: String?) =
-//            Gson().fromJson(thumbnailsJson, Thumbnails::class.java)
-//
-//
-//        @JvmStatic
-//        @TypeConverter
-//        fun fromVod(vod: Vod?) = Gson().toJson(vod)
-//
-//        @JvmStatic
-//        @TypeConverter
-//        fun toVod(vodJson: String?) = Gson().fromJson(vodJson, Vod::class.java)
-//
-//    }
 }

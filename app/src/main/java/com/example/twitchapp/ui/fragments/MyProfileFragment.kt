@@ -19,6 +19,7 @@ import com.example.twitchapp.model.data.ProfileDialog
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.EditCustomDialog
 import com.example.twitchapp.ui.MainViewModel
+import com.example.twitchapp.util.UtilObject
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -59,27 +60,27 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
             binding.numLikes.text = getString(R.string.number_likes, favoriteList.size)
 
             if (favoriteList.isEmpty()) {
-                binding.emptyMsg.visibility = View.VISIBLE
+                UtilObject.visible(binding.emptyMsg)
             } else {
-                binding.emptyMsg.visibility = View.GONE
+                UtilObject.invisible(binding.emptyMsg)
             }
 
             myProfileAdapter.setOnThumbnailClickListener(object :
-                    MyProfileAdapter.ShowFavoClip {
-                    override fun showFavoClip(url: String) {
-                        val uri = Uri.parse(url)
-                        val intent = Intent(Intent.ACTION_VIEW, uri)
-                        startActivity(intent)
-                    }
-                })
+                MyProfileAdapter.ShowFavoClip {
+                override fun showFavoClip(url: String) {
+                    val uri = Uri.parse(url)
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    startActivity(intent)
+                }
+            })
 
             myProfileAdapter.setOnDeleteBtnClickListener(object :
-                    MyProfileAdapter.DeleteItem {
-                    override fun deleteItem(clip: Clip) {
-                        mainViewModel.deleteClip(clip)
-                        myProfileAdapter.submitList(favoriteList)
-                    }
+                MyProfileAdapter.DeleteItem {
+                override fun deleteItem(clip: Clip) {
+                    mainViewModel.deleteClip(clip)
+                    myProfileAdapter.submitList(favoriteList)
                 }
+            }
             )
         })
 
@@ -116,14 +117,18 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
         childFragmentManager.setFragmentResultListener("KEY_CLICKED", this) { key, bundle ->
             val newProfile = bundle.getParcelable<ProfileDialog>("NEW_PROFILE_KEY")
 
-            binding.myName.text = newProfile!!.name
-            profileImageUri = newProfile.avatarImageUri
-            binding.avatarImg.setImageURI(null)
-            binding.avatarImg.setImageURI(Uri.parse(profileImageUri))
+            newProfile?.let {
+                binding.myName.text = it.name
+                profileImageUri = it.avatarImageUri
+            }
+            binding.avatarImg.apply {
+                setImageURI(null)
+                setImageURI(Uri.parse(profileImageUri))
+            }
 
             dataStore.edit().apply {
-                putString("PROFILE_NAME", newProfile.name)
-                putString("PROFILE_IMAGE_URI", newProfile.avatarImageUri)
+                putString("PROFILE_NAME", newProfile?.name)
+                putString("PROFILE_IMAGE_URI", newProfile?.avatarImageUri)
             }.apply()
         }
     }
@@ -135,10 +140,18 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
                 .setName(binding.myName.text.toString())
                 .setAvatarImage(profileImageUri)
                 .setPositiveButton {
-                    Toast.makeText(context, "User Name Changed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        getString(R.string.user_name_change),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 .setNegativeButton {
-                    Toast.makeText(context, "canceled", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        getString(R.string.dialog_btn_cancel),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
                 .build()
                 .show(childFragmentManager, EditCustomDialog::class.simpleName)

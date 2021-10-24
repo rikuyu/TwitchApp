@@ -51,7 +51,7 @@ class EditCustomDialog : DialogFragment() {
                     "POSITIVE_BTN_KEY",
                     fragment.viewLifecycleOwner
                 ) { _, _ ->
-                    listener?.invoke()
+                    listener.invoke()
                 }
             return this
         }
@@ -62,7 +62,7 @@ class EditCustomDialog : DialogFragment() {
                     "NEGATIVE_BTN_KEY",
                     fragment.viewLifecycleOwner
                 ) { _, _ ->
-                    listener?.invoke()
+                    listener.invoke()
                 }
             return this
         }

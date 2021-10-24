@@ -10,6 +10,7 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.twitchapp.databinding.FragmentTwitchPageBinding
+import com.example.twitchapp.util.UtilObject
 
 class TwitchPageFragment : Fragment() {
 
@@ -42,12 +43,12 @@ class TwitchPageFragment : Fragment() {
         binding.webView.apply {
             webViewClient = object : WebViewClient() {
                 override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                    binding.progressbar.visibility = View.VISIBLE
+                    UtilObject.visible(binding.progressbar)
                 }
 
                 override fun onPageFinished(view: WebView?, url: String?) {
                     super.onPageFinished(view, url)
-                    binding.progressbar.visibility = View.INVISIBLE
+                    UtilObject.invisible(binding.progressbar)
                 }
             }
             loadUrl(args.url)

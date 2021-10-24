@@ -1,26 +1,37 @@
 <resources>
     <string name="app_name">TwitchApp</string>
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="image_desc">画像がありません</string>
-    <string name="stream_fragment_title">Live Stream</string>
-    <string name="profile_title">Profile</string>
-    <string name="favorite_fragment_title">Favorite Clips</string>
-    <string name="clip_fragment_title">Popular Clips</string>
-    <string name="nothing_favo">いいねがありません</string>
-    <string name="no_name">No Name</string>
-    <string name="paging_error_text">読み込めませんでした</string>
-    <string name="paging_retry_btn_text">Retry</string>
 
+    <!--StreamFragment-->
+    <string name="stream_fragment_title">Live Stream</string>
+    <string name="paging_retry_btn_text">Retry</string>
+    <string name="network_error_msg">Network Error</string>
+    <string name="paging_error_text">読み込めませんでした</string>
+
+    <!--ClipFragment-->
+    <string name="clip_fragment_title">Popular Clips</string>
+    <string name="clip_save">Popular Clips</string>
+    <string name="clip_get_error">Network Error</string>
+
+    <!--MyProfileFragment-->
+    <string name="profile_title">Profile</string>
+    <string name="no_name">No Name</string>
+    <string name="favorite_clips_title">Favorite Clips</string>
+
+    <!--ボトムナビゲーションネームのアイコン-->
     <string name="menu_stream_title">Live</string>
     <string name="menu_profile_title">Profile</string>
     <string name="menu_clip_title">Clip</string>
 
+    <!--ダイアログ関連-->
     <string name="text_button">Edit</string>
     <string name="dialog_title">Edit Profile</string>
     <string name="dialog_btn_ok">OK</string>
     <string name="dialog_btn_cancel">Cancel</string>
+    <string name="user_name_change">User Name Changed</string>
 
+    <!--いいねの数-->
+    <string name="nothing_favo">いいねがありません</string>
     <string name="number_likes">Likes %d</string>
     <string name="number_likes_default">Likes 0</string>
 

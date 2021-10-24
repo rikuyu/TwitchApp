@@ -8,6 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.ActivityMainBinding
+import com.example.twitchapp.util.UtilObject
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,12 +40,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showBottomNav() {
-        binding.bottomNav.visibility = View.VISIBLE
-        binding.bottomLine.visibility = View.VISIBLE
+        binding.apply {
+            UtilObject.visible(bottomNav)
+            UtilObject.visible(bottomLine)
+        }
     }
 
     private fun hideBottomNav() {
-        binding.bottomNav.visibility = View.INVISIBLE
-        binding.bottomLine.visibility = View.INVISIBLE
+        binding.apply {
+            UtilObject.invisible(bottomNav)
+            UtilObject.invisible(bottomLine)
+        }
     }
 }
