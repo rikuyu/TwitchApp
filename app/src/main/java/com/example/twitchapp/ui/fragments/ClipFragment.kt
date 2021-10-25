@@ -52,30 +52,30 @@ class ClipFragment : Fragment() {
                         binding.clipRecyclerView.adapter = clipAdapter
 
                         clipAdapter.setOnThumbnailClickListener(object :
-                            ClipAdapter.OnItemClickListener {
-                            override fun showClip(url: String) {
-                                findNavController().navigate(
-                                    ClipFragmentDirections
-                                        .actionClipToTwitchPageFragment(url)
-                                )
-                            }
+                                ClipAdapter.OnItemClickListener {
+                                override fun showClip(url: String) {
+                                    findNavController().navigate(
+                                        ClipFragmentDirections
+                                            .actionClipToTwitchPageFragment(url)
+                                    )
+                                }
 
-                            override fun showProfile(url: String) {
-                                findNavController().navigate(
-                                    ClipFragmentDirections
-                                        .actionClipToTwitchPageFragment(url)
-                                )
-                            }
+                                override fun showProfile(url: String) {
+                                    findNavController().navigate(
+                                        ClipFragmentDirections
+                                            .actionClipToTwitchPageFragment(url)
+                                    )
+                                }
 
-                            override fun addClip(clip: Clip) {
-                                mainViewModel.insertGetClip(clip)
-                                Toast.makeText(
-                                    requireContext(),
-                                    getString(R.string.clip_save),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        })
+                                override fun addClip(clip: Clip) {
+                                    mainViewModel.insertGetClip(clip)
+                                    Toast.makeText(
+                                        requireContext(),
+                                        getString(R.string.clip_save),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            })
                     }
                 }
                 is Resource.Error -> {

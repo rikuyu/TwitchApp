@@ -66,21 +66,21 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
             }
 
             myProfileAdapter.setOnThumbnailClickListener(object :
-                MyProfileAdapter.ShowFavoClip {
-                override fun showFavoClip(url: String) {
-                    val uri = Uri.parse(url)
-                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                    startActivity(intent)
-                }
-            })
+                    MyProfileAdapter.ShowFavoClip {
+                    override fun showFavoClip(url: String) {
+                        val uri = Uri.parse(url)
+                        val intent = Intent(Intent.ACTION_VIEW, uri)
+                        startActivity(intent)
+                    }
+                })
 
             myProfileAdapter.setOnDeleteBtnClickListener(object :
-                MyProfileAdapter.DeleteItem {
-                override fun deleteItem(clip: Clip) {
-                    mainViewModel.deleteClip(clip)
-                    myProfileAdapter.submitList(favoriteList)
+                    MyProfileAdapter.DeleteItem {
+                    override fun deleteItem(clip: Clip) {
+                        mainViewModel.deleteClip(clip)
+                        myProfileAdapter.submitList(favoriteList)
+                    }
                 }
-            }
             )
         })
 
