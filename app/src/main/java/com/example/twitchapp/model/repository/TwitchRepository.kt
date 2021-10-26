@@ -23,14 +23,14 @@ class TwitchRepository @Inject constructor(
     }
 
     suspend fun insertClip(clip: Clip) {
-        db!!.twitchDao().insertClip(clip)
+        db?.twitchDao()?.insertClip(clip)
     }
 
     suspend fun deleteClip(clip: Clip) {
-        db!!.twitchDao().deleteClip(clip)
+        db?.twitchDao()?.deleteClip(clip)
     }
 
-    fun getFavoriteClips(): Flow<List<Clip>> {
-        return db!!.twitchDao().getAllClips()
+    fun getFavoriteClips(): Flow<List<Clip>>? {
+        return db?.twitchDao()?.getAllClips()
     }
 }

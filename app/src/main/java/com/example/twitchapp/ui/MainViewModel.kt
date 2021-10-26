@@ -1,21 +1,9 @@
 package com.example.twitchapp.ui
 
-import android.app.Application
-import android.content.Context.CONNECTIVITY_SERVICE
-import android.net.ConnectivityManager
-import android.net.ConnectivityManager.TYPE_ETHERNET
-import android.net.ConnectivityManager.TYPE_MOBILE
-import android.net.ConnectivityManager.TYPE_WIFI
-import android.net.NetworkCapabilities.TRANSPORT_CELLULAR
-import android.net.NetworkCapabilities.TRANSPORT_ETHERNET
-import android.net.NetworkCapabilities.TRANSPORT_WIFI
-import android.os.Build
-import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.example.twitchapp.TwitchApplication
 import com.example.twitchapp.di.NetworkModule.PAGE_SIZE
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.clipdata.ClipResponse
@@ -24,24 +12,19 @@ import com.example.twitchapp.util.Resource
 import com.example.twitchapp.util.StreamPagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import retrofit2.Response
-import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    app: Application,
     private val repository: TwitchRepository
-) : AndroidViewModel(app) {
+) : ViewModel() {
 
     private val _clips: MutableLiveData<Resource<ClipResponse>> = MutableLiveData()
     val clips: LiveData<Resource<ClipResponse>> get() = _clips
-
-    val favoriteClips: LiveData<List<Clip>> = repository.getFavoriteClips().asLiveData()
+    val favoriteClips: LiveData<List<Clip>>? = repository.getFavoriteClips()?.asLiveData()
 
     init {
         fetchClip("PUBG Mobile")
-        getFavoriteClips()
     }
 
     val streamFlow = Pager(
@@ -53,37 +36,17 @@ class MainViewModel @Inject constructor(
     fun fetchClip(gameTitle: String) {
         viewModelScope.launch {
             _clips.value = Resource.Loading()
-            safeFetchClipCall(gameTitle)
-        }
-    }
-
-    private suspend fun safeFetchClipCall(gameTitle: String) {
-        _clips.value = Resource.Loading()
-        try {
-            if (hasInternetConnection()) {
-                val response = repository.fetchClip(gameTitle)
-                _clips.setValue(handleResponseState(response))
-            } else {
-                _clips.setValue(Resource.Error("インターネットに接続してください"))
-            }
-        } catch (t: Throwable) {
-            when (t) {
-                is IOException -> _clips.setValue(Resource.Error(t.message))
-                else -> {
-                    Log.d("safeFetchStreamCall", t.message!!)
-                    _clips.setValue(Resource.Error("内部エラー"))
+            val cliplist = repository.fetchClip(gameTitle)
+            cliplist.let { list ->
+                if (list.isSuccessful) {
+                    list.body()?.let {
+                        _clips.value = Resource.Success(it)
+                    }
+                } else {
+                    _clips.value = Resource.Error("取得失敗")
                 }
             }
         }
-    }
-
-    private fun <T> handleResponseState(response: Response<T>): Resource<T> {
-        if (response.isSuccessful) {
-            response.body()?.let { resultResponse ->
-                return Resource.Success(resultResponse)
-            }
-        }
-        return Resource.Error(response.message())
     }
 
     fun insertGetClip(clip: Clip) {
@@ -96,47 +59,5 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             repository.deleteClip(clip)
         }
-    }
-
-    fun getFavoriteClips() {
-        viewModelScope.launch {
-        }
-    }
-
-    private fun hasInternetConnection(): Boolean {
-        val connectivityManager =
-            getApplication<TwitchApplication>().applicationContext.getSystemService(
-                CONNECTIVITY_SERVICE
-            ) as ConnectivityManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val activeNetwork = connectivityManager.activeNetwork ?: return false
-            val capabilities =
-                connectivityManager.getNetworkCapabilities(activeNetwork) ?: return false
-            return when {
-                capabilities.hasTransport(TRANSPORT_WIFI) -> {
-                    Log.d("Network Type", "Wifi")
-                    true
-                }
-                capabilities.hasTransport(TRANSPORT_CELLULAR) -> {
-                    // 3Gや4G／LTEの電波を使用できるデータ通信をセルラー（CELLULAR）という
-                    Log.d("Network Type", "CELLULAR")
-                    true
-                }
-                capabilities.hasTransport(TRANSPORT_ETHERNET) -> {
-                    Log.d("Network Type", "ETHERNET")
-                    true
-                }
-                else -> false
-            }
-        } else {
-            connectivityManager.activeNetworkInfo?.run {
-                return when (type) {
-                    TYPE_WIFI, TYPE_MOBILE, TYPE_ETHERNET -> true
-                    else -> false
-                }
-            }
-        }
-        return false
     }
 }

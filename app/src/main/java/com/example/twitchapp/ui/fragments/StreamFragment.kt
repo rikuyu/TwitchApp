@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
-import com.example.twitchapp.adapter.StreamAdapter
-import com.example.twitchapp.adapter.StreamLoadStateAdapter
+import com.example.twitchapp.ui.adapter.StreamAdapter
+import com.example.twitchapp.ui.adapter.StreamLoadStateAdapter
 import com.example.twitchapp.databinding.FragmentStreamBinding
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.util.UtilObject
@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class StreamFragment : Fragment(R.layout.fragment_stream) {
+class StreamFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
 

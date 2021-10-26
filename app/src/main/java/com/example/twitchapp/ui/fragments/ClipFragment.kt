@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
-import com.example.twitchapp.adapter.ClipAdapter
+import com.example.twitchapp.ui.adapter.ClipAdapter
 import com.example.twitchapp.databinding.FragmentClipBinding
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainViewModel
@@ -52,30 +52,30 @@ class ClipFragment : Fragment() {
                         binding.clipRecyclerView.adapter = clipAdapter
 
                         clipAdapter.setOnThumbnailClickListener(object :
-                                ClipAdapter.OnItemClickListener {
-                                override fun showClip(url: String) {
-                                    findNavController().navigate(
-                                        ClipFragmentDirections
-                                            .actionClipToTwitchPageFragment(url)
-                                    )
-                                }
+                            ClipAdapter.OnItemClickListener {
+                            override fun showClip(url: String) {
+                                findNavController().navigate(
+                                    ClipFragmentDirections
+                                        .actionClipToTwitchPageFragment(url)
+                                )
+                            }
 
-                                override fun showProfile(url: String) {
-                                    findNavController().navigate(
-                                        ClipFragmentDirections
-                                            .actionClipToTwitchPageFragment(url)
-                                    )
-                                }
+                            override fun showProfile(url: String) {
+                                findNavController().navigate(
+                                    ClipFragmentDirections
+                                        .actionClipToTwitchPageFragment(url)
+                                )
+                            }
 
-                                override fun addClip(clip: Clip) {
-                                    mainViewModel.insertGetClip(clip)
-                                    Toast.makeText(
-                                        requireContext(),
-                                        getString(R.string.clip_save),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            })
+                            override fun addClip(clip: Clip) {
+                                mainViewModel.insertGetClip(clip)
+                                Toast.makeText(
+                                    requireContext(),
+                                    getString(R.string.clip_save),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
                     }
                 }
                 is Resource.Error -> {
@@ -92,7 +92,7 @@ class ClipFragment : Fragment() {
             }
         })
 
-        fetchGameClip()
+        setupTopMenu()
 
         binding.clipRecyclerView.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -111,37 +111,29 @@ class ClipFragment : Fragment() {
         UtilObject.visible(binding.progressbar)
     }
 
-    private fun fetchGameClip() {
-        binding.pubgMobile.setOnClickListener {
-            mainViewModel.fetchClip("PUBG Mobile")
+    private fun setupTopMenu() {
+        binding.apply {
+            UtilObject.apply {
+                createGameButton(pubgMobile, mainViewModel, PUBG_MOBILE)
+                createGameButton(apex, mainViewModel, APEX_LEGENDS)
+                createGameButton(amongus, mainViewModel, AMONG_US)
+                createGameButton(genshin, mainViewModel, GENSHIN)
+                createGameButton(minecraft, mainViewModel, MINECRAFT)
+                createGameButton(fortnite, mainViewModel, FORTNITE)
+                createGameButton(callofduty, mainViewModel, CALL_OF_DUTY)
+                createGameButton(lol, mainViewModel, LEAGUE_OF_LEGENDS)
+            }
         }
+    }
 
-        binding.apex.setOnClickListener {
-            mainViewModel.fetchClip("Apex Legends")
-        }
-
-        binding.amongus.setOnClickListener {
-            mainViewModel.fetchClip("Among Us")
-        }
-
-        binding.genshin.setOnClickListener {
-            mainViewModel.fetchClip("Genshin Impact")
-        }
-
-        binding.minecraft.setOnClickListener {
-            mainViewModel.fetchClip("Minecraft")
-        }
-
-        binding.fortnite.setOnClickListener {
-            mainViewModel.fetchClip("Fortnite")
-        }
-
-        binding.callofduty.setOnClickListener {
-            mainViewModel.fetchClip("Call of Duty: Warzone")
-        }
-
-        binding.lol.setOnClickListener {
-            mainViewModel.fetchClip("League of Legends")
-        }
+    companion object {
+        private const val PUBG_MOBILE = "PUBG Mobile"
+        private const val APEX_LEGENDS = "Apex Legends"
+        private const val AMONG_US = "Among Us"
+        private const val GENSHIN = "Genshin Impact"
+        private const val FORTNITE = "Fortnite"
+        private const val MINECRAFT = "Minecraft"
+        private const val CALL_OF_DUTY = "Call of Duty: Warzone"
+        private const val LEAGUE_OF_LEGENDS = "League of Legends"
     }
 }

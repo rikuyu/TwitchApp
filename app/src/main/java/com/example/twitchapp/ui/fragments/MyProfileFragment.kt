@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
-import com.example.twitchapp.adapter.MyProfileAdapter
+import com.example.twitchapp.ui.adapter.MyProfileAdapter
 import com.example.twitchapp.databinding.FragmentMyProfileBinding
 import com.example.twitchapp.model.data.ProfileDialog
 import com.example.twitchapp.model.data.clipdata.Clip
@@ -23,7 +23,7 @@ import com.example.twitchapp.util.UtilObject
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
+class MyProfileFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
 
@@ -41,7 +41,7 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentMyProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -49,12 +49,10 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainViewModel.getFavoriteClips()
-
         setupRecyclerView()
         loadProfileData()
 
-        mainViewModel.favoriteClips.observe(viewLifecycleOwner, { favoriteList ->
+        mainViewModel.favoriteClips?.observe(viewLifecycleOwner, { favoriteList ->
 
             myProfileAdapter.submitList(favoriteList)
             binding.numLikes.text = getString(R.string.number_likes, favoriteList.size)

@@ -1,4 +1,4 @@
-package com.example.twitchapp.adapter
+package com.example.twitchapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
