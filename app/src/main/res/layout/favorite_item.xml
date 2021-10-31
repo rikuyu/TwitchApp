@@ -19,12 +19,12 @@
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:contentDescription="@string/image_desc"
             android:layout_marginHorizontal="16dp"
+            android:contentDescription="@string/image_desc"
             android:src="@drawable/ic_delete"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </LinearLayout>
@@ -70,12 +70,12 @@
             android:id="@+id/viewer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
+            android:layout_marginEnd="16dp"
+            android:text="100"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@id/user_profile"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/view_img"
             app:layout_constraintTop_toTopOf="@id/user_profile" />
 
         <androidx.cardview.widget.CardView
@@ -86,8 +86,8 @@
             android:layout_marginBottom="8dp"
             app:cardCornerRadius="5dp"
             app:layout_constraintBottom_toTopOf="@+id/game_name"
-            app:layout_constraintStart_toEndOf="@id/user_profile"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/user_profile"
             app:layout_constraintTop_toBottomOf="@+id/user_profile">
 
             <ImageView
@@ -104,8 +104,8 @@
             android:contentDescription="@string/image_desc"
             android:src="@drawable/ic_play"
             app:layout_constraintBottom_toBottomOf="@+id/thumbnail_card"
-            app:layout_constraintStart_toStartOf="@+id/thumbnail_card"
             app:layout_constraintEnd_toEndOf="@+id/thumbnail_card"
+            app:layout_constraintStart_toStartOf="@+id/thumbnail_card"
             app:layout_constraintTop_toTopOf="@+id/thumbnail_card" />
 
         <ImageView
@@ -126,6 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
+            android:text="En"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/game_name"
@@ -147,11 +148,13 @@
             android:id="@+id/game_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:text="PUBG Mobile"
             android:textColor="@color/white"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/bottom_line_item"
-            app:layout_constraintEnd_toEndOf="@+id/viewer" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <View
             android:id="@+id/bottom_line_item"

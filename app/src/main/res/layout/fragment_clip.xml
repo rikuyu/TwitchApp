@@ -188,8 +188,8 @@
         android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/medium_line" />
 
     <View
@@ -205,6 +205,7 @@
         android:id="@+id/clip_recycler_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:paddingBottom="190dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_bottom_line" />
 
@@ -216,9 +217,8 @@
         android:background="@android:color/transparent"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/clip_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
