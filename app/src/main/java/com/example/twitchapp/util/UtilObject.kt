@@ -12,7 +12,7 @@ object UtilObject {
         view.visibility = View.INVISIBLE
     }
 
-    fun createGameButton(view: View ,vm: MainViewModel, gameTitle: String){
+    fun createGameButton(view: View, vm: MainViewModel, gameTitle: String) {
         view.setOnClickListener {
             vm.fetchClip(gameTitle)
         }

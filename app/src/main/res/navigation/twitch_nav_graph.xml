@@ -9,53 +9,18 @@
         android:id="@+id/stream"
         android:name="com.example.twitchapp.ui.fragments.StreamFragment"
         android:label="fragment_stream"
-        tools:layout="@layout/fragment_stream">
-        <action
-            android:id="@+id/action_stream_to_twitchPageFragment"
-            app:destination="@+id/twitchPageFragment"
-            app:enterAnim="@anim/slide_in_from_bottom"
-            app:exitAnim="@anim/slide_out_to_bottom"
-            app:popEnterAnim="@anim/slide_in_from_bottom"
-            app:popExitAnim="@anim/slide_out_to_bottom"/>
-    </custom_fragment>
+        tools:layout="@layout/fragment_stream" />
 
     <custom_fragment
         android:id="@+id/clip"
         android:name="com.example.twitchapp.ui.fragments.ClipFragment"
         android:label="fragment_game"
-        tools:layout="@layout/fragment_clip">
-        <action
-            android:id="@+id/action_clip_to_twitchPageFragment"
-            app:destination="@+id/twitchPageFragment"
-            app:enterAnim="@anim/slide_in_from_bottom"
-            app:exitAnim="@anim/slide_out_to_bottom"
-            app:popEnterAnim="@anim/slide_in_from_bottom"
-            app:popExitAnim="@anim/slide_out_to_bottom"/>
-    </custom_fragment>
+        tools:layout="@layout/fragment_clip" />
 
     <custom_fragment
         android:id="@+id/favorite"
         android:name="com.example.twitchapp.ui.fragments.MyProfileFragment"
         android:label="fragment_favorite"
-        tools:layout="@layout/fragment_my_profile">
-        <action
-            android:id="@+id/action_favorite_to_twitchPageFragment"
-            app:destination="@+id/twitchPageFragment"
-            app:enterAnim="@anim/slide_in_from_bottom"
-            app:exitAnim="@anim/slide_out_to_bottom"
-            app:popEnterAnim="@anim/slide_in_from_bottom"
-            app:popExitAnim="@anim/slide_out_to_bottom"/>
-    </custom_fragment>
-
-    <custom_fragment
-        android:id="@+id/twitchPageFragment"
-        android:name="com.example.twitchapp.ui.fragments.TwitchPageFragment"
-        android:label="fragment_twitch_page"
-        tools:layout="@layout/fragment_twitch_page">
-
-        <argument
-            android:name="url"
-            app:argType="string" />
-    </custom_fragment>
+        tools:layout="@layout/fragment_my_profile" />
 
 </navigation>

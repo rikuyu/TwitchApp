@@ -1,5 +1,7 @@
 package com.example.twitchapp.ui.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.ui.adapter.ClipAdapter
@@ -52,30 +53,28 @@ class ClipFragment : Fragment() {
                         binding.clipRecyclerView.adapter = clipAdapter
 
                         clipAdapter.setOnThumbnailClickListener(object :
-                            ClipAdapter.OnItemClickListener {
-                            override fun showClip(url: String) {
-                                findNavController().navigate(
-                                    ClipFragmentDirections
-                                        .actionClipToTwitchPageFragment(url)
-                                )
-                            }
+                                ClipAdapter.OnItemClickListener {
+                                override fun showClip(url: String) {
+                                    val uri = Uri.parse(url)
+                                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                                    startActivity(intent)
+                                }
 
-                            override fun showProfile(url: String) {
-                                findNavController().navigate(
-                                    ClipFragmentDirections
-                                        .actionClipToTwitchPageFragment(url)
-                                )
-                            }
+                                override fun showProfile(url: String) {
+                                    val uri = Uri.parse(url)
+                                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                                    startActivity(intent)
+                                }
 
-                            override fun addClip(clip: Clip) {
-                                mainViewModel.insertGetClip(clip)
-                                Toast.makeText(
-                                    requireContext(),
-                                    getString(R.string.clip_save),
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-                        })
+                                override fun addClip(clip: Clip) {
+                                    mainViewModel.insertGetClip(clip)
+                                    Toast.makeText(
+                                        requireContext(),
+                                        getString(R.string.clip_save),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            })
                     }
                 }
                 is Resource.Error -> {

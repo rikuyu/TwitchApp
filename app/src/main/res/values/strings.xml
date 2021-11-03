@@ -17,6 +17,7 @@
     <string name="profile_title">Profile</string>
     <string name="no_name">No Name</string>
     <string name="favorite_clips_title">Favorite Clips</string>
+    <string name="max_length_name">15文字以内</string>
 
     <!--ボトムナビゲーションネームのアイコン-->
     <string name="menu_stream_title">Live</string>

@@ -1,5 +1,7 @@
 package com.example.twitchapp.ui.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,10 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.twitchapp.R
 import com.example.twitchapp.ui.adapter.StreamAdapter
 import com.example.twitchapp.ui.adapter.StreamLoadStateAdapter
 import com.example.twitchapp.databinding.FragmentStreamBinding
@@ -54,10 +54,9 @@ class StreamFragment : Fragment() {
         streamAdapter.setOnItemClickListener(
             object : StreamAdapter.OnItemClickListener {
                 override fun onThumbnailClickListener(url: String) {
-                    findNavController().navigate(
-                        StreamFragmentDirections
-                            .actionStreamToTwitchPageFragment(url)
-                    )
+                    val uri = Uri.parse(url)
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    startActivity(intent)
                 }
             }
         )
