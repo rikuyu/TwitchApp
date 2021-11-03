@@ -8,14 +8,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.ui.adapter.MyProfileAdapter
 import com.example.twitchapp.databinding.FragmentMyProfileBinding
-import com.example.twitchapp.model.data.ProfileDialog
+import com.example.twitchapp.model.data.NewProfileData
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.EditCustomDialog
 import com.example.twitchapp.ui.MainViewModel
@@ -26,12 +25,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class MyProfileFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
-
     private lateinit var myProfileAdapter: MyProfileAdapter
-
+    private lateinit var dataStore: SharedPreferences
     private var profileImageUri: String? = null
-    private var profileName: String? = null
-    lateinit var dataStore: SharedPreferences
 
     private var _binding: FragmentMyProfileBinding? = null
     private val binding
@@ -93,15 +89,18 @@ class MyProfileFragment : Fragment() {
 
     private fun setupRecyclerView() {
         myProfileAdapter = MyProfileAdapter(requireContext())
-        binding.favoriteRecyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.favoriteRecyclerView.adapter = myProfileAdapter
+        binding.favoriteRecyclerView.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            adapter = myProfileAdapter
+        }
     }
 
     private fun loadProfileData() {
-        dataStore = this.requireActivity().getSharedPreferences("DataStore", Context.MODE_PRIVATE)
-        profileName = dataStore.getString("PROFILE_NAME", null)
-        profileImageUri = dataStore.getString("PROFILE_IMAGE_URI", null)
+        dataStore =
+            this.requireActivity().getSharedPreferences(PROFILE_DATA_STORE, Context.MODE_PRIVATE)
+        val profileName = dataStore.getString(PROFILE_NAME, null)
+        profileImageUri = dataStore.getString(PROFILE_IMAGE_URI, null)
 
         profileName?.let {
             binding.myName.text = profileName
@@ -112,21 +111,21 @@ class MyProfileFragment : Fragment() {
     }
 
     private fun receiveDialogData() {
-        childFragmentManager.setFragmentResultListener("KEY_CLICKED", this) { key, bundle ->
-            val newProfile = bundle.getParcelable<ProfileDialog>("NEW_PROFILE_KEY")
+        childFragmentManager.setFragmentResultListener(KEY_CLICKED, this) { key, bundle ->
+            val newProfile = bundle.getParcelable<NewProfileData>(NEW_PROFILE_KEY)
 
             newProfile?.let {
-                binding.myName.text = it.name
-                profileImageUri = it.avatarImageUri
-            }
-            binding.avatarImg.apply {
-                setImageURI(null)
-                setImageURI(Uri.parse(profileImageUri))
+                binding.myName.text = it.newProfileName
+                profileImageUri = it.newProfileImage
+                binding.avatarImg.apply {
+                    setImageURI(null)
+                    setImageURI(Uri.parse(profileImageUri))
+                }
             }
 
             dataStore.edit().apply {
-                putString("PROFILE_NAME", newProfile?.name)
-                putString("PROFILE_IMAGE_URI", newProfile?.avatarImageUri)
+                putString(STORED_PROFILE_NAME, newProfile?.newProfileName)
+                putString(STORED_PROFILE_IMAGE_URI, newProfile?.newProfileImage)
             }.apply()
         }
     }
@@ -134,25 +133,22 @@ class MyProfileFragment : Fragment() {
     private fun showEditProfileDialog() {
         binding.btnEdit.setOnClickListener {
             EditCustomDialog
-                .Builder(this)
+                .Builder()
                 .setName(binding.myName.text.toString())
                 .setAvatarImage(profileImageUri)
-                .setPositiveButton {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.user_name_change),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                .setNegativeButton {
-                    Toast.makeText(
-                        context,
-                        getString(R.string.dialog_btn_cancel),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
                 .build()
                 .show(childFragmentManager, EditCustomDialog::class.simpleName)
         }
+    }
+
+    companion object {
+        private const val KEY_CLICKED = "KEY_CLICKED"
+        private const val NEW_PROFILE_KEY = "NEW_PROFILE_KEY"
+        private const val PROFILE_NAME = "PROFILE_NAME"
+        private const val PROFILE_IMAGE_URI = "PROFILE_IMAGE_URI"
+        private const val STORED_PROFILE_NAME = "STORED_PROFILE_NAME"
+        private const val STORED_PROFILE_IMAGE_URI = "STORED_PROFILE_IMAGE_URI"
+
+        private const val PROFILE_DATA_STORE = "PROFILE_DATA_STORE"
     }
 }
