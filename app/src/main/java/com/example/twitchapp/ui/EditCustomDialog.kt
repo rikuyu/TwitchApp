@@ -53,10 +53,6 @@ class EditCustomDialog : DialogFragment() {
         setNewProfileImage()
 
         binding.btnOk.setOnClickListener {
-            setFragmentResult(
-                POSITIVE_BTN_KEY,
-                bundleOf()
-            )
             val newProfileName = binding.editMyName.text.toString()
             val newProfileImageUri = newImageUri.toString()
             val newProfile = NewProfileData(newProfileName, newProfileImageUri)
@@ -66,10 +62,6 @@ class EditCustomDialog : DialogFragment() {
 
         binding.btnCancel.setOnClickListener {
             dismiss()
-            setFragmentResult(
-                NEGATIVE_BTN_KEY,
-                bundleOf()
-            )
         }
 
         dialog.setContentView(binding.root)
@@ -111,8 +103,6 @@ class EditCustomDialog : DialogFragment() {
     companion object {
         private const val NAME_KEY = "NAME_KEY"
         private const val IMAGE_KEY = "IMAGE_KEY"
-        private const val POSITIVE_BTN_KEY = "POSITIVE_BTN_KEY"
-        private const val NEGATIVE_BTN_KEY = "NEGATIVE_BTN_KEY"
         private const val KEY_CLICKED = "KEY_CLICKED"
         private const val NEW_PROFILE_KEY = "NEW_PROFILE_KEY"
     }

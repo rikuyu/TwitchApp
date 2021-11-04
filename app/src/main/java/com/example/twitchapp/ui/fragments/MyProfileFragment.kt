@@ -99,8 +99,8 @@ class MyProfileFragment : Fragment() {
     private fun loadProfileData() {
         dataStore =
             this.requireActivity().getSharedPreferences(PROFILE_DATA_STORE, Context.MODE_PRIVATE)
-        val profileName = dataStore.getString(PROFILE_NAME, null)
-        profileImageUri = dataStore.getString(PROFILE_IMAGE_URI, null)
+        val profileName = dataStore.getString(STORED_PROFILE_NAME, null)
+        profileImageUri = dataStore.getString(STORED_PROFILE_IMAGE_URI, null)
 
         profileName?.let {
             binding.myName.text = profileName
@@ -144,11 +144,8 @@ class MyProfileFragment : Fragment() {
     companion object {
         private const val KEY_CLICKED = "KEY_CLICKED"
         private const val NEW_PROFILE_KEY = "NEW_PROFILE_KEY"
-        private const val PROFILE_NAME = "PROFILE_NAME"
-        private const val PROFILE_IMAGE_URI = "PROFILE_IMAGE_URI"
         private const val STORED_PROFILE_NAME = "STORED_PROFILE_NAME"
         private const val STORED_PROFILE_IMAGE_URI = "STORED_PROFILE_IMAGE_URI"
-
         private const val PROFILE_DATA_STORE = "PROFILE_DATA_STORE"
     }
 }
