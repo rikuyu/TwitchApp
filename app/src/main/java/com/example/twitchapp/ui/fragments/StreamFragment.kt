@@ -24,9 +24,7 @@ import kotlinx.coroutines.launch
 class StreamFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
-
     private lateinit var streamAdapter: StreamAdapter
-
     private var _binding: FragmentStreamBinding? = null
     private val binding
         get() = _binding!!

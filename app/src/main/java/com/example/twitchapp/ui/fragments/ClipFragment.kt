@@ -23,10 +23,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class ClipFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
-
     private lateinit var clipAdapter: ClipAdapter
     private var clipList: List<Clip>? = null
-
     private var _binding: FragmentClipBinding? = null
     private val binding
         get() = _binding!!

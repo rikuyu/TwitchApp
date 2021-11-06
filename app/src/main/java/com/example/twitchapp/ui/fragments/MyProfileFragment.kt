@@ -28,7 +28,6 @@ class MyProfileFragment : Fragment() {
     private lateinit var myProfileAdapter: MyProfileAdapter
     private lateinit var dataStore: SharedPreferences
     private var profileImageUri: String? = null
-
     private var _binding: FragmentMyProfileBinding? = null
     private val binding
         get() = _binding!!
