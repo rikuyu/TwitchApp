@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.twitchapp.databinding.FavoriteItemBinding
+import com.example.twitchapp.databinding.ItemFavoriteBinding
 import com.example.twitchapp.model.data.clipdata.Clip
 
 class MyProfileAdapter(private val context: Context) :
@@ -17,7 +17,7 @@ class MyProfileAdapter(private val context: Context) :
     private lateinit var thumbnailListener: ShowFavoClip
     private lateinit var deleteBtnListener: DeleteItem
 
-    inner class FavoriteHolder(private val binding: FavoriteItemBinding) :
+    inner class FavoriteHolder(private val binding: ItemFavoriteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(clip: Clip) {
@@ -47,7 +47,7 @@ class MyProfileAdapter(private val context: Context) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteHolder {
         val binding =
-            FavoriteItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemFavoriteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FavoriteHolder(binding)
     }
 

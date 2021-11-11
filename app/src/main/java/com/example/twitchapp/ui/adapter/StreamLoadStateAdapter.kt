@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.twitchapp.databinding.StreamLoadStateItemBinding
+import com.example.twitchapp.databinding.ItemStreamLoadStateBinding
 import com.example.twitchapp.util.UtilObject
 
 class StreamLoadStateAdapter(
@@ -14,7 +14,7 @@ class StreamLoadStateAdapter(
     LoadStateAdapter<StreamLoadStateAdapter.StreamLoadStateViewHolder>() {
 
     inner class StreamLoadStateViewHolder(
-        private val binding: StreamLoadStateItemBinding
+        private val binding: ItemStreamLoadStateBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(loadState: LoadState, retry: () -> Unit) {
             when (loadState) {
@@ -54,7 +54,7 @@ class StreamLoadStateAdapter(
         parent: ViewGroup,
         loadState: LoadState
     ): StreamLoadStateViewHolder {
-        val binding = StreamLoadStateItemBinding.inflate(
+        val binding = ItemStreamLoadStateBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
         return StreamLoadStateViewHolder(binding)

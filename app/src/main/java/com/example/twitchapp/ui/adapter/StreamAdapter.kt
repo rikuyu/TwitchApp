@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.twitchapp.databinding.StreamItemBinding
+import com.example.twitchapp.databinding.ItemStreamBinding
 import com.example.twitchapp.model.data.streamdata.Stream
 
 class StreamAdapter(private val context: Context) :
@@ -16,7 +16,7 @@ class StreamAdapter(private val context: Context) :
 
     private lateinit var listener: OnItemClickListener
 
-    inner class StreamHolder(private val binding: StreamItemBinding) :
+    inner class StreamHolder(private val binding: ItemStreamBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(stream: Stream) {
             binding.apply {
@@ -38,7 +38,7 @@ class StreamAdapter(private val context: Context) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StreamHolder {
-        val binding = StreamItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemStreamBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return StreamHolder(binding)
     }
 

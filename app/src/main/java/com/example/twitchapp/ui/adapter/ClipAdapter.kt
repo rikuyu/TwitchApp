@@ -31,7 +31,7 @@ class ClipAdapter(private val context: Context, private val clipList: List<Clip>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClipHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.clip_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_clip, parent, false)
         return ClipHolder(view)
     }
 
