@@ -50,8 +50,7 @@ class MyProfileFragment : Fragment() {
         mainViewModel.favoriteClips?.observe(viewLifecycleOwner, { favoriteList ->
 
             myProfileAdapter.submitList(favoriteList)
-            val likes = favoriteList.size
-            binding.numLikes.text = getString(R.string.number_likes, likes)
+            binding.numLikes.text = getString(R.string.number_likes, favoriteList.size)
 
             if (favoriteList.isEmpty()) {
                 UtilObject.visible(binding.emptyMsg)
