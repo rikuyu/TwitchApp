@@ -7,6 +7,13 @@ plugins {
     id 'kotlin-parcelize'
 }
 
+String getApiKey() {
+    def propFile = rootProject.file("./gradle.properties")
+    def properties = new Properties()
+    properties.load(new FileInputStream(propFile))
+    return properties['TWITCH_CLIENT_ID']
+}
+
 android {
     compileSdkVersion 31
     buildToolsVersion "30.0.3"
@@ -21,7 +28,6 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        //buildConfigField "String", "CLIENT_ID", "\"${project.property("twitch_client_id")}\""
         buildConfigField ("String", "CLIENT_ID", getApiKey())
 
         // exportSchema = true にして以下を記述すると、app/schemaにjsonファイルを作成してくれる
@@ -157,7 +163,7 @@ task ktlint(type: JavaExec, group: "verification") {
     description = "Check Kotlin code style."
     classpath = configurations.ktlint
     main = "com.pinterest.ktlint.Main"
-    args "--android", "--color", "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/reports/ktlint-results.xml", "src/**/*.kt"
+    args "--android", "--color", "--reporter=plain", "--reporter=checkstyle,output=${buildDir}/reports/ktlint-result.xml", "src/**/*.kt"
     ignoreExitValue true
 }
 check.dependsOn ktlint
@@ -167,11 +173,4 @@ task ktlintFormat(type: JavaExec, group: "formatting") {
     classpath = configurations.ktlint
     main = "com.pinterest.ktlint.Main"
     args "-F", "src/**/*.kt"
-}
-
-String getApiKey() {
-    def propFile = rootProject.file("./gradle.properties")
-    def properties = new Properties()
-    properties.load(new FileInputStream(propFile))
-    return properties['TWITCH_CLIENT_ID']
 }
