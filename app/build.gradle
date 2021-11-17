@@ -3,11 +3,10 @@ plugins {
     id 'kotlin-android'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
-    id 'androidx.navigation.safeargs'
     id 'kotlin-parcelize'
 }
 
-String getApiKey() {
+def getApiKey() {
     def propFile = rootProject.file("./gradle.properties")
     def properties = new Properties()
     properties.load(new FileInputStream(propFile))
