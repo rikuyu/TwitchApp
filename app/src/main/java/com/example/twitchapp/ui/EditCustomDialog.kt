@@ -12,9 +12,9 @@ import com.example.twitchapp.model.data.NewProfileData
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EditCustomDialog : DialogFragment() {
+class EditCustomDialog private constructor() : DialogFragment() {
 
-    private var currentName: String = ""
+    private var currentName: String? = null
     private var currentProfileImageUri: String? = null
     private var newImageUri: Uri? = null
     private var _binding: EditProfileDialogBinding? = null
