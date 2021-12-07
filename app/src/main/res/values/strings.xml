@@ -28,7 +28,9 @@
     <string name="dialog_title">Edit Profile</string>
     <string name="dialog_btn_ok">OK</string>
     <string name="dialog_btn_cancel">Cancel</string>
-    <string name="max_length_name">15文字以内</string>
+    <string name="dialog_input_label">Name</string>
+    <string name="dialog_error_empty_label">名前を入力してください</string>
+    <string name="dialog_error_over_label">%d 文字以内で入力してください</string>
 
     <!--いいねの数-->
     <string name="nothing_favo">いいねがありません</string>

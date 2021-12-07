@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
+import com.example.twitchapp.R
 import com.example.twitchapp.databinding.EditProfileDialogBinding
 import com.example.twitchapp.model.data.NewProfileData
 import dagger.hilt.android.AndroidEntryPoint
@@ -53,11 +54,21 @@ class EditCustomDialog private constructor() : DialogFragment() {
         setNewProfileImage()
 
         binding.btnOk.setOnClickListener {
-            val newProfileName = binding.editMyName.text.toString()
-            val newProfileImageUri = newImageUri.toString()
-            val newProfile = NewProfileData(newProfileName, newProfileImageUri)
-            setFragmentResult(KEY_CLICKED, bundleOf(NEW_PROFILE_KEY to newProfile))
-            dismiss()
+            val newProfileName = binding.currentName.text.toString()
+            when {
+                newProfileName.isEmpty() -> {
+                    binding.currentName.error = getString(R.string.dialog_error_empty_label)
+                }
+                newProfileName.length > 10 -> {
+                    binding.currentName.error = getString(R.string.dialog_error_over_label, 10)
+                }
+                else -> {
+                    val newProfileImageUri = newImageUri.toString()
+                    val newProfile = NewProfileData(newProfileName, newProfileImageUri)
+                    setFragmentResult(KEY_CLICKED, bundleOf(NEW_PROFILE_KEY to newProfile))
+                    dismiss()
+                }
+            }
         }
 
         binding.btnCancel.setOnClickListener {
@@ -73,7 +84,7 @@ class EditCustomDialog private constructor() : DialogFragment() {
             currentName = it.getString(NAME_KEY, "No Name")
             currentProfileImageUri = it.getString(IMAGE_KEY)
         }
-        binding.editMyName.setText(currentName)
+        binding.currentName.setText(currentName)
         currentProfileImageUri?.let {
             binding.editProfileImage.apply {
                 setImageURI(null)

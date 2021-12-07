@@ -65,7 +65,7 @@ class ClipAdapter(private val context: Context, private val clipList: List<Clip>
     }
 
     override fun getItemCount(): Int {
-        return clipList!!.size
+        return clipList?.size ?: 0
     }
 
     interface OnItemClickListener {

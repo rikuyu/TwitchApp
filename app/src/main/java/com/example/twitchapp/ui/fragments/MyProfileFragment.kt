@@ -102,10 +102,10 @@ class MyProfileFragment : Fragment() {
         profileImageUri = dataStore.getString(STORED_PROFILE_IMAGE_URI, null)
 
         profileName?.let {
-            binding.myName.text = profileName
+            binding.myName.text = it
         }
         profileImageUri?.let {
-            binding.avatarImg.setImageURI(Uri.parse(profileImageUri))
+            binding.avatarImg.setImageURI(Uri.parse(it))
         }
     }
 
