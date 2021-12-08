@@ -31,5 +31,11 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
-    - name: run ktlintCheck
+    - name: run ktlint
+      run: ./gradlew ktlint
+
+    - name: run ktlintFormat
+      run: ./gradlew
+
+    - name: run ktlint
       run: ./gradlew ktlint
