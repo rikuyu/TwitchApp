@@ -1,4 +1,4 @@
-package com.example.twitchapp.util
+package com.example.twitchapp.ui.stream
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

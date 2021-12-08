@@ -9,7 +9,7 @@ import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.clipdata.ClipResponse
 import com.example.twitchapp.model.repository.TwitchRepository
 import com.example.twitchapp.util.Resource
-import com.example.twitchapp.util.StreamPagingSource
+import com.example.twitchapp.ui.stream.StreamPagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
