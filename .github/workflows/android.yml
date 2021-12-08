@@ -33,9 +33,3 @@ jobs:
 
     - name: run ktlint
       run: ./gradlew ktlint
-
-    - name: run ktlintFormat
-      run: ./gradlew
-
-    - name: run ktlint
-      run: ./gradlew ktlint
