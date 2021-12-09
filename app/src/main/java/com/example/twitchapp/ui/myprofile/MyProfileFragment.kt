@@ -1,8 +1,6 @@
 package com.example.twitchapp.ui.myprofile
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,17 +14,20 @@ import com.example.twitchapp.databinding.FragmentMyProfileBinding
 import com.example.twitchapp.model.data.NewProfileData
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainViewModel
+import com.example.twitchapp.util.SharedPreferencesManager
 import com.example.twitchapp.util.UtilObject
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MyProfileFragment : Fragment() {
 
-    private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var myProfileAdapter: MyProfileAdapter
-    private lateinit var dataStore: SharedPreferences
+
     private var profileImageUri: String? = null
     private var _binding: FragmentMyProfileBinding? = null
+
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private val sharedPreferencesManager: SharedPreferencesManager = SharedPreferencesManager()
     private val binding
         get() = _binding!!
 
@@ -76,7 +77,15 @@ class MyProfileFragment : Fragment() {
         })
 
         receiveDialogData()
-        showEditProfileDialog()
+
+        binding.btnEdit.setOnClickListener {
+            EditCustomDialog
+                .Builder()
+                .setName(binding.myProfileName.text.toString())
+                .setAvatarImage(profileImageUri)
+                .build()
+                .show(childFragmentManager, EditCustomDialog::class.simpleName)
+        }
     }
 
     override fun onDestroyView() {
@@ -94,55 +103,44 @@ class MyProfileFragment : Fragment() {
     }
 
     private fun loadProfileData() {
-        dataStore =
-            this.requireActivity().getSharedPreferences(PROFILE_DATA_STORE, Context.MODE_PRIVATE)
-        val profileName = dataStore.getString(STORED_PROFILE_NAME, null)
-        profileImageUri = dataStore.getString(STORED_PROFILE_IMAGE_URI, null)
+        context?.let {
+            val profileName = sharedPreferencesManager.getProfileName(it)
+            val profileImage = sharedPreferencesManager.getProfileImage(it)
 
-        profileName?.let {
-            binding.myName.text = it
-        }
-        profileImageUri?.let {
-            binding.avatarImg.setImageURI(Uri.parse(it))
+            profileName?.let { name ->
+                binding.myProfileName.text = name
+            }
+            profileImage?.let { uriString ->
+                binding.myProfileImage.setImageURI(Uri.parse(uriString))
+            }
         }
     }
 
     private fun receiveDialogData() {
-        childFragmentManager.setFragmentResultListener(KEY_CLICKED, this) { key, bundle ->
+        childFragmentManager.setFragmentResultListener(KEY_CLICKED, this) { _, bundle ->
             val newProfile = bundle.getParcelable<NewProfileData>(NEW_PROFILE_KEY)
 
-            newProfile?.let {
-                binding.myName.text = it.newProfileName
-                profileImageUri = it.newProfileImage
-                binding.avatarImg.apply {
-                    setImageURI(null)
-                    setImageURI(Uri.parse(profileImageUri))
+            binding.myProfileName.text = newProfile?.newProfileName ?: "No Name"
+            binding.myProfileImage.apply {
+                setImageURI(null)
+                if (newProfile != null) {
+                    setImageURI(Uri.parse(newProfile.newProfileImage))
+                } else {
+                    setImageResource(R.drawable.no_image)
                 }
             }
 
-            dataStore.edit().apply {
-                putString(STORED_PROFILE_NAME, newProfile?.newProfileName)
-                putString(STORED_PROFILE_IMAGE_URI, newProfile?.newProfileImage)
-            }.apply()
-        }
-    }
-
-    private fun showEditProfileDialog() {
-        binding.btnEdit.setOnClickListener {
-            EditCustomDialog
-                .Builder()
-                .setName(binding.myName.text.toString())
-                .setAvatarImage(profileImageUri)
-                .build()
-                .show(childFragmentManager, EditCustomDialog::class.simpleName)
+            context?.let {
+                sharedPreferencesManager.apply {
+                    saveProfileName(it, newProfile?.newProfileName ?: "No Name")
+                    saveProfileImageUrl(it, newProfile?.newProfileImage ?: "")
+                }
+            }
         }
     }
 
     companion object {
         private const val KEY_CLICKED = "KEY_CLICKED"
         private const val NEW_PROFILE_KEY = "NEW_PROFILE_KEY"
-        private const val STORED_PROFILE_NAME = "STORED_PROFILE_NAME"
-        private const val STORED_PROFILE_IMAGE_URI = "STORED_PROFILE_IMAGE_URI"
-        private const val PROFILE_DATA_STORE = "PROFILE_DATA_STORE"
     }
 }

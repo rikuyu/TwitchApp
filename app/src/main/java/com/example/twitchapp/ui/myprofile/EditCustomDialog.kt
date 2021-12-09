@@ -1,8 +1,11 @@
 package com.example.twitchapp.ui.myprofile
 
+import android.app.Activity.RESULT_OK
 import android.app.Dialog
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
@@ -17,8 +20,11 @@ class EditCustomDialog private constructor() : DialogFragment() {
 
     private var currentName: String? = null
     private var currentProfileImageUri: String? = null
-    private var newImageUri: Uri? = null
+    private var newImageUriStringFromGallery: String? = null
     private var _binding: EditProfileDialogBinding? = null
+
+    private lateinit var launcher: ActivityResultLauncher<Intent>
+
     private val binding
         get() = _binding!!
 
@@ -50,20 +56,35 @@ class EditCustomDialog private constructor() : DialogFragment() {
         val dialog = Dialog(requireContext())
         _binding = EditProfileDialogBinding.inflate(requireActivity().layoutInflater)
 
+        launcher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    val imageUri = result.data?.data
+                    imageUri?.let {
+                        newImageUriStringFromGallery = it.toString()
+                        binding.editProfileImage.setImageURI(it)
+                    }
+                }
+            }
+
         loadProfileData()
-        setNewProfileImage()
+
+        binding.editProfileImage.setOnClickListener {
+            setNewProfileImage()
+        }
 
         binding.btnOk.setOnClickListener {
-            val newProfileName = binding.currentName.text.toString()
+            val newProfileName = binding.dialogProfileName.text.toString()
             when {
                 newProfileName.isEmpty() -> {
-                    binding.currentName.error = getString(R.string.dialog_error_empty_label)
+                    binding.dialogProfileName.error = getString(R.string.dialog_error_empty_label)
                 }
                 newProfileName.length > 10 -> {
-                    binding.currentName.error = getString(R.string.dialog_error_over_label, 10)
+                    binding.dialogProfileName.error =
+                        getString(R.string.dialog_error_over_label, 10)
                 }
                 else -> {
-                    val newProfileImageUri = newImageUri.toString()
+                    val newProfileImageUri = newImageUriStringFromGallery.toString()
                     val newProfile = NewProfileData(newProfileName, newProfileImageUri)
                     setFragmentResult(KEY_CLICKED, bundleOf(NEW_PROFILE_KEY to newProfile))
                     dismiss()
@@ -84,7 +105,7 @@ class EditCustomDialog private constructor() : DialogFragment() {
             currentName = it.getString(NAME_KEY, "No Name")
             currentProfileImageUri = it.getString(IMAGE_KEY)
         }
-        binding.currentName.setText(currentName)
+        binding.dialogProfileName.setText(currentName)
         currentProfileImageUri?.let {
             binding.editProfileImage.apply {
                 setImageURI(null)
@@ -94,16 +115,11 @@ class EditCustomDialog private constructor() : DialogFragment() {
     }
 
     private fun setNewProfileImage() {
-        currentProfileImageUri?.let {
-            newImageUri = Uri.parse(it)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "image/*"
         }
-        val launcher = registerForActivityResult(ActivityResultContracts.OpenDocument()) {
-            it?.let { newImageUri = it }
-            binding.editProfileImage.setImageURI(newImageUri)
-        }
-        binding.editProfileImage.setOnClickListener {
-            launcher.launch(arrayOf("image/*"))
-        }
+        launcher.launch(intent)
     }
 
     override fun onDestroyView() {
