@@ -108,7 +108,7 @@ class ClipFragment : Fragment() {
     }
 
     private fun setupTopMenu() {
-        binding.apply {
+        binding.gameTitlesTopbar.apply {
             UtilObject.apply {
                 createGameButton(pubgMobile, mainViewModel, PUBG_MOBILE)
                 createGameButton(apex, mainViewModel, APEX_LEGENDS)

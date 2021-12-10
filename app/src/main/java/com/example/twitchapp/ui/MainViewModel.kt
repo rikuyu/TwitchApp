@@ -21,7 +21,7 @@ class MainViewModel @Inject constructor(
 
     private val _clips: MutableLiveData<Resource<ClipResponse>> = MutableLiveData()
     val clips: LiveData<Resource<ClipResponse>> get() = _clips
-    val favoriteClips: LiveData<List<Clip>>? = repository.getFavoriteClips()?.asLiveData()
+    val favoriteClips: LiveData<List<Clip>> = repository.getFavoriteClips().asLiveData()
 
     init {
         fetchClip("PUBG Mobile")
