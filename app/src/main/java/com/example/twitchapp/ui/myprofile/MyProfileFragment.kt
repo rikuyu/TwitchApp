@@ -112,6 +112,7 @@ class MyProfileFragment : Fragment() {
             }
             profileImage?.let { uriString ->
                 binding.myProfileImage.setImageURI(Uri.parse(uriString))
+                profileImageUri = uriString
             }
         }
     }
