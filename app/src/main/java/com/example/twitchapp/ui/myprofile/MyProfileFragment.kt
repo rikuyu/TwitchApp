@@ -46,10 +46,10 @@ class MyProfileFragment : Fragment() {
         setupRecyclerView()
         loadProfileData()
 
-        mainViewModel.favoriteClips?.observe(viewLifecycleOwner, { favoriteList ->
+        mainViewModel.favoriteClips.observe(viewLifecycleOwner, { favoriteList ->
 
             myProfileAdapter.submitList(favoriteList)
-            binding.numLikes.text = getString(R.string.number_likes, favoriteList.size)
+            binding.numLikes.text = favoriteList.size.toString()
 
             if (favoriteList.isEmpty()) {
                 UtilObject.visible(binding.emptyMsg)
@@ -58,21 +58,21 @@ class MyProfileFragment : Fragment() {
             }
 
             myProfileAdapter.setOnThumbnailClickListener(object :
-                    MyProfileAdapter.ShowFavoClip {
-                    override fun showFavoClip(url: String) {
-                        val uri = Uri.parse(url)
-                        val intent = Intent(Intent.ACTION_VIEW, uri)
-                        startActivity(intent)
-                    }
-                })
+                MyProfileAdapter.ShowFavoClip {
+                override fun showFavoClip(url: String) {
+                    val uri = Uri.parse(url)
+                    val intent = Intent(Intent.ACTION_VIEW, uri)
+                    startActivity(intent)
+                }
+            })
 
             myProfileAdapter.setOnDeleteBtnClickListener(object :
-                    MyProfileAdapter.DeleteItem {
-                    override fun deleteItem(clip: Clip) {
-                        mainViewModel.deleteClip(clip)
-                        myProfileAdapter.submitList(favoriteList)
-                    }
+                MyProfileAdapter.DeleteItem {
+                override fun deleteItem(clip: Clip) {
+                    mainViewModel.deleteClip(clip)
+                    myProfileAdapter.submitList(favoriteList)
                 }
+            }
             )
         })
 
