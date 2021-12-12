@@ -50,28 +50,28 @@ class ClipFragment : Fragment() {
                         binding.clipRecyclerView.adapter = clipAdapter
 
                         clipAdapter.setOnThumbnailClickListener(object :
-                                ClipAdapter.OnItemClickListener {
-                                override fun showClip(url: String) {
-                                    val uri = Uri.parse(url)
-                                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                                    startActivity(intent)
-                                }
+                            ClipAdapter.OnItemClickListener {
+                            override fun showClip(url: String) {
+                                val uri = Uri.parse(url)
+                                val intent = Intent(Intent.ACTION_VIEW, uri)
+                                startActivity(intent)
+                            }
 
-                                override fun showProfile(url: String) {
-                                    val uri = Uri.parse(url)
-                                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                                    startActivity(intent)
-                                }
+                            override fun showProfile(url: String) {
+                                val uri = Uri.parse(url)
+                                val intent = Intent(Intent.ACTION_VIEW, uri)
+                                startActivity(intent)
+                            }
 
-                                override fun addClip(clip: Clip) {
-                                    mainViewModel.insertGetClip(clip)
-                                    Toast.makeText(
-                                        requireContext(),
-                                        getString(R.string.clip_save),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            })
+                            override fun addClip(clip: Clip) {
+                                mainViewModel.insertGetClip(clip)
+                                Toast.makeText(
+                                    requireContext(),
+                                    getString(R.string.clip_save),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        })
                     }
                 }
                 is Resource.Error -> {
@@ -100,11 +100,11 @@ class ClipFragment : Fragment() {
     }
 
     private fun hideProgressBar() {
-        UtilObject.invisible(binding.progressbar)
+        binding.progressbar.visibility = View.INVISIBLE
     }
 
     private fun showProgressBar() {
-        UtilObject.visible(binding.progressbar)
+        binding.progressbar.visibility = View.VISIBLE
     }
 
     private fun setupTopMenu() {
