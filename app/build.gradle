@@ -28,14 +28,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField ("String", "CLIENT_ID", getApiKey())
-
-        // exportSchema = true にして以下を記述すると、app/schemaにjsonファイルを作成してくれる
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
-                // app/schemas/${databaseクラスのFQDN}/$schemaVersion.json が生成されるようになる
-            }
-        }
     }
 
     buildTypes {
