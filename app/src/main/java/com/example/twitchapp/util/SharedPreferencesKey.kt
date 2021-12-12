@@ -6,8 +6,8 @@ object SharedPreferencesKey {
     const val SHARED_PPREFERENCE_FILE_NAME = "profile_data"
 
     // プロフィールの名前
-    const val STORED_PROFILE_NAME = "STORED_PROFILE_NAME"
+    const val STORED_PROFILE_NAME = "profile_name"
 
     // プロフィールの画像
-    const val STORED_PROFILE_IMAGE_URI = "STORED_PROFILE_IMAGE_URI"
+    const val STORED_PROFILE_IMAGE_URI = "profile_image_uri"
 }
