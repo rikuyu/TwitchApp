@@ -46,9 +46,9 @@ class StreamFragment : Fragment() {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
 
-        streamAdapter.setOnItemClickListener(
-            object : StreamAdapter.OnItemClickListener {
-                override fun onThumbnailClickListener(url: String) {
+        streamAdapter.setListener(
+            object : StreamAdapter.StreamItemListener {
+                override fun thumbnailClickListener(url: String) {
                     val uri = Uri.parse(url)
                     val intent = Intent(Intent.ACTION_VIEW, uri)
                     startActivity(intent)

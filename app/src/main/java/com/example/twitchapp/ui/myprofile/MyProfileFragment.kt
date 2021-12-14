@@ -56,23 +56,19 @@ class MyProfileFragment : Fragment() {
                 binding.emptyMsg.visibility = View.INVISIBLE
             }
 
-            myProfileAdapter.setOnThumbnailClickListener(object :
-                MyProfileAdapter.ShowFavoClip {
-                override fun showFavoClip(url: String) {
+            myProfileAdapter.setListener(object :
+                MyProfileAdapter.FavoriteItemClickListener {
+                override fun thumbnailClickListener(url: String) {
                     val uri = Uri.parse(url)
                     val intent = Intent(Intent.ACTION_VIEW, uri)
                     startActivity(intent)
                 }
-            })
 
-            myProfileAdapter.setOnDeleteBtnClickListener(object :
-                MyProfileAdapter.DeleteItem {
-                override fun deleteItem(clip: Clip) {
+                override fun deleteViewClickListener(clip: Clip) {
                     mainViewModel.deleteClip(clip)
                     myProfileAdapter.submitList(favoriteList)
                 }
-            }
-            )
+            })
         })
 
         receiveDialogData()
