@@ -13,12 +13,12 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.R
 import com.example.twitchapp.model.data.clipdata.Clip
 
-class ClipAdapter(private val context: Context, private val clipList: List<Clip>?) :
+class ClipAdapter(
+    private val context: Context,
+    private val clipList: List<Clip>?,
+    private val listener: ClipItemClickListener
+) :
     RecyclerView.Adapter<ClipAdapter.ClipHolder>() {
-
-    private lateinit var thumbnailListener: OnItemClickListener
-    private lateinit var userProfileListener: OnItemClickListener
-    private lateinit var favoIconListener: OnItemClickListener
 
     inner class ClipHolder(view: View) : RecyclerView.ViewHolder(view) {
         var thumbnail: ImageView = view.findViewById(R.id.thumbnail)
@@ -52,15 +52,15 @@ class ClipAdapter(private val context: Context, private val clipList: List<Clip>
             .into(holder.userProfile)
 
         holder.thumbnail.setOnClickListener {
-            thumbnailListener.showClip(clipList[position].url)
+            listener.thumbnailClickListener(clipList[position].url)
         }
 
         holder.userProfile.setOnClickListener {
-            userProfileListener.showProfile(clipList[position].broadcaster.channel_url)
+            listener.userProfileClickListener(clipList[position].broadcaster.channel_url)
         }
 
         holder.favoIcon.setOnClickListener {
-            favoIconListener.addClip(clipList[position])
+            listener.favoriteIconClickListener(clipList[position])
         }
     }
 
@@ -68,15 +68,21 @@ class ClipAdapter(private val context: Context, private val clipList: List<Clip>
         return clipList?.size ?: 0
     }
 
-    interface OnItemClickListener {
-        fun showClip(url: String)
-        fun showProfile(url: String)
-        fun addClip(clip: Clip)
-    }
+    interface ClipItemClickListener {
 
-    fun setOnThumbnailClickListener(listener: OnItemClickListener) {
-        this.thumbnailListener = listener
-        this.userProfileListener = listener
-        this.favoIconListener = listener
+        /*
+         * サムネイル画像をクリックしたとき
+        */
+        fun thumbnailClickListener(url: String)
+
+        /*
+         * ユーザーのプロフィール画像をクリックしたとき
+        */
+        fun userProfileClickListener(url: String)
+
+        /*
+         * ハートアイコンをクリックしたとき
+        */
+        fun favoriteIconClickListener(clip: Clip)
     }
 }

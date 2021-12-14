@@ -14,8 +14,8 @@ import com.example.twitchapp.model.data.clipdata.Clip
 class MyProfileAdapter(private val context: Context) :
     ListAdapter<Clip, MyProfileAdapter.FavoriteHolder>(DIFF_CALLBACK) {
 
-    private lateinit var thumbnailListener: ShowFavoClip
-    private lateinit var deleteBtnListener: DeleteItem
+    private var thumbnailListener: FavoriteItemClickListener? = null
+    private var deleteViewListener: FavoriteItemClickListener? = null
 
     inner class FavoriteHolder(private val binding: ItemFavoriteBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -35,11 +35,11 @@ class MyProfileAdapter(private val context: Context) :
                     .into(userProfile)
 
                 thumbnail.setOnClickListener {
-                    thumbnailListener.showFavoClip(clip.url)
+                    thumbnailListener?.thumbnailClickListener(clip.url)
                 }
 
-                delete.setOnClickListener {
-                    deleteBtnListener.deleteItem(clip)
+                deleteView.setOnClickListener {
+                    deleteViewListener?.deleteViewClickListener(clip)
                 }
             }
         }
@@ -58,20 +58,21 @@ class MyProfileAdapter(private val context: Context) :
         }
     }
 
-    interface ShowFavoClip {
-        fun showFavoClip(url: String)
+    interface FavoriteItemClickListener {
+        /*
+         * サムネイル画像をクリックしたとき
+        */
+        fun thumbnailClickListener(url: String)
+
+        /*
+         * クリップをスライドしたときに現れるViewをクリックしたとき
+        */
+        fun deleteViewClickListener(clip: Clip)
     }
 
-    fun setOnThumbnailClickListener(listener: ShowFavoClip) {
+    fun setListener(listener: FavoriteItemClickListener) {
         this.thumbnailListener = listener
-    }
-
-    interface DeleteItem {
-        fun deleteItem(clip: Clip)
-    }
-
-    fun setOnDeleteBtnClickListener(listener: DeleteItem) {
-        this.deleteBtnListener = listener
+        this.deleteViewListener = listener
     }
 
     companion object {

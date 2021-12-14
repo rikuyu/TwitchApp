@@ -1,7 +1,7 @@
 package com.example.twitchapp.model.data.streamdata
 
 data class Stream(
-    val _id: Long,
+    val id: Long,
     val average_fps: Int,
     val broadcast_platform: String,
     val channel: Channel,
