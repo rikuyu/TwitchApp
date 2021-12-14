@@ -14,7 +14,7 @@ import com.example.twitchapp.model.data.streamdata.Stream
 class StreamAdapter(private val context: Context) :
     PagingDataAdapter<Stream, StreamAdapter.StreamHolder>(DIFF_CALLBACK) {
 
-    private lateinit var listener: OnItemClickListener
+    private var thumbnailListener: StreamItemListener? = null
 
     inner class StreamHolder(private val binding: ItemStreamBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -31,7 +31,7 @@ class StreamAdapter(private val context: Context) :
                 lang.text = stream.channel.language
                 gamename.text = stream.game
                 thumbnail.setOnClickListener {
-                    listener.onThumbnailClickListener(stream.channel.url)
+                    thumbnailListener?.thumbnailClickListener(stream.channel.url)
                 }
             }
         }
@@ -49,18 +49,21 @@ class StreamAdapter(private val context: Context) :
         }
     }
 
-    interface OnItemClickListener {
-        fun onThumbnailClickListener(url: String)
+    interface StreamItemListener {
+        /*
+         * サムネイル画像をクリックしたとき
+        */
+        fun thumbnailClickListener(url: String)
     }
 
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.listener = listener
+    fun setListener(listener: StreamItemListener) {
+        this.thumbnailListener = listener
     }
 
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Stream>() {
             override fun areItemsTheSame(oldItem: Stream, newItem: Stream) =
-                oldItem._id == newItem._id
+                oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: Stream, newItem: Stream) =
                 oldItem == newItem

@@ -9,7 +9,7 @@
     app:mode="same_level">
 
     <LinearLayout
-        android:id="@+id/delete"
+        android:id="@+id/delete_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@android:color/holo_red_light"

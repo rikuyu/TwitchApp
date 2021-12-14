@@ -22,7 +22,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class ClipFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
+
     private lateinit var clipAdapter: ClipAdapter
+    private lateinit var listenr: ClipAdapter.ClipItemClickListener
+
     private var clipList: List<Clip>? = null
     private var _binding: FragmentClipBinding? = null
     private val binding
@@ -40,53 +43,53 @@ class ClipFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainViewModel.clips.observe(viewLifecycleOwner, { response ->
-            when (response) {
-                is Resource.Success -> {
-                    hideProgressBar()
-                    response.data?.let {
-                        clipList = it.clips
-                        clipAdapter = ClipAdapter(requireContext(), clipList)
-                        binding.clipRecyclerView.adapter = clipAdapter
+        listenr = object : ClipAdapter.ClipItemClickListener {
+            override fun thumbnailClickListener(url: String) {
+                val uri = Uri.parse(url)
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+            }
 
-                        clipAdapter.setOnThumbnailClickListener(object :
-                                ClipAdapter.OnItemClickListener {
-                                override fun showClip(url: String) {
-                                    val uri = Uri.parse(url)
-                                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                                    startActivity(intent)
-                                }
+            override fun userProfileClickListener(url: String) {
+                val uri = Uri.parse(url)
+                val intent = Intent(Intent.ACTION_VIEW, uri)
+                startActivity(intent)
+            }
 
-                                override fun showProfile(url: String) {
-                                    val uri = Uri.parse(url)
-                                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                                    startActivity(intent)
-                                }
+            override fun favoriteIconClickListener(clip: Clip) {
+                mainViewModel.insertGetClip(clip)
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.clip_save),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
 
-                                override fun addClip(clip: Clip) {
-                                    mainViewModel.insertGetClip(clip)
-                                    Toast.makeText(
-                                        requireContext(),
-                                        getString(R.string.clip_save),
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            })
+        mainViewModel.clips.observe(viewLifecycleOwner,
+            { response ->
+                when (response) {
+                    is Resource.Success -> {
+                        hideProgressBar()
+                        response.data?.let {
+                            clipList = it.clips
+                            clipAdapter = ClipAdapter(requireContext(), clipList, listenr)
+                            binding.clipRecyclerView.adapter = clipAdapter
+                        }
+                    }
+                    is Resource.Error -> {
+                        hideProgressBar()
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.clip_get_error),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    is Resource.Loading -> {
+                        showProgressBar()
                     }
                 }
-                is Resource.Error -> {
-                    hideProgressBar()
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.clip_get_error),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                is Resource.Loading -> {
-                    showProgressBar()
-                }
-            }
-        })
+            })
 
         setupTopMenu()
 
@@ -100,11 +103,11 @@ class ClipFragment : Fragment() {
     }
 
     private fun hideProgressBar() {
-        UtilObject.invisible(binding.progressbar)
+        binding.progressbar.visibility = View.INVISIBLE
     }
 
     private fun showProgressBar() {
-        UtilObject.visible(binding.progressbar)
+        binding.progressbar.visibility = View.VISIBLE
     }
 
     private fun setupTopMenu() {

@@ -15,7 +15,6 @@ import com.example.twitchapp.model.data.NewProfileData
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.util.SharedPreferencesManager
-import com.example.twitchapp.util.UtilObject
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -52,28 +51,24 @@ class MyProfileFragment : Fragment() {
             binding.numLikes.text = favoriteList.size.toString()
 
             if (favoriteList.isEmpty()) {
-                UtilObject.visible(binding.emptyMsg)
+                binding.emptyMsg.visibility = View.VISIBLE
             } else {
-                UtilObject.invisible(binding.emptyMsg)
+                binding.emptyMsg.visibility = View.INVISIBLE
             }
 
-            myProfileAdapter.setOnThumbnailClickListener(object :
-                MyProfileAdapter.ShowFavoClip {
-                override fun showFavoClip(url: String) {
+            myProfileAdapter.setListener(object :
+                MyProfileAdapter.FavoriteItemClickListener {
+                override fun thumbnailClickListener(url: String) {
                     val uri = Uri.parse(url)
                     val intent = Intent(Intent.ACTION_VIEW, uri)
                     startActivity(intent)
                 }
-            })
 
-            myProfileAdapter.setOnDeleteBtnClickListener(object :
-                MyProfileAdapter.DeleteItem {
-                override fun deleteItem(clip: Clip) {
+                override fun deleteViewClickListener(clip: Clip) {
                     mainViewModel.deleteClip(clip)
                     myProfileAdapter.submitList(favoriteList)
                 }
-            }
-            )
+            })
         })
 
         receiveDialogData()
