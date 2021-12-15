@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.databinding.ItemFavoriteBinding
 import com.example.twitchapp.model.data.clipdata.Clip
+import com.example.twitchapp.ui.ItemClickListener
 
 class MyProfileAdapter(private val context: Context) :
     ListAdapter<Clip, MyProfileAdapter.FavoriteHolder>(DIFF_CALLBACK) {
@@ -58,12 +59,7 @@ class MyProfileAdapter(private val context: Context) :
         }
     }
 
-    interface FavoriteItemClickListener {
-        /*
-         * サムネイル画像をクリックしたとき
-        */
-        fun thumbnailClickListener(url: String)
-
+    interface FavoriteItemClickListener : ItemClickListener {
         /*
          * クリップをスライドしたときに現れるViewをクリックしたとき
         */

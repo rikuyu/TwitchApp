@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.databinding.FragmentStreamBinding
+import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -47,7 +48,7 @@ class StreamFragment : Fragment() {
         }
 
         streamAdapter.setListener(
-            object : StreamAdapter.StreamItemListener {
+            object : ItemClickListener {
                 override fun thumbnailClickListener(url: String) {
                     val uri = Uri.parse(url)
                     val intent = Intent(Intent.ACTION_VIEW, uri)

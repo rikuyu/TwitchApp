@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.R
 import com.example.twitchapp.model.data.clipdata.Clip
+import com.example.twitchapp.ui.ItemClickListener
 
 class ClipAdapter(
     private val context: Context,
@@ -68,13 +69,7 @@ class ClipAdapter(
         return clipList?.size ?: 0
     }
 
-    interface ClipItemClickListener {
-
-        /*
-         * サムネイル画像をクリックしたとき
-        */
-        fun thumbnailClickListener(url: String)
-
+    interface ClipItemClickListener : ItemClickListener {
         /*
          * ユーザーのプロフィール画像をクリックしたとき
         */
