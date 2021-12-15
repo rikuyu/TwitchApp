@@ -24,7 +24,6 @@
     <string name="menu_clip_title">Clip</string>
 
     <!--ダイアログ関連-->
-    <string name="text_button">Edit</string>
     <string name="dialog_title">Edit Profile</string>
     <string name="dialog_btn_ok">OK</string>
     <string name="dialog_btn_cancel">Cancel</string>
@@ -34,7 +33,6 @@
 
     <!--いいねの数-->
     <string name="nothing_favo">いいねがありません</string>
-    <string name="number_likes">Likes %d</string>
-    <string name="number_likes_default">Likes 0</string>
+    <string name="number_likes">0</string>
 
 </resources>

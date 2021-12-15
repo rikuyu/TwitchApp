@@ -16,7 +16,7 @@ import com.example.twitchapp.model.data.NewProfileData
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EditCustomDialog private constructor() : DialogFragment() {
+class ProfileEditCustomDialog private constructor() : DialogFragment() {
 
     private var currentName: String? = null
     private var currentProfileImageUri: String? = null
@@ -45,8 +45,8 @@ class EditCustomDialog private constructor() : DialogFragment() {
             }
         }
 
-        fun build(): EditCustomDialog {
-            return EditCustomDialog().apply {
+        fun build(): ProfileEditCustomDialog {
+            return ProfileEditCustomDialog().apply {
                 arguments = bundle
             }
         }
@@ -60,9 +60,16 @@ class EditCustomDialog private constructor() : DialogFragment() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
                     val imageUri = result.data?.data
-                    imageUri?.let {
-                        newImageUriStringFromGallery = it.toString()
-                        binding.editProfileImage.setImageURI(it)
+                    if (imageUri != null) {
+                        newImageUriStringFromGallery = imageUri.toString()
+                        binding.editProfileImage.setImageURI(imageUri)
+                        currentProfileImageUri = newImageUriStringFromGallery
+                    } else {
+                        if (currentProfileImageUri != null) {
+                            binding.editProfileImage.setImageURI(Uri.parse(currentProfileImageUri))
+                        } else {
+                            binding.editProfileImage.setImageResource(R.drawable.no_image)
+                        }
                     }
                 }
             }
@@ -84,7 +91,7 @@ class EditCustomDialog private constructor() : DialogFragment() {
                         getString(R.string.dialog_error_over_label, 10)
                 }
                 else -> {
-                    val newProfileImageUri = newImageUriStringFromGallery.toString()
+                    val newProfileImageUri = currentProfileImageUri.toString()
                     val newProfile = NewProfileData(newProfileName, newProfileImageUri)
                     setFragmentResult(KEY_CLICKED, bundleOf(NEW_PROFILE_KEY to newProfile))
                     dismiss()

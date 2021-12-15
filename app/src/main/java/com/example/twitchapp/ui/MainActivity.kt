@@ -3,6 +3,7 @@ package com.example.twitchapp.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.ActivityMainBinding
@@ -18,13 +19,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.run {
-            bottomNav.setupWithNavController(
-                Navigation.findNavController(
-                    this@MainActivity,
-                    R.id.twichNavHostFragment
-                )
-            )
+        supportFragmentManager.findFragmentById(R.id.twich_nav_host)?.let { navController ->
+            binding.bottomNav.setupWithNavController(navController.findNavController())
         }
     }
 }

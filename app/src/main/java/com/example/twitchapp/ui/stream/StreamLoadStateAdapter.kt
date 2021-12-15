@@ -1,12 +1,12 @@
 package com.example.twitchapp.ui.stream
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.twitchapp.databinding.ItemStreamLoadStateBinding
-import com.example.twitchapp.util.UtilObject
 
 class StreamLoadStateAdapter(
     private val retry: () -> Unit
@@ -20,23 +20,23 @@ class StreamLoadStateAdapter(
             when (loadState) {
                 is LoadState.Loading -> {
                     binding.apply {
-                        UtilObject.visible(progressbar)
-                        UtilObject.invisible(errorMsg)
-                        UtilObject.invisible(buttonRetry)
+                        progressbar.visibility = View.VISIBLE
+                        errorMsg.visibility = View.INVISIBLE
+                        buttonRetry.visibility = View.INVISIBLE
                     }
                 }
                 is LoadState.Error -> {
                     binding.apply {
-                        UtilObject.invisible(progressbar)
-                        UtilObject.visible(errorMsg)
-                        UtilObject.visible(buttonRetry)
+                        progressbar.visibility = View.INVISIBLE
+                        errorMsg.visibility = View.VISIBLE
+                        buttonRetry.visibility = View.VISIBLE
                     }
                 }
                 is LoadState.NotLoading -> {
                     binding.apply {
-                        UtilObject.visible(progressbar)
-                        UtilObject.invisible(errorMsg)
-                        UtilObject.invisible(buttonRetry)
+                        progressbar.visibility = View.VISIBLE
+                        errorMsg.visibility = View.INVISIBLE
+                        buttonRetry.visibility = View.INVISIBLE
                     }
                 }
             }

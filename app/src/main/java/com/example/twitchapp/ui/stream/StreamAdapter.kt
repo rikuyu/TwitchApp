@@ -10,11 +10,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.databinding.ItemStreamBinding
 import com.example.twitchapp.model.data.streamdata.Stream
+import com.example.twitchapp.ui.ItemClickListener
 
 class StreamAdapter(private val context: Context) :
     PagingDataAdapter<Stream, StreamAdapter.StreamHolder>(DIFF_CALLBACK) {
 
-    private lateinit var listener: OnItemClickListener
+    private var thumbnailListener: ItemClickListener? = null
 
     inner class StreamHolder(private val binding: ItemStreamBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -31,7 +32,7 @@ class StreamAdapter(private val context: Context) :
                 lang.text = stream.channel.language
                 gamename.text = stream.game
                 thumbnail.setOnClickListener {
-                    listener.onThumbnailClickListener(stream.channel.url)
+                    thumbnailListener?.thumbnailClickListener(stream.channel.url)
                 }
             }
         }
@@ -49,12 +50,8 @@ class StreamAdapter(private val context: Context) :
         }
     }
 
-    interface OnItemClickListener {
-        fun onThumbnailClickListener(url: String)
-    }
-
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.listener = listener
+    fun setListener(listener: ItemClickListener) {
+        this.thumbnailListener = listener
     }
 
     companion object {

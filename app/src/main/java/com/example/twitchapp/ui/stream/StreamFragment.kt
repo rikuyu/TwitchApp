@@ -12,8 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.databinding.FragmentStreamBinding
+import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.MainViewModel
-import com.example.twitchapp.util.UtilObject
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -47,9 +47,9 @@ class StreamFragment : Fragment() {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         }
 
-        streamAdapter.setOnItemClickListener(
-            object : StreamAdapter.OnItemClickListener {
-                override fun onThumbnailClickListener(url: String) {
+        streamAdapter.setListener(
+            object : ItemClickListener {
+                override fun thumbnailClickListener(url: String) {
                     val uri = Uri.parse(url)
                     val intent = Intent(Intent.ACTION_VIEW, uri)
                     startActivity(intent)
@@ -68,20 +68,20 @@ class StreamFragment : Fragment() {
                 when (state.refresh) {
                     is LoadState.Loading -> {
                         binding.apply {
-                            UtilObject.visible(progressbar)
-                            UtilObject.invisible(pagingErrorMsg)
+                            progressbar.visibility = View.VISIBLE
+                            pagingErrorMsg.visibility = View.INVISIBLE
                         }
                     }
                     is LoadState.Error -> {
                         binding.apply {
-                            UtilObject.invisible(progressbar)
-                            UtilObject.visible(pagingErrorMsg)
+                            progressbar.visibility = View.INVISIBLE
+                            pagingErrorMsg.visibility = View.VISIBLE
                         }
                     }
                     is LoadState.NotLoading -> {
                         binding.apply {
-                            UtilObject.invisible(progressbar)
-                            UtilObject.invisible(pagingErrorMsg)
+                            progressbar.visibility = View.INVISIBLE
+                            pagingErrorMsg.visibility = View.INVISIBLE
                         }
                     }
                 }
