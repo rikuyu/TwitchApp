@@ -10,11 +10,24 @@
         android:id="@+id/top_line"
         android:layout_width="fill_parent"
         android:layout_height="2dp"
-        android:layout_marginTop="6dp"
         android:layout_marginBottom="8dp"
         android:background="@color/theme"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/profile_icon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="12dp"
+        android:contentDescription="@string/image_desc"
+        android:src="@drawable/ic_profile"
+        app:layout_constraintBottom_toBottomOf="@id/profile_title"
+        app:layout_constraintEnd_toStartOf="@id/profile_title"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/profile_title"
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/profile_title"
@@ -26,7 +39,7 @@
         android:textSize="26sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/profile_icon"
         app:layout_constraintTop_toBottomOf="@+id/top_line" />
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -46,17 +59,29 @@
         android:layout_height="wrap_content"
         android:text="@string/no_name"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/num_likes"
         app:layout_constraintEnd_toStartOf="@+id/btn_edit"
         app:layout_constraintStart_toEndOf="@+id/my_profile_image"
         app:layout_constraintTop_toTopOf="@+id/my_profile_image" />
 
+    <ImageView
+        android:id="@+id/heart_icon"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginEnd="4dp"
+        android:contentDescription="@string/image_desc"
+        android:src="@drawable/ic_favorite"
+        app:layout_constraintBottom_toBottomOf="@id/num_likes"
+        app:layout_constraintEnd_toStartOf="@id/num_likes"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="@id/num_likes" />
+
     <TextView
         android:id="@+id/num_likes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/number_likes_default"
+        android:text="@string/number_likes"
         android:textColor="@color/white"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="@+id/my_profile_image"
@@ -64,11 +89,13 @@
         app:layout_constraintStart_toEndOf="@+id/my_profile_image"
         app:layout_constraintTop_toBottomOf="@+id/my_profile_name" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_edit"
-        android:layout_width="60dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/text_button"
+        android:contentDescription="@string/image_desc"
+        android:padding="12dp"
+        android:src="@drawable/ic_edit"
         app:layout_constraintBottom_toBottomOf="@+id/my_profile_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/num_likes"

@@ -10,11 +10,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.databinding.ItemStreamBinding
 import com.example.twitchapp.model.data.streamdata.Stream
+import com.example.twitchapp.ui.ItemClickListener
 
 class StreamAdapter(private val context: Context) :
     PagingDataAdapter<Stream, StreamAdapter.StreamHolder>(DIFF_CALLBACK) {
 
-    private var thumbnailListener: StreamItemListener? = null
+    private var thumbnailListener: ItemClickListener? = null
 
     inner class StreamHolder(private val binding: ItemStreamBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -49,14 +50,7 @@ class StreamAdapter(private val context: Context) :
         }
     }
 
-    interface StreamItemListener {
-        /*
-         * サムネイル画像をクリックしたとき
-        */
-        fun thumbnailClickListener(url: String)
-    }
-
-    fun setListener(listener: StreamItemListener) {
+    fun setListener(listener: ItemClickListener) {
         this.thumbnailListener = listener
     }
 

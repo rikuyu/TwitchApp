@@ -48,7 +48,7 @@ class MyProfileFragment : Fragment() {
         mainViewModel.favoriteClips.observe(viewLifecycleOwner, { favoriteList ->
 
             myProfileAdapter.submitList(favoriteList)
-            binding.numLikes.text = getString(R.string.number_likes, favoriteList.size)
+            binding.numLikes.text = favoriteList.size.toString()
 
             if (favoriteList.isEmpty()) {
                 binding.emptyMsg.visibility = View.VISIBLE
@@ -74,12 +74,12 @@ class MyProfileFragment : Fragment() {
         receiveDialogData()
 
         binding.btnEdit.setOnClickListener {
-            EditCustomDialog
+            ProfileEditCustomDialog
                 .Builder()
                 .setName(binding.myProfileName.text.toString())
                 .setAvatarImage(profileImageUri)
                 .build()
-                .show(childFragmentManager, EditCustomDialog::class.simpleName)
+                .show(childFragmentManager, ProfileEditCustomDialog::class.simpleName)
         }
     }
 
@@ -121,6 +121,7 @@ class MyProfileFragment : Fragment() {
                 setImageURI(null)
                 if (newProfile != null) {
                     setImageURI(Uri.parse(newProfile.newProfileImage))
+                    profileImageUri = newProfile.newProfileImage
                 } else {
                     setImageResource(R.drawable.no_image)
                 }
