@@ -57,7 +57,7 @@ class StreamAdapter(private val context: Context) :
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Stream>() {
             override fun areItemsTheSame(oldItem: Stream, newItem: Stream) =
-                oldItem.id == newItem.id
+                oldItem._id == newItem._id
 
             override fun areContentsTheSame(oldItem: Stream, newItem: Stream) =
                 oldItem == newItem
