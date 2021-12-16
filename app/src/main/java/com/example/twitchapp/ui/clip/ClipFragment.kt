@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.FragmentClipBinding
+import com.example.twitchapp.model.data.Games
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.util.Resource
@@ -66,7 +67,8 @@ class ClipFragment : Fragment() {
             }
         }
 
-        mainViewModel.clips.observe(viewLifecycleOwner,
+        mainViewModel.clips.observe(
+            viewLifecycleOwner,
             { response ->
                 when (response) {
                     is Resource.Success -> {
@@ -89,7 +91,8 @@ class ClipFragment : Fragment() {
                         showProgressBar()
                     }
                 }
-            })
+            }
+        )
 
         setupTopMenu()
 
@@ -113,26 +116,15 @@ class ClipFragment : Fragment() {
     private fun setupTopMenu() {
         binding.gameTitlesTopbar.apply {
             UtilObject.apply {
-                createGameButton(pubgMobile, mainViewModel, PUBG_MOBILE)
-                createGameButton(apex, mainViewModel, APEX_LEGENDS)
-                createGameButton(amongus, mainViewModel, AMONG_US)
-                createGameButton(genshin, mainViewModel, GENSHIN)
-                createGameButton(minecraft, mainViewModel, MINECRAFT)
-                createGameButton(fortnite, mainViewModel, FORTNITE)
-                createGameButton(callofduty, mainViewModel, CALL_OF_DUTY)
-                createGameButton(lol, mainViewModel, LEAGUE_OF_LEGENDS)
+                createGameButton(pubgMobile, mainViewModel, Games.PUBG_MOBILE.title)
+                createGameButton(apex, mainViewModel, Games.APEX_LEGENDS.title)
+                createGameButton(amongus, mainViewModel, Games.AMONG_US.title)
+                createGameButton(genshin, mainViewModel, Games.GENSHIN.title)
+                createGameButton(minecraft, mainViewModel, Games.MINECRAFT.title)
+                createGameButton(fortnite, mainViewModel, Games.FORTNITE.title)
+                createGameButton(callofduty, mainViewModel, Games.CALL_OF_DUTY.title)
+                createGameButton(lol, mainViewModel, Games.LEAGUE_OF_LEGENDS.title)
             }
         }
-    }
-
-    companion object {
-        private const val PUBG_MOBILE = "PUBG Mobile"
-        private const val APEX_LEGENDS = "Apex Legends"
-        private const val AMONG_US = "Among Us"
-        private const val GENSHIN = "Genshin Impact"
-        private const val FORTNITE = "Fortnite"
-        private const val MINECRAFT = "Minecraft"
-        private const val CALL_OF_DUTY = "Call of Duty: Warzone"
-        private const val LEAGUE_OF_LEGENDS = "League of Legends"
     }
 }
