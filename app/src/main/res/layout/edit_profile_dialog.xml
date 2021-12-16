@@ -22,7 +22,7 @@
         android:layout_height="70dp"
         android:layout_marginTop="12dp"
         android:contentDescription="@string/image_desc"
-        android:src="@drawable/no_image"
+        android:src="@drawable/no_profile_image"
         app:layout_constraintBottom_toTopOf="@+id/edit_my_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

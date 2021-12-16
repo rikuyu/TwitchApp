@@ -57,18 +57,18 @@ class MyProfileFragment : Fragment() {
             }
 
             myProfileAdapter.setListener(object :
-                MyProfileAdapter.FavoriteItemClickListener {
-                override fun thumbnailClickListener(url: String) {
-                    val uri = Uri.parse(url)
-                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                    startActivity(intent)
-                }
+                    MyProfileAdapter.FavoriteItemClickListener {
+                    override fun thumbnailClickListener(url: String) {
+                        val uri = Uri.parse(url)
+                        val intent = Intent(Intent.ACTION_VIEW, uri)
+                        startActivity(intent)
+                    }
 
-                override fun deleteViewClickListener(clip: Clip) {
-                    mainViewModel.deleteClip(clip)
-                    myProfileAdapter.submitList(favoriteList)
-                }
-            })
+                    override fun deleteViewClickListener(clip: Clip) {
+                        mainViewModel.deleteClip(clip)
+                        myProfileAdapter.submitList(favoriteList)
+                    }
+                })
         })
 
         receiveDialogData()
@@ -123,7 +123,7 @@ class MyProfileFragment : Fragment() {
                     setImageURI(Uri.parse(newProfile.newProfileImage))
                     profileImageUri = newProfile.newProfileImage
                 } else {
-                    setImageResource(R.drawable.no_image)
+                    setImageResource(R.drawable.no_profile_image)
                 }
             }
 
