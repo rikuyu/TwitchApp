@@ -1,7 +1,6 @@
 package com.example.twitchapp.ui.myprofile
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -30,11 +29,7 @@ class MyProfileAdapter(private val context: Context) :
                 Glide.with(context).load(clip.thumbnails.medium)
                     .into(thumbnail)
 
-                Log.d("AAAAAAAAAA", clip.game)
-
                 val gameImageDrawable = UtilObject.getGameImage(context, clip.game)
-
-                Log.d("AAAAAAAAAA", "$gameImageDrawable")
 
                 gameImageDrawable?.let {
                     gameImage.setImageDrawable(it)

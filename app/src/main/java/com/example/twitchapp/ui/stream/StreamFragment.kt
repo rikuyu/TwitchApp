@@ -1,7 +1,5 @@
 package com.example.twitchapp.ui.stream
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.databinding.FragmentStreamBinding
 import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.MainViewModel
+import com.example.twitchapp.util.ChromeCustomTabsManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -21,9 +20,12 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class StreamFragment : Fragment() {
 
-    private val mainViewModel: MainViewModel by activityViewModels()
     private lateinit var streamAdapter: StreamAdapter
     private var _binding: FragmentStreamBinding? = null
+
+    private val mainViewModel: MainViewModel by activityViewModels()
+    private val chromeCustomTabsManager: ChromeCustomTabsManager = ChromeCustomTabsManager()
+
     private val binding
         get() = _binding!!
 
@@ -50,9 +52,9 @@ class StreamFragment : Fragment() {
         streamAdapter.setListener(
             object : ItemClickListener {
                 override fun thumbnailClickListener(url: String) {
-                    val uri = Uri.parse(url)
-                    val intent = Intent(Intent.ACTION_VIEW, uri)
-                    startActivity(intent)
+                    context?.let {
+                        chromeCustomTabsManager.openChromeCustomTabs(it, url)
+                    }
                 }
             }
         )
