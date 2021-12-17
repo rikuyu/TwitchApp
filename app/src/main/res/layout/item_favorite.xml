@@ -34,40 +34,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <androidx.cardview.widget.CardView
             android:id="@+id/thumbnail_card"
             android:layout_width="80dp"
             android:layout_height="60dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            app:cardCornerRadius="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.cardview.widget.CardView
+            <ImageView
+                android:id="@+id/thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:cardCornerRadius="5dp">
+                android:contentDescription="@string/image_desc" />
 
-                <ImageView
-                    android:id="@+id/thumbnail"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/image_desc" />
-
-            </androidx.cardview.widget.CardView>
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:contentDescription="@string/image_desc"
-                android:src="@drawable/ic_play"
-                app:tint="@color/theme" />
-
-        </RelativeLayout>
+        </androidx.cardview.widget.CardView>
 
         <ImageView
             android:id="@+id/user_icon"
