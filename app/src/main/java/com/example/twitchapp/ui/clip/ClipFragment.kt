@@ -1,7 +1,5 @@
 package com.example.twitchapp.ui.clip
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +13,7 @@ import com.example.twitchapp.databinding.FragmentClipBinding
 import com.example.twitchapp.model.data.Games
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainViewModel
+import com.example.twitchapp.util.ChromeCustomTabsManager
 import com.example.twitchapp.util.Resource
 import com.example.twitchapp.util.UtilObject
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ClipFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
+    private val chromeCustomTabsManager: ChromeCustomTabsManager = ChromeCustomTabsManager()
 
     private lateinit var clipAdapter: ClipAdapter
     private lateinit var listenr: ClipAdapter.ClipItemClickListener
@@ -44,26 +44,24 @@ class ClipFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        listenr = object : ClipAdapter.ClipItemClickListener {
-            override fun thumbnailClickListener(url: String) {
-                val uri = Uri.parse(url)
-                val intent = Intent(Intent.ACTION_VIEW, uri)
-                startActivity(intent)
-            }
+        context?.let {
+            listenr = object : ClipAdapter.ClipItemClickListener {
+                override fun thumbnailClickListener(url: String) {
+                    chromeCustomTabsManager.openChromeCustomTabs(it, url)
+                }
 
-            override fun userProfileClickListener(url: String) {
-                val uri = Uri.parse(url)
-                val intent = Intent(Intent.ACTION_VIEW, uri)
-                startActivity(intent)
-            }
+                override fun userProfileClickListener(url: String) {
+                    chromeCustomTabsManager.openChromeCustomTabs(it, url)
+                }
 
-            override fun favoriteIconClickListener(clip: Clip) {
-                mainViewModel.insertGetClip(clip)
-                Toast.makeText(
-                    requireContext(),
-                    getString(R.string.clip_save),
-                    Toast.LENGTH_SHORT
-                ).show()
+                override fun favoriteIconClickListener(clip: Clip) {
+                    mainViewModel.insertGetClip(clip)
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.clip_save),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
 
