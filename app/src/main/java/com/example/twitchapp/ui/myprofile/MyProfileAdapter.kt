@@ -7,40 +7,39 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.databinding.ItemFavoriteBinding
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.ItemClickListener
+import com.example.twitchapp.util.UtilObject
 
 class MyProfileAdapter(private val context: Context) :
     ListAdapter<Clip, MyProfileAdapter.FavoriteHolder>(DIFF_CALLBACK) {
 
-    private var thumbnailListener: FavoriteItemClickListener? = null
-    private var deleteViewListener: FavoriteItemClickListener? = null
+    private var listener: FavoriteItemClickListener? = null
 
     inner class FavoriteHolder(private val binding: ItemFavoriteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(clip: Clip) {
             binding.apply {
-                gameName.text = clip.game
                 username.text = clip.curator.name
-                lang.text = clip.language
                 viewer.text = clip.views.toString()
 
                 Glide.with(context).load(clip.thumbnails.medium)
                     .into(thumbnail)
 
-                Glide.with(context).load(clip.thumbnails.medium)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(userProfile)
+                val gameImageDrawable = UtilObject.getGameImage(context, clip.game)
+
+                gameImageDrawable?.let {
+                    gameImage.setImageDrawable(it)
+                }
 
                 thumbnail.setOnClickListener {
-                    thumbnailListener?.thumbnailClickListener(clip.url)
+                    listener?.thumbnailClickListener(clip.url)
                 }
 
                 deleteView.setOnClickListener {
-                    deleteViewListener?.deleteViewClickListener(clip)
+                    listener?.deleteViewClickListener(clip)
                 }
             }
         }
@@ -67,8 +66,7 @@ class MyProfileAdapter(private val context: Context) :
     }
 
     fun setListener(listener: FavoriteItemClickListener) {
-        this.thumbnailListener = listener
-        this.deleteViewListener = listener
+        this.listener = listener
     }
 
     companion object {

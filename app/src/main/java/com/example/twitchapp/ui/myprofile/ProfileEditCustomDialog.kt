@@ -68,7 +68,7 @@ class ProfileEditCustomDialog private constructor() : DialogFragment() {
                         if (currentProfileImageUri != null) {
                             binding.editProfileImage.setImageURI(Uri.parse(currentProfileImageUri))
                         } else {
-                            binding.editProfileImage.setImageResource(R.drawable.no_image)
+                            binding.editProfileImage.setImageResource(R.drawable.no_profile_image)
                         }
                     }
                 }
