@@ -30,6 +30,7 @@ class MyProfileAdapter(private val context: Context) :
                     .into(thumbnail)
 
                 val gameImageDrawable = UtilObject.getGameImage(context, clip.game)
+
                 gameImageDrawable?.let {
                     gameImage.setImageDrawable(it)
                 }

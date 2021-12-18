@@ -1,6 +1,5 @@
 package com.example.twitchapp.ui.myprofile
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +13,7 @@ import com.example.twitchapp.databinding.FragmentMyProfileBinding
 import com.example.twitchapp.model.data.NewProfileData
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainViewModel
+import com.example.twitchapp.util.ChromeCustomTabsManager
 import com.example.twitchapp.util.SharedPreferencesManager
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,6 +27,7 @@ class MyProfileFragment : Fragment() {
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private val sharedPreferencesManager: SharedPreferencesManager = SharedPreferencesManager()
+    private val chromeCustomTabsManager: ChromeCustomTabsManager = ChromeCustomTabsManager()
     private val binding
         get() = _binding!!
 
@@ -56,19 +57,19 @@ class MyProfileFragment : Fragment() {
                 binding.emptyMsg.visibility = View.INVISIBLE
             }
 
-            myProfileAdapter.setListener(object :
-                    MyProfileAdapter.FavoriteItemClickListener {
-                    override fun thumbnailClickListener(url: String) {
-                        val uri = Uri.parse(url)
-                        val intent = Intent(Intent.ACTION_VIEW, uri)
-                        startActivity(intent)
-                    }
+            context?.let {
+                myProfileAdapter.setListener(object :
+                        MyProfileAdapter.FavoriteItemClickListener {
+                        override fun thumbnailClickListener(url: String) {
+                            chromeCustomTabsManager.openChromeCustomTabs(it, url)
+                        }
 
-                    override fun deleteViewClickListener(clip: Clip) {
-                        mainViewModel.deleteClip(clip)
-                        myProfileAdapter.submitList(favoriteList)
-                    }
-                })
+                        override fun deleteViewClickListener(clip: Clip) {
+                            mainViewModel.deleteClip(clip)
+                            myProfileAdapter.submitList(favoriteList)
+                        }
+                    })
+            }
         })
 
         receiveDialogData()
