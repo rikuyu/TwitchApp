@@ -15,7 +15,7 @@ import com.example.twitchapp.ui.ItemClickListener
 class StreamAdapter(private val context: Context) :
     PagingDataAdapter<Stream, StreamAdapter.StreamHolder>(DIFF_CALLBACK) {
 
-    private var thumbnailListener: ItemClickListener? = null
+    private var listener: ItemClickListener? = null
 
     inner class StreamHolder(private val binding: ItemStreamBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -32,7 +32,7 @@ class StreamAdapter(private val context: Context) :
                 lang.text = stream.channel.language
                 gamename.text = stream.game
                 thumbnail.setOnClickListener {
-                    thumbnailListener?.thumbnailClickListener(stream.channel.url)
+                    listener?.thumbnailClickListener(stream.channel.url)
                 }
             }
         }
@@ -51,7 +51,7 @@ class StreamAdapter(private val context: Context) :
     }
 
     fun setListener(listener: ItemClickListener) {
-        this.thumbnailListener = listener
+        this.listener = listener
     }
 
     companion object {

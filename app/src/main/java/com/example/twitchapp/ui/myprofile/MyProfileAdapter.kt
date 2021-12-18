@@ -16,8 +16,7 @@ import com.example.twitchapp.util.UtilObject
 class MyProfileAdapter(private val context: Context) :
     ListAdapter<Clip, MyProfileAdapter.FavoriteHolder>(DIFF_CALLBACK) {
 
-    private var thumbnailListener: FavoriteItemClickListener? = null
-    private var deleteViewListener: FavoriteItemClickListener? = null
+    private var listener: FavoriteItemClickListener? = null
 
     inner class FavoriteHolder(private val binding: ItemFavoriteBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -41,11 +40,11 @@ class MyProfileAdapter(private val context: Context) :
                 }
 
                 thumbnail.setOnClickListener {
-                    thumbnailListener?.thumbnailClickListener(clip.url)
+                    listener?.thumbnailClickListener(clip.url)
                 }
 
                 deleteView.setOnClickListener {
-                    deleteViewListener?.deleteViewClickListener(clip)
+                    listener?.deleteViewClickListener(clip)
                 }
             }
         }
@@ -72,8 +71,7 @@ class MyProfileAdapter(private val context: Context) :
     }
 
     fun setListener(listener: FavoriteItemClickListener) {
-        this.thumbnailListener = listener
-        this.deleteViewListener = listener
+        this.listener = listener
     }
 
     companion object {
