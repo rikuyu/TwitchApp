@@ -22,7 +22,10 @@ class MyProfileAdapter(private val context: Context) :
 
         fun bind(clip: Clip) {
             binding.apply {
-                username.text = clip.curator.name
+                clipItemTitle.text = clip.title
+                clipDuration.text = UtilObject.convertClipTime(clip.duration)
+
+                userName.text = clip.broadcaster.name
                 viewer.text = clip.views.toString()
 
                 Glide.with(context).load(clip.thumbnails.medium)

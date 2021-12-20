@@ -21,16 +21,16 @@ class StreamAdapter(private val context: Context) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(stream: Stream) {
             binding.apply {
-                username.text = stream.channel.name
+                userName.text = stream.channel.name
                 viewer.text = stream.viewers.toString()
                 Glide.with(context)
                     .load(stream.preview.large)
                     .into(thumbnail)
                 Glide.with(context).load(stream.channel.logo)
                     .apply(RequestOptions.circleCropTransform())
-                    .into(userProfile)
+                    .into(userProfileImage)
                 lang.text = stream.channel.language
-                gamename.text = stream.game
+                gameName.text = stream.game
                 thumbnail.setOnClickListener {
                     listener?.thumbnailClickListener(stream.channel.url)
                 }
