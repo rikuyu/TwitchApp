@@ -14,6 +14,7 @@ import com.example.twitchapp.model.data.NewProfileData
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.util.ChromeCustomTabsManager
+import com.example.twitchapp.util.CustomBottomSheetDialogFragment
 import com.example.twitchapp.util.SharedPreferencesManager
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -59,16 +60,23 @@ class MyProfileFragment : Fragment() {
 
             context?.let {
                 myProfileAdapter.setListener(object :
-                        MyProfileAdapter.FavoriteItemClickListener {
-                        override fun thumbnailClickListener(url: String) {
-                            chromeCustomTabsManager.openChromeCustomTabs(it, url)
-                        }
+                    MyProfileAdapter.FavoriteItemClickListener {
+                    override fun thumbnailClickListener(url: String) {
+                        chromeCustomTabsManager.openChromeCustomTabs(it, url)
+                    }
 
-                        override fun deleteViewClickListener(clip: Clip) {
-                            mainViewModel.deleteClip(clip)
-                            myProfileAdapter.submitList(favoriteList)
+                    override fun longClickListener() {
+                        context?.let {
+                            CustomBottomSheetDialogFragment.newInstance()
+                                .show(childFragmentManager, "")
                         }
-                    })
+                    }
+
+                    override fun deleteViewClickListener(clip: Clip) {
+                        mainViewModel.deleteClip(clip)
+                        myProfileAdapter.submitList(favoriteList)
+                    }
+                })
             }
         })
 

@@ -13,6 +13,7 @@ import com.example.twitchapp.databinding.FragmentStreamBinding
 import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.util.ChromeCustomTabsManager
+import com.example.twitchapp.util.CustomBottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -41,7 +42,9 @@ class StreamFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        streamAdapter = StreamAdapter(requireContext())
+        context?.let {
+            streamAdapter = StreamAdapter(it)
+        }
 
         binding.streamRecyclerView.apply {
             adapter =
@@ -54,6 +57,12 @@ class StreamFragment : Fragment() {
                 override fun thumbnailClickListener(url: String) {
                     context?.let {
                         chromeCustomTabsManager.openChromeCustomTabs(it, url)
+                    }
+                }
+
+                override fun longClickListener() {
+                    context?.let {
+                        CustomBottomSheetDialogFragment.newInstance().show(childFragmentManager, "")
                     }
                 }
             }

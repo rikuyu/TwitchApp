@@ -34,6 +34,10 @@ class StreamAdapter(private val context: Context) :
                 thumbnail.setOnClickListener {
                     listener?.thumbnailClickListener(stream.channel.url)
                 }
+                itemStream.setOnLongClickListener {
+                    listener?.longClickListener()
+                    return@setOnLongClickListener true
+                }
             }
         }
     }

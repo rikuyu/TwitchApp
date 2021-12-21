@@ -44,6 +44,11 @@ class MyProfileAdapter(private val context: Context) :
                 deleteView.setOnClickListener {
                     listener?.deleteViewClickListener(clip)
                 }
+
+                itemFavorite.setOnLongClickListener {
+                    listener?.longClickListener()
+                    return@setOnLongClickListener true
+                }
             }
         }
     }

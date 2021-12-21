@@ -13,9 +13,7 @@ import com.example.twitchapp.databinding.FragmentClipBinding
 import com.example.twitchapp.model.data.Games
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainViewModel
-import com.example.twitchapp.util.ChromeCustomTabsManager
-import com.example.twitchapp.util.Resource
-import com.example.twitchapp.util.UtilObject
+import com.example.twitchapp.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,7 +23,8 @@ class ClipFragment : Fragment() {
     private val chromeCustomTabsManager: ChromeCustomTabsManager = ChromeCustomTabsManager()
 
     private lateinit var clipAdapter: ClipAdapter
-    private lateinit var listenr: ClipAdapter.ClipItemClickListener
+    private lateinit var clipItemClickListener: ClipAdapter.ClipItemClickListener
+    private lateinit var bottomSheetDialogListenr: BottomSheetDialogListenr
 
     private var clipList: List<Clip>? = null
     private var _binding: FragmentClipBinding? = null
@@ -45,9 +44,15 @@ class ClipFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         context?.let {
-            listenr = object : ClipAdapter.ClipItemClickListener {
+            clipItemClickListener = object : ClipAdapter.ClipItemClickListener {
                 override fun thumbnailClickListener(url: String) {
                     chromeCustomTabsManager.openChromeCustomTabs(it, url)
+                }
+
+                override fun longClickListener() {
+                    context?.let {
+                        CustomBottomSheetDialogFragment.newInstance().show(childFragmentManager, "")
+                    }
                 }
 
                 override fun userProfileClickListener(url: String) {
@@ -73,7 +78,8 @@ class ClipFragment : Fragment() {
                         hideProgressBar()
                         response.data?.let {
                             clipList = it.clips
-                            clipAdapter = ClipAdapter(requireContext(), clipList, listenr)
+                            clipAdapter =
+                                ClipAdapter(requireContext(), clipList, clipItemClickListener)
                             binding.clipRecyclerView.adapter = clipAdapter
                         }
                     }
