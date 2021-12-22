@@ -8,19 +8,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.activityViewModels
 import com.example.twitchapp.databinding.CustomBottomSheetDialogBinding
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.streamdata.Stream
-import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.ui.ScreenType
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.io.Serializable
 
-class CustomBottomSheetDialog : BottomSheetDialogFragment(), BottomSheetDialogListenr {
+class CustomBottomSheetDialog(
+    private val favoriteClip: (clip: Clip) -> Unit,
+    private val deleteClip: (clip: Clip) -> Unit
+) : BottomSheetDialogFragment(), BottomSheetDialogListenr {
 
     private val chromeCustomTabsManager: ChromeCustomTabsManager = ChromeCustomTabsManager()
-    private val mainViewModel: MainViewModel by activityViewModels()
 
     private var screenType: ScreenType? = null
     private var stream: Stream? = null
@@ -56,11 +56,11 @@ class CustomBottomSheetDialog : BottomSheetDialogFragment(), BottomSheetDialogLi
     }
 
     override fun favorite(clip: Clip) {
-        mainViewModel.insertGetClip(clip)
+        favoriteClip(clip)
     }
 
     override fun delete(clip: Clip) {
-        mainViewModel.deleteClip(clip)
+        deleteClip(clip)
     }
 
     override fun copy(url: String) {
@@ -92,7 +92,7 @@ class CustomBottomSheetDialog : BottomSheetDialogFragment(), BottomSheetDialogLi
         binding.itemFavorite.setOnClickListener {
             clip?.let {
                 favorite(it)
-                Toast.makeText(context, "いいねから削除", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "いいね", Toast.LENGTH_SHORT).show()
             }
             if (clip == null) {
                 Toast.makeText(context, "予期せぬエラー", Toast.LENGTH_SHORT).show()
@@ -176,8 +176,11 @@ class CustomBottomSheetDialog : BottomSheetDialogFragment(), BottomSheetDialogLi
         private const val ITEM = "item_key"
         private const val SCREEN = "screen_type"
 
-        fun newInstance(): CustomBottomSheetDialog {
-            return CustomBottomSheetDialog()
+        fun newInstance(
+            favoriteClip: (clip: Clip) -> Unit,
+            deleteClip: (clip: Clip) -> Unit,
+        ): CustomBottomSheetDialog {
+            return CustomBottomSheetDialog(favoriteClip, deleteClip)
         }
     }
 }

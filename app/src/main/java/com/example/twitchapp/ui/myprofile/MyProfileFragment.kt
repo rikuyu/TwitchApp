@@ -73,7 +73,10 @@ class MyProfileFragment : Fragment() {
                                 CUSTOM_DIALOG_KEY,
                                 bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
                             )
-                            CustomBottomSheetDialog.newInstance().show(parentFragmentManager, "")
+                            CustomBottomSheetDialog.newInstance(
+                                mainViewModel::insertGetClip,
+                                mainViewModel::deleteClip
+                            ).show(parentFragmentManager, "")
                         }
 
                         override fun deleteViewClickListener(clip: Clip) {
