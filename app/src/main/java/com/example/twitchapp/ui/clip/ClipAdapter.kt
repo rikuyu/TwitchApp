@@ -13,12 +13,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.R
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.ItemClickListener
+import com.example.twitchapp.ui.ScreenType
 import com.example.twitchapp.util.UtilObject
 import de.hdodenhof.circleimageview.CircleImageView
 
 class ClipAdapter(
     private val context: Context,
-    private val clipList: List<Clip>?,
+    private val clipList: List<Clip>,
     private val listener: ClipItemClickListener
 ) :
     RecyclerView.Adapter<ClipAdapter.ClipHolder>() {
@@ -43,46 +44,45 @@ class ClipAdapter(
     }
 
     override fun onBindViewHolder(holder: ClipHolder, position: Int) {
-        holder.gameName.text = clipList!![position].game
-        holder.username.text = clipList[position].curator.name
-        holder.clipTitle.text = clipList[position].title
-        holder.lang.text = clipList[position].language
-        holder.viewer.text = clipList[position].views.toString()
-        holder.duration.text = UtilObject.convertClipTime(clipList[position].duration)
+        val clip = clipList[position]
 
-        Glide.with(context).load(clipList[position].thumbnails.medium)
+        holder.apply {
+            gameName.text = clip.game
+            username.text = clip.curator.name
+            clipTitle.text = clip.title
+            lang.text = clip.language
+            viewer.text = clip.views.toString()
+            duration.text = UtilObject.convertClipTime(clip.duration)
+            thumbnail.setOnClickListener {
+                listener.thumbnailClickListener(clip.url)
+            }
+            userProfile.setOnClickListener {
+                listener.userProfileClickListener(clip.broadcaster.channel_url)
+            }
+            favoIcon.setOnClickListener {
+                listener.favoriteIconClickListener(clip)
+            }
+            item.setOnLongClickListener {
+                listener.longClickListener(clip, ScreenType.CLIP)
+                return@setOnLongClickListener true
+            }
+        }
+        Glide.with(context).load(clip.thumbnails.medium)
             .into(holder.thumbnail)
 
-        Glide.with(context).load(clipList[position].thumbnails.medium)
+        Glide.with(context).load(clip.thumbnails.medium)
             .apply(RequestOptions.circleCropTransform())
             .into(holder.userProfile)
 
-        holder.thumbnail.setOnClickListener {
-            listener.thumbnailClickListener(clipList[position].url)
-        }
-
-        holder.userProfile.setOnClickListener {
-            listener.userProfileClickListener(clipList[position].broadcaster.channel_url)
-        }
-
-        holder.favoIcon.setOnClickListener {
-            listener.favoriteIconClickListener(clipList[position])
-        }
-
-        val gameImageDrawable = UtilObject.getGameImage(context, clipList[position].game)
+        val gameImageDrawable = UtilObject.getGameImage(context, clip.game)
 
         gameImageDrawable?.let {
             holder.gameIcon.setImageDrawable(it)
         }
-
-        holder.item.setOnLongClickListener {
-            listener.longClickListener()
-            return@setOnLongClickListener true
-        }
     }
 
     override fun getItemCount(): Int {
-        return clipList?.size ?: 0
+        return clipList.size
     }
 
     interface ClipItemClickListener : ItemClickListener {

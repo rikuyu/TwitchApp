@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/black"
     android:orientation="vertical">
 
@@ -23,13 +23,16 @@
         android:paddingEnd="0dp"
         android:text="@string/dialog_play"
         android:textColor="@color/white"
+        android:visibility="gone"
         app:drawableStartCompat="@drawable/ic_play"
         app:drawableTint="@color/white" />
 
     <View
+        android:id="@+id/line_1"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="@color/theme"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -43,13 +46,16 @@
         android:paddingEnd="0dp"
         android:text="@string/dialog_favorite"
         android:textColor="@color/white"
+        android:visibility="gone"
         app:drawableStartCompat="@drawable/ic_favorite"
         app:drawableTint="@color/white" />
 
     <View
+        android:id="@+id/line_2"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="@color/theme"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -63,13 +69,16 @@
         android:paddingEnd="0dp"
         android:text="@string/dialog_delete"
         android:textColor="@color/white"
+        android:visibility="gone"
         app:drawableStartCompat="@drawable/ic_delete"
         app:drawableTint="@color/white" />
 
     <View
+        android:id="@+id/line_3"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="@color/theme"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -83,12 +92,15 @@
         android:paddingEnd="0dp"
         android:text="@string/dialog_copy"
         android:textColor="@color/white"
+        android:visibility="gone"
         app:drawableStartCompat="@drawable/ic_copy" />
 
     <View
+        android:id="@+id/line_4"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="@color/theme"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -102,6 +114,7 @@
         android:paddingEnd="0dp"
         android:text="@string/dialog_back"
         android:textColor="@color/white"
+        android:visibility="visible"
         app:drawableStartCompat="@drawable/ic_back" />
 
     <View

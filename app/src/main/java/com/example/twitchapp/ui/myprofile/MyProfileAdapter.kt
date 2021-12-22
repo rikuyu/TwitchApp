@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.twitchapp.databinding.ItemFavoriteBinding
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.ItemClickListener
+import com.example.twitchapp.ui.ScreenType
 import com.example.twitchapp.util.UtilObject
 
 class MyProfileAdapter(private val context: Context) :
@@ -46,7 +47,7 @@ class MyProfileAdapter(private val context: Context) :
                 }
 
                 itemFavorite.setOnLongClickListener {
-                    listener?.longClickListener()
+                    listener?.longClickListener(clip, ScreenType.FAVORITE)
                     return@setOnLongClickListener true
                 }
             }
@@ -66,13 +67,6 @@ class MyProfileAdapter(private val context: Context) :
         }
     }
 
-    interface FavoriteItemClickListener : ItemClickListener {
-        /*
-         * クリップをスライドしたときに現れるViewをクリックしたとき
-        */
-        fun deleteViewClickListener(clip: Clip)
-    }
-
     fun setListener(listener: FavoriteItemClickListener) {
         this.listener = listener
     }
@@ -85,5 +79,12 @@ class MyProfileAdapter(private val context: Context) :
             override fun areContentsTheSame(oldItem: Clip, newItem: Clip) =
                 oldItem == newItem
         }
+    }
+
+    interface FavoriteItemClickListener : ItemClickListener {
+        /*
+         * クリップをスライドしたときに現れるViewをクリックしたとき
+        */
+        fun deleteViewClickListener(clip: Clip)
     }
 }
