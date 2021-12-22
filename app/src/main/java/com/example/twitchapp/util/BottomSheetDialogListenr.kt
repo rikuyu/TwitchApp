@@ -1,6 +1,7 @@
 package com.example.twitchapp.util
 
 import android.content.Context
+import com.example.twitchapp.model.data.clipdata.Clip
 
 interface BottomSheetDialogListenr {
     /*
@@ -11,12 +12,12 @@ interface BottomSheetDialogListenr {
     /*
     * 「いいね」をクリック
     */
-    fun favorite(addFavorite: () -> Unit)
+    fun favorite(clip: Clip)
 
     /*
     * 「削除する」をクリック
     */
-    fun delete(deleteFavorite: () -> Unit)
+    fun delete(clip: Clip)
 
     /*
     * 「URLをコピー」をクリック

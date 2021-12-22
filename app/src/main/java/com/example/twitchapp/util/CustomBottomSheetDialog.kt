@@ -1,13 +1,18 @@
 package com.example.twitchapp.util
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import com.example.twitchapp.databinding.CustomBottomSheetDialogBinding
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.streamdata.Stream
+import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.ui.ScreenType
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.io.Serializable
@@ -15,6 +20,7 @@ import java.io.Serializable
 class CustomBottomSheetDialog : BottomSheetDialogFragment(), BottomSheetDialogListenr {
 
     private val chromeCustomTabsManager: ChromeCustomTabsManager = ChromeCustomTabsManager()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     private var screenType: ScreenType? = null
     private var stream: Stream? = null
@@ -49,16 +55,20 @@ class CustomBottomSheetDialog : BottomSheetDialogFragment(), BottomSheetDialogLi
         chromeCustomTabsManager.openChromeCustomTabs(context, url)
     }
 
-    override fun favorite(addFavorite: () -> Unit) {
-        TODO("Not yet implemented")
+    override fun favorite(clip: Clip) {
+        mainViewModel.insertGetClip(clip)
     }
 
-    override fun delete(deleteFavorite: () -> Unit) {
-        TODO("Not yet implemented")
+    override fun delete(clip: Clip) {
+        mainViewModel.deleteClip(clip)
     }
 
     override fun copy(url: String) {
-        TODO("Not yet implemented")
+        context?.let {
+            val clipboard = it.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("", url)
+            clipboard.setPrimaryClip(clip)
+        }
     }
 
     override fun back() {
@@ -67,25 +77,47 @@ class CustomBottomSheetDialog : BottomSheetDialogFragment(), BottomSheetDialogLi
 
     private fun setTapEvent() {
         binding.itemPlay.setOnClickListener {
+            context?.let { context ->
+                val url = clip?.url ?: stream?.channel?.url
+                url?.let {
+                    play(context, it)
+                }
+                if (url == null) {
+                    Toast.makeText(context, "予期せぬエラー", Toast.LENGTH_SHORT).show()
+                }
+            }
             dismiss()
         }
 
         binding.itemFavorite.setOnClickListener {
-            favorite { }
+            clip?.let {
+                favorite(it)
+                Toast.makeText(context, "いいねから削除", Toast.LENGTH_SHORT).show()
+            }
+            if (clip == null) {
+                Toast.makeText(context, "予期せぬエラー", Toast.LENGTH_SHORT).show()
+            }
             dismiss()
         }
 
         binding.itemDelete.setOnClickListener {
-            delete { }
+            clip?.let {
+                delete(it)
+                Toast.makeText(context, "いいねから削除", Toast.LENGTH_SHORT).show()
+            }
+            if (clip == null) {
+                Toast.makeText(context, "予期せぬエラー", Toast.LENGTH_SHORT).show()
+            }
             dismiss()
         }
 
         binding.itemCopy.setOnClickListener {
+            copy(clip?.url ?: stream?.channel?.url ?: "")
+            Toast.makeText(context, "動画URLをコピー", Toast.LENGTH_SHORT).show()
             dismiss()
         }
 
         binding.itemBack.setOnClickListener {
-            dismiss()
             back()
         }
     }
