@@ -5,15 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.FragmentMyProfileBinding
 import com.example.twitchapp.model.data.NewProfileData
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainViewModel
+import com.example.twitchapp.ui.ScreenType
 import com.example.twitchapp.util.ChromeCustomTabsManager
+import com.example.twitchapp.util.CustomBottomSheetDialog
 import com.example.twitchapp.util.SharedPreferencesManager
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -62,6 +66,14 @@ class MyProfileFragment : Fragment() {
                         MyProfileAdapter.FavoriteItemClickListener {
                         override fun thumbnailClickListener(url: String) {
                             chromeCustomTabsManager.openChromeCustomTabs(it, url)
+                        }
+
+                        override fun <T> longClickListener(item: T, screen: ScreenType) {
+                            setFragmentResult(
+                                CUSTOM_DIALOG_KEY,
+                                bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                            )
+                            CustomBottomSheetDialog.newInstance().show(parentFragmentManager, "")
                         }
 
                         override fun deleteViewClickListener(clip: Clip) {
@@ -140,5 +152,8 @@ class MyProfileFragment : Fragment() {
     companion object {
         private const val KEY_CLICKED = "KEY_CLICKED"
         private const val NEW_PROFILE_KEY = "NEW_PROFILE_KEY"
+        private const val CUSTOM_DIALOG_KEY = "custom_bottom_dialog_key"
+        private const val ITEM_KEY = "item_key"
+        private const val SCREEN_KEY = "screen_type"
     }
 }

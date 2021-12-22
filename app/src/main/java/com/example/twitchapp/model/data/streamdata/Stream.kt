@@ -1,5 +1,7 @@
 package com.example.twitchapp.model.data.streamdata
 
+import java.io.Serializable
+
 data class Stream(
     val _id: Long,
     val average_fps: Int,
@@ -15,4 +17,4 @@ data class Stream(
     val stream_type: String,
     val video_height: Int,
     val viewers: Int
-)
+) : Serializable

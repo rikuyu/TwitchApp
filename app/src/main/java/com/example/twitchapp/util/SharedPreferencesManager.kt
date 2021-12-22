@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 
 class SharedPreferencesManager {
 
-    fun getSharedPreferences(context: Context): SharedPreferences {
+    private fun getSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences(
             SharedPreferencesKey.SHARED_PPREFERENCE_FILE_NAME,
             Context.MODE_PRIVATE

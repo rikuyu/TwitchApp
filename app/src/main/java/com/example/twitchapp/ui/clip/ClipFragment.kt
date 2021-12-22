@@ -5,17 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.FragmentClipBinding
 import com.example.twitchapp.model.data.Games
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainViewModel
-import com.example.twitchapp.util.ChromeCustomTabsManager
-import com.example.twitchapp.util.Resource
-import com.example.twitchapp.util.UtilObject
+import com.example.twitchapp.ui.ScreenType
+import com.example.twitchapp.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -25,9 +26,8 @@ class ClipFragment : Fragment() {
     private val chromeCustomTabsManager: ChromeCustomTabsManager = ChromeCustomTabsManager()
 
     private lateinit var clipAdapter: ClipAdapter
-    private lateinit var listenr: ClipAdapter.ClipItemClickListener
+    private lateinit var clipItemClickListener: ClipAdapter.ClipItemClickListener
 
-    private var clipList: List<Clip>? = null
     private var _binding: FragmentClipBinding? = null
     private val binding
         get() = _binding!!
@@ -45,9 +45,17 @@ class ClipFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         context?.let {
-            listenr = object : ClipAdapter.ClipItemClickListener {
+            clipItemClickListener = object : ClipAdapter.ClipItemClickListener {
                 override fun thumbnailClickListener(url: String) {
                     chromeCustomTabsManager.openChromeCustomTabs(it, url)
+                }
+
+                override fun <T> longClickListener(item: T, screen: ScreenType) {
+                    setFragmentResult(
+                        CUSTOM_DIALOG_KEY,
+                        bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                    )
+                    CustomBottomSheetDialog.newInstance().show(parentFragmentManager, "")
                 }
 
                 override fun userProfileClickListener(url: String) {
@@ -72,9 +80,11 @@ class ClipFragment : Fragment() {
                     is Resource.Success -> {
                         hideProgressBar()
                         response.data?.let {
-                            clipList = it.clips
-                            clipAdapter = ClipAdapter(requireContext(), clipList, listenr)
-                            binding.clipRecyclerView.adapter = clipAdapter
+                            it.clips.let {
+                                clipAdapter =
+                                    ClipAdapter(requireContext(), it, clipItemClickListener)
+                                binding.clipRecyclerView.adapter = clipAdapter
+                            }
                         }
                     }
                     is Resource.Error -> {
@@ -124,5 +134,11 @@ class ClipFragment : Fragment() {
                 createGameButton(lol, mainViewModel, Games.LEAGUE_OF_LEGENDS.title)
             }
         }
+    }
+
+    companion object {
+        private const val CUSTOM_DIALOG_KEY = "custom_bottom_dialog_key"
+        private const val ITEM_KEY = "item_key"
+        private const val SCREEN_KEY = "screen_type"
     }
 }

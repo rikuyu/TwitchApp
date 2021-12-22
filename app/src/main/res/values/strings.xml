@@ -35,4 +35,11 @@
     <string name="nothing_favo">いいねがありません</string>
     <string name="number_likes">0</string>
 
+    <!--ボトムシートダイアログ-->
+    <string name="dialog_favorite">いいね</string>
+    <string name="dialog_copy">URLをコピー</string>
+    <string name="dialog_delete">削除する</string>
+    <string name="dialog_play">再生する</string>
+    <string name="dialog_back">閉じる</string>
+
 </resources>

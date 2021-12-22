@@ -11,6 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.databinding.ItemStreamBinding
 import com.example.twitchapp.model.data.streamdata.Stream
 import com.example.twitchapp.ui.ItemClickListener
+import com.example.twitchapp.ui.ScreenType
 
 class StreamAdapter(private val context: Context) :
     PagingDataAdapter<Stream, StreamAdapter.StreamHolder>(DIFF_CALLBACK) {
@@ -33,6 +34,10 @@ class StreamAdapter(private val context: Context) :
                 gameName.text = stream.game
                 thumbnail.setOnClickListener {
                     listener?.thumbnailClickListener(stream.channel.url)
+                }
+                itemStream.setOnLongClickListener {
+                    listener?.longClickListener(stream, ScreenType.STREAM)
+                    return@setOnLongClickListener true
                 }
             }
         }
