@@ -28,4 +28,20 @@ object UtilObject {
             else -> ContextCompat.getDrawable(context, R.drawable.ic_no_game)
         }
     }
+
+    // Clipに100分以上の動画はない
+    fun convertClipTime(time: Double): String {
+        val min = time.toInt() / 60
+        val sec = time.toInt() % 60
+
+        return if (min < 10 && sec > 10) {
+            "0$min:$sec"
+        } else if (min < 10 && sec < 10) {
+            "0$min:0$sec"
+        } else if (min > 10 && sec < 10) {
+            "$min:0$sec"
+        } else {
+            "$min:$sec"
+        }
+    }
 }

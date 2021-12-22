@@ -6,29 +6,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.ToggleButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.R
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.ItemClickListener
+import com.example.twitchapp.ui.ScreenType
+import com.example.twitchapp.util.UtilObject
+import de.hdodenhof.circleimageview.CircleImageView
 
 class ClipAdapter(
     private val context: Context,
-    private val clipList: List<Clip>?,
+    private val clipList: List<Clip>,
     private val listener: ClipItemClickListener
 ) :
     RecyclerView.Adapter<ClipAdapter.ClipHolder>() {
 
     inner class ClipHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var item: ConstraintLayout = view.findViewById(R.id.item_clip)
         var thumbnail: ImageView = view.findViewById(R.id.thumbnail)
-        var username: TextView = view.findViewById(R.id.username)
+        var clipTitle: TextView = view.findViewById(R.id.clip_title)
+        var username: TextView = view.findViewById(R.id.user_name)
         var viewer: TextView = view.findViewById(R.id.viewer)
-        var userProfile: ImageView = view.findViewById(R.id.user_profile)
+        var userProfile: ImageView = view.findViewById(R.id.user_profile_image)
         var lang: TextView = view.findViewById(R.id.lang)
-        var gameName: TextView = view.findViewById(R.id.gamename)
-        var favoIcon: ToggleButton = view.findViewById(R.id.heart_icon)
+        val duration: TextView = view.findViewById(R.id.clip_duration)
+        var gameName: TextView = view.findViewById(R.id.game_name)
+        var favoIcon: ImageView = view.findViewById(R.id.heart_icon)
+        var gameIcon: CircleImageView = view.findViewById(R.id.game_icon)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClipHolder {
@@ -37,36 +44,45 @@ class ClipAdapter(
     }
 
     override fun onBindViewHolder(holder: ClipHolder, position: Int) {
-        holder.gameName.text = clipList!![position].game
-        holder.username.text = clipList[position].curator.name
-        holder.lang.text = clipList[position].language
-        holder.viewer.text = clipList[position].views.toString()
-        holder.favoIcon.text = null
-        holder.favoIcon.textOn = null
-        holder.favoIcon.textOff = null
+        val clip = clipList[position]
 
-        Glide.with(context).load(clipList[position].thumbnails.medium)
+        holder.apply {
+            gameName.text = clip.game
+            username.text = clip.curator.name
+            clipTitle.text = clip.title
+            lang.text = clip.language
+            viewer.text = clip.views.toString()
+            duration.text = UtilObject.convertClipTime(clip.duration)
+            thumbnail.setOnClickListener {
+                listener.thumbnailClickListener(clip.url)
+            }
+            userProfile.setOnClickListener {
+                listener.userProfileClickListener(clip.broadcaster.channel_url)
+            }
+            favoIcon.setOnClickListener {
+                listener.favoriteIconClickListener(clip)
+            }
+            item.setOnLongClickListener {
+                listener.longClickListener(clip, ScreenType.CLIP)
+                return@setOnLongClickListener true
+            }
+        }
+        Glide.with(context).load(clip.thumbnails.medium)
             .into(holder.thumbnail)
 
-        Glide.with(context).load(clipList[position].thumbnails.medium)
+        Glide.with(context).load(clip.thumbnails.medium)
             .apply(RequestOptions.circleCropTransform())
             .into(holder.userProfile)
 
-        holder.thumbnail.setOnClickListener {
-            listener.thumbnailClickListener(clipList[position].url)
-        }
+        val gameImageDrawable = UtilObject.getGameImage(context, clip.game)
 
-        holder.userProfile.setOnClickListener {
-            listener.userProfileClickListener(clipList[position].broadcaster.channel_url)
-        }
-
-        holder.favoIcon.setOnClickListener {
-            listener.favoriteIconClickListener(clipList[position])
+        gameImageDrawable?.let {
+            holder.gameIcon.setImageDrawable(it)
         }
     }
 
     override fun getItemCount(): Int {
-        return clipList?.size ?: 0
+        return clipList.size
     }
 
     interface ClipItemClickListener : ItemClickListener {
