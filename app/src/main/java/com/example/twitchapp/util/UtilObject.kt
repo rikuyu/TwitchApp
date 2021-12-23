@@ -4,9 +4,11 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
 import com.example.twitchapp.model.data.Games.*
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.R
+import com.example.twitchapp.model.data.clipdata.Clip
 
 object UtilObject {
     fun createGameButton(view: View, vm: MainViewModel, gameTitle: String) {
@@ -43,5 +45,13 @@ object UtilObject {
         } else {
             "$min:$sec"
         }
+    }
+
+    val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Clip>() {
+        override fun areItemsTheSame(oldItem: Clip, newItem: Clip) =
+            oldItem.broadcaster == newItem.broadcaster
+
+        override fun areContentsTheSame(oldItem: Clip, newItem: Clip) =
+            oldItem == newItem
     }
 }

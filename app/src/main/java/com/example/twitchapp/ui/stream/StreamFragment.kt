@@ -68,7 +68,7 @@ class StreamFragment : Fragment() {
                         CUSTOM_DIALOG_KEY,
                         bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
                     )
-                    CustomBottomSheetDialog.newInstance(
+                    CustomBottomSheetDialog(
                         mainViewModel::insertGetClip,
                         mainViewModel::deleteClip
                     ).show(parentFragmentManager, "")

@@ -32,8 +32,12 @@ class StreamAdapter(private val context: Context) :
                     .into(userProfileImage)
                 lang.text = stream.channel.language
                 gameName.text = stream.game
-                thumbnail.setOnClickListener {
-                    listener?.thumbnailClickListener(stream.channel.url)
+                thumbnail.apply {
+                    setOnClickListener { listener?.thumbnailClickListener(stream.channel.url) }
+                    setOnLongClickListener {
+                        listener?.longClickListener(stream, ScreenType.STREAM)
+                        return@setOnLongClickListener true
+                    }
                 }
                 itemStream.setOnLongClickListener {
                     listener?.longClickListener(stream, ScreenType.STREAM)
@@ -50,9 +54,7 @@ class StreamAdapter(private val context: Context) :
 
     override fun onBindViewHolder(holder: StreamHolder, position: Int) {
         val stream = getItem(position)
-        if (stream != null) {
-            holder.bind(stream)
-        }
+        stream?.let { holder.bind(it) }
     }
 
     fun setListener(listener: ItemClickListener) {

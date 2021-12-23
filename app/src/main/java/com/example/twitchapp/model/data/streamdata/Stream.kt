@@ -1,14 +1,17 @@
 package com.example.twitchapp.model.data.streamdata
 
-import java.io.Serializable
+import android.os.Parcelable
 
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Stream(
     val _id: Long,
     val average_fps: Int,
     val broadcast_platform: String,
     val channel: Channel,
     val community_id: String,
-    val community_ids: List<Any>,
+    val community_ids: List<Int>,
     val created_at: String,
     val delay: Int,
     val game: String,
@@ -17,4 +20,4 @@ data class Stream(
     val stream_type: String,
     val video_height: Int,
     val viewers: Int
-) : Serializable
+) : Parcelable
