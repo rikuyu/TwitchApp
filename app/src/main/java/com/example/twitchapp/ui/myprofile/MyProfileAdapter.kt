@@ -3,7 +3,6 @@ package com.example.twitchapp.ui.myprofile
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -14,7 +13,7 @@ import com.example.twitchapp.ui.ScreenType
 import com.example.twitchapp.util.UtilObject
 
 class MyProfileAdapter(private val context: Context) :
-    ListAdapter<Clip, MyProfileAdapter.FavoriteHolder>(DIFF_CALLBACK) {
+    ListAdapter<Clip, MyProfileAdapter.FavoriteHolder>(UtilObject.DIFF_CALLBACK) {
 
     private var listener: FavoriteItemClickListener? = null
 
@@ -69,16 +68,6 @@ class MyProfileAdapter(private val context: Context) :
 
     fun setListener(listener: FavoriteItemClickListener) {
         this.listener = listener
-    }
-
-    companion object {
-        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Clip>() {
-            override fun areItemsTheSame(oldItem: Clip, newItem: Clip) =
-                oldItem.broadcaster == newItem.broadcaster
-
-            override fun areContentsTheSame(oldItem: Clip, newItem: Clip) =
-                oldItem == newItem
-        }
     }
 
     interface FavoriteItemClickListener : ItemClickListener {

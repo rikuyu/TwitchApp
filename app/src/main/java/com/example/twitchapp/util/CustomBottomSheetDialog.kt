@@ -175,12 +175,5 @@ class CustomBottomSheetDialog(
         private const val KEY = "custom_bottom_dialog_key"
         private const val ITEM = "item_key"
         private const val SCREEN = "screen_type"
-
-        fun newInstance(
-            favoriteClip: (clip: Clip) -> Unit,
-            deleteClip: (clip: Clip) -> Unit,
-        ): CustomBottomSheetDialog {
-            return CustomBottomSheetDialog(favoriteClip, deleteClip)
-        }
     }
 }

@@ -55,7 +55,7 @@ class ClipFragment : Fragment() {
                         CUSTOM_DIALOG_KEY,
                         bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
                     )
-                    CustomBottomSheetDialog.newInstance(
+                    CustomBottomSheetDialog(
                         mainViewModel::insertGetClip,
                         mainViewModel::deleteClip
                     ).show(parentFragmentManager, "")
@@ -74,6 +74,13 @@ class ClipFragment : Fragment() {
                     ).show()
                 }
             }
+
+            clipAdapter = ClipAdapter(it, clipItemClickListener)
+            binding.clipRecyclerView.apply {
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                adapter = clipAdapter
+            }
         }
 
         mainViewModel.clips.observe(
@@ -82,11 +89,9 @@ class ClipFragment : Fragment() {
                 when (response) {
                     is Resource.Success -> {
                         hideProgressBar()
-                        response.data?.let {
-                            it.clips.let {
-                                clipAdapter =
-                                    ClipAdapter(requireContext(), it, clipItemClickListener)
-                                binding.clipRecyclerView.adapter = clipAdapter
+                        response.data?.let { res ->
+                            res.clips.let { list ->
+                                clipAdapter.submitList(list)
                             }
                         }
                     }
