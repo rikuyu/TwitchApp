@@ -37,8 +37,12 @@ class MyProfileAdapter(private val context: Context) :
                     gameImage.setImageDrawable(it)
                 }
 
-                thumbnail.setOnClickListener {
-                    listener?.thumbnailClickListener(clip.url)
+                thumbnail.apply {
+                    setOnClickListener { listener?.thumbnailClickListener(clip.url) }
+                    setOnLongClickListener {
+                        listener?.longClickListener(clip, ScreenType.FAVORITE)
+                        return@setOnLongClickListener true
+                    }
                 }
 
                 deleteView.setOnClickListener {
@@ -61,9 +65,7 @@ class MyProfileAdapter(private val context: Context) :
 
     override fun onBindViewHolder(holder: FavoriteHolder, position: Int) {
         val currentItem = getItem(position)
-        if (currentItem != null) {
-            holder.bind(currentItem)
-        }
+        currentItem?.let { holder.bind(currentItem) }
     }
 
     fun setListener(listener: FavoriteItemClickListener) {

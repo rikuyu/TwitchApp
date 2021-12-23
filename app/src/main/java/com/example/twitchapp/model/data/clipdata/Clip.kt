@@ -1,10 +1,12 @@
 package com.example.twitchapp.model.data.clipdata
 
+import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.io.Serializable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity(tableName = "clips")
 data class Clip(
     @PrimaryKey val tracking_id: String,
@@ -25,4 +27,4 @@ data class Clip(
     val views: Int,
     @Embedded(prefix = "vod_")
     val vod: Vod? = null
-) : Serializable
+) : Parcelable

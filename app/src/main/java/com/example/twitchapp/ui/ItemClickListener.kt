@@ -1,5 +1,8 @@
 package com.example.twitchapp.ui
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 interface ItemClickListener {
     /*
     * サムネイル画像をクリックしたとき
@@ -12,7 +15,8 @@ interface ItemClickListener {
     fun <T> longClickListener(item: T, screen: ScreenType)
 }
 
-enum class ScreenType {
+@Parcelize
+enum class ScreenType : Parcelable {
     STREAM,
     CLIP,
     FAVORITE

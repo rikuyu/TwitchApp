@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,6 @@ import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.streamdata.Stream
 import com.example.twitchapp.ui.ScreenType
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import java.io.Serializable
 
 class CustomBottomSheetDialog(
     private val favoriteClip: (clip: Clip) -> Unit,
@@ -124,8 +124,8 @@ class CustomBottomSheetDialog(
 
     private fun getFragmentData() {
         parentFragmentManager.setFragmentResultListener(KEY, this) { _, bundle ->
-            screenType = bundle.getSerializable(SCREEN) as ScreenType
-            val item = bundle.getSerializable(ITEM)
+            screenType = bundle.getParcelable<Parcelable>(SCREEN) as ScreenType
+            val item = bundle.getParcelable<Parcelable>(ITEM)
 
             screenType?.let { type ->
                 item?.let {
@@ -135,7 +135,7 @@ class CustomBottomSheetDialog(
         }
     }
 
-    private fun initDialogView(screenType: ScreenType, item: Serializable) {
+    private fun initDialogView(screenType: ScreenType, item: Parcelable) {
         when (screenType) {
             ScreenType.STREAM -> {
                 stream = item as Stream

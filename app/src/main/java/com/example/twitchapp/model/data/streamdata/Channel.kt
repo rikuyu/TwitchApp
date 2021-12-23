@@ -1,5 +1,9 @@
 package com.example.twitchapp.model.data.streamdata
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Channel(
     val _id: Int,
     val broadcaster_language: String,
@@ -24,4 +28,4 @@ data class Channel(
     val url: String,
     val video_banner: String?,
     val views: Int
-)
+) : Parcelable

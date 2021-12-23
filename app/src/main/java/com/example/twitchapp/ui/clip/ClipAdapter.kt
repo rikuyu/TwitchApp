@@ -30,8 +30,12 @@ class ClipAdapter(
                 lang.text = clip.language
                 viewer.text = clip.views.toString()
                 clipDuration.text = UtilObject.convertClipTime(clip.duration)
-                thumbnail.setOnClickListener {
-                    listener.thumbnailClickListener(clip.url)
+                thumbnail.apply {
+                    setOnClickListener { listener.thumbnailClickListener(clip.url) }
+                    setOnLongClickListener {
+                        listener.longClickListener(clip, ScreenType.CLIP)
+                        return@setOnLongClickListener true
+                    }
                 }
                 userProfileImage.setOnClickListener {
                     listener.userProfileClickListener(clip.broadcaster.channel_url)
@@ -50,9 +54,7 @@ class ClipAdapter(
                     .apply(RequestOptions.circleCropTransform())
                     .into(userProfileImage)
 
-                val gameImageDrawable = UtilObject.getGameImage(context, clip.game)
-
-                gameImageDrawable?.let {
+                UtilObject.getGameImage(context, clip.game)?.let {
                     gameIcon.setImageDrawable(it)
                 }
             }
@@ -66,7 +68,7 @@ class ClipAdapter(
 
     override fun onBindViewHolder(holder: ClipHolder, position: Int) {
         val clip = getItem(position)
-        holder.bind(clip)
+        clip?.let { holder.bind(clip) }
     }
 
     interface ClipItemClickListener : ItemClickListener {
