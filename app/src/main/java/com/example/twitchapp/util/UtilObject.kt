@@ -27,6 +27,7 @@ object UtilObject {
             MINECRAFT.title -> ContextCompat.getDrawable(context, R.drawable.minecraft)
             CALL_OF_DUTY.title -> ContextCompat.getDrawable(context, R.drawable.callofduty)
             LEAGUE_OF_LEGENDS.title -> ContextCompat.getDrawable(context, R.drawable.lol)
+            ALL.title -> ContextCompat.getDrawable(context, R.drawable.game_icon)
             else -> ContextCompat.getDrawable(context, R.drawable.ic_no_game)
         }
     }

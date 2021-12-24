@@ -13,12 +13,15 @@
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/drawable/ic_play_circle.xml" value="0.190625" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/drawable/ic_profile.xml" value="0.20277777777777778" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/drawable/ic_time.xml" value="0.190625" />
+        <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/drawable/selected_frame.xml" value="0.21481481481481482" />
+        <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/drawable/selected_game_frame.xml" value="0.21481481481481482" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/drawable/video_background.xml" value="0.2777777777777778" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/drawable/video_time_background.xml" value="0.3229166666666667" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/bottom_sheet_dialog.xml" value="0.3404255319148936" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/custom_bottom_sheet_dialog.xml" value="0.6" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/edit_profile_dialog.xml" value="0.22" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/favorite_item.xml" value="0.3671875" />
+        <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/filter_dialog.xml" value="0.7333333333333334" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/fragment_clip.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/fragment_my_profile.xml" value="0.3333333333333333" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/fragment_stream.xml" value="0.3333333333333333" />
@@ -30,6 +33,7 @@
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/item_stream_load_state.xml" value="0.2296195652173913" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/row_bottom_sheet_dialog.xml" value="0.16168478260869565" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/select_filter_dialog.xml" value="0.4466666666666667" />
+        <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/selected_game_frame.xml" value="0.2749094202898551" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/stream_item.xml" value="0.1" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/stream_load_state_item.xml" value="0.1" />
         <entry key="..\:/Users/rikuy/AndroidStudioProjects/TwitchApp/app/src/main/res/layout/top_menue.xml" value="0.1656534954407295" />

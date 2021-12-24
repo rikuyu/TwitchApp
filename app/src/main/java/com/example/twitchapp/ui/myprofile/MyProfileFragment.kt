@@ -12,6 +12,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.FragmentMyProfileBinding
+import com.example.twitchapp.model.data.Games
 import com.example.twitchapp.model.data.NewProfileData
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainViewModel
@@ -19,6 +20,7 @@ import com.example.twitchapp.ui.ScreenType
 import com.example.twitchapp.util.ChromeCustomTabsManager
 import com.example.twitchapp.util.CustomBottomSheetDialog
 import com.example.twitchapp.util.SharedPreferencesManager
+import com.example.twitchapp.util.UtilObject
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -87,7 +89,7 @@ class MyProfileFragment : Fragment() {
             }
         })
 
-        receiveDialogData()
+        receiveProfileEditDialogData()
 
         binding.btnEdit.setOnClickListener {
             ProfileEditCustomDialog
@@ -96,6 +98,12 @@ class MyProfileFragment : Fragment() {
                 .setAvatarImage(profileImageUri)
                 .build()
                 .show(childFragmentManager, ProfileEditCustomDialog::class.simpleName)
+        }
+
+        receiveFilterDialogData()
+
+        binding.btnFilter.setOnClickListener {
+            FilterDialog().show(childFragmentManager, "")
         }
     }
 
@@ -128,7 +136,7 @@ class MyProfileFragment : Fragment() {
         }
     }
 
-    private fun receiveDialogData() {
+    private fun receiveProfileEditDialogData() {
         childFragmentManager.setFragmentResultListener(KEY_CLICKED, this) { _, bundle ->
             val newProfile = bundle.getParcelable<NewProfileData>(NEW_PROFILE_KEY)
 
@@ -152,11 +160,52 @@ class MyProfileFragment : Fragment() {
         }
     }
 
+    private fun receiveFilterDialogData() {
+        childFragmentManager.setFragmentResultListener(FILTER_KEY, this) { _, bundle ->
+            val filterGame = bundle.getParcelable<Games>(GAME_KEY)
+            filterGame?.let { game ->
+                context?.let {
+                    when (game) {
+                        Games.PUBG_MOBILE -> binding.filterGameImage.setImageDrawable(
+                            UtilObject.getGameImage(it, game.title)
+                        )
+                        Games.APEX_LEGENDS -> binding.filterGameImage.setImageDrawable(
+                            UtilObject.getGameImage(it, game.title)
+                        )
+                        Games.AMONG_US -> binding.filterGameImage.setImageDrawable(
+                            UtilObject.getGameImage(it, game.title)
+                        )
+                        Games.GENSHIN -> binding.filterGameImage.setImageDrawable(
+                            UtilObject.getGameImage(it, game.title)
+                        )
+                        Games.FORTNITE -> binding.filterGameImage.setImageDrawable(
+                            UtilObject.getGameImage(it, game.title)
+                        )
+                        Games.MINECRAFT -> binding.filterGameImage.setImageDrawable(
+                            UtilObject.getGameImage(it, game.title)
+                        )
+                        Games.CALL_OF_DUTY -> binding.filterGameImage.setImageDrawable(
+                            UtilObject.getGameImage(it, game.title)
+                        )
+                        Games.LEAGUE_OF_LEGENDS -> binding.filterGameImage.setImageDrawable(
+                            UtilObject.getGameImage(it, game.title)
+                        )
+                        Games.ALL -> binding.filterGameImage.setImageDrawable(
+                            UtilObject.getGameImage(it, game.title)
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     companion object {
         private const val KEY_CLICKED = "KEY_CLICKED"
         private const val NEW_PROFILE_KEY = "NEW_PROFILE_KEY"
         private const val CUSTOM_DIALOG_KEY = "custom_bottom_dialog_key"
         private const val ITEM_KEY = "item_key"
         private const val SCREEN_KEY = "screen_type"
+        private const val FILTER_KEY = "filter_key"
+        private const val GAME_KEY = "game_key"
     }
 }

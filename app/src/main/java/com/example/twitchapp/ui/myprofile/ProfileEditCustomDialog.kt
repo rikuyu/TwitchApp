@@ -99,9 +99,7 @@ class ProfileEditCustomDialog private constructor() : DialogFragment() {
             }
         }
 
-        binding.btnCancel.setOnClickListener {
-            dismiss()
-        }
+        binding.btnCancel.setOnClickListener { dismiss() }
 
         dialog.setContentView(binding.root)
         return dialog

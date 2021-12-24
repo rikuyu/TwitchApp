@@ -122,11 +122,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/medium_line" />
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/filter_game_image"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
+        android:contentDescription="@string/image_desc"
+        android:src="@drawable/game_icon"
+        app:layout_constraintBottom_toBottomOf="@id/favorite_title"
+        app:layout_constraintEnd_toStartOf="@+id/btn_filter"
+        app:layout_constraintTop_toTopOf="@id/favorite_title" />
+
     <ImageView
         android:id="@+id/btn_filter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginHorizontal="8dp"
         android:contentDescription="@string/image_desc"
         android:src="@drawable/ic_filter"
         app:layout_constraintBottom_toBottomOf="@id/favorite_title"
