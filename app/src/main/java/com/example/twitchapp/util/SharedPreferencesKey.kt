@@ -10,4 +10,7 @@ object SharedPreferencesKey {
 
     // プロフィールの画像
     const val STORED_PROFILE_IMAGE_URI = "profile_image_uri"
+
+    // フィルターするゲーム
+    const val STORED_FILTER_GAME = "filter_game"
 }
