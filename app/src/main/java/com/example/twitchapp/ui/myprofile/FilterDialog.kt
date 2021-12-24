@@ -96,7 +96,12 @@ class FilterDialog : DialogFragment() {
                 setListener(callofduty, callofdutyCard, Games.CALL_OF_DUTY, it)
                 setListener(lol, lolCard, Games.LEAGUE_OF_LEGENDS, it)
                 setListener(allGame, allGameCard, Games.ALL, it)
-                btnOk.setOnClickListener { dismiss() }
+                btnOk.setOnClickListener {
+                    mainViewModel.filterGame.value?.let {
+                        mainViewModel.getSpecificFavotireGame(it.title)
+                    }
+                    dismiss()
+                }
             }
         }
     }

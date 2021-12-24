@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.FragmentMyProfileBinding
@@ -19,11 +21,9 @@ import com.example.twitchapp.model.data.NewProfileData
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.ui.ScreenType
-import com.example.twitchapp.util.ChromeCustomTabsManager
-import com.example.twitchapp.util.CustomBottomSheetDialog
-import com.example.twitchapp.util.SharedPreferencesManager
-import com.example.twitchapp.util.UtilObject
+import com.example.twitchapp.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class MyProfileFragment : Fragment() {
@@ -55,41 +55,61 @@ class MyProfileFragment : Fragment() {
         loadProfileData()
         context?.let { loadFilterGameData(it) }
 
-        mainViewModel.favoriteClips.observe(viewLifecycleOwner, { favoriteList ->
-            myProfileAdapter.submitList(favoriteList)
-            binding.numLikes.text = favoriteList.size.toString()
+        lifecycleScope.launchWhenStarted {
+            mainViewModel.favoriteList.collect {
+                when (it) {
+                    is Resource.Success -> {
+                        binding.progressbar.visibility = View.GONE
+                        it.data?.let { list ->
+                            if (list.isNotEmpty()) {
+                                binding.emptyMsg.visibility = View.GONE
+                                binding.favoriteRecyclerView.visibility = View.VISIBLE
+                                myProfileAdapter.submitList(list)
+                                context?.let {
+                                    myProfileAdapter.setListener(object :
+                                            MyProfileAdapter.FavoriteItemClickListener {
+                                            override fun thumbnailClickListener(url: String) {
+                                                chromeCustomTabsManager.openChromeCustomTabs(it, url)
+                                            }
 
-            if (favoriteList.isEmpty()) {
-                binding.emptyMsg.visibility = View.VISIBLE
-            } else {
-                binding.emptyMsg.visibility = View.INVISIBLE
+                                            override fun <T> longClickListener(
+                                                item: T,
+                                                screen: ScreenType
+                                            ) {
+                                                setFragmentResult(
+                                                    CUSTOM_DIALOG_KEY,
+                                                    bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                                                )
+                                                CustomBottomSheetDialog(
+                                                    mainViewModel::insertGetClip,
+                                                    mainViewModel::deleteClip
+                                                ).show(parentFragmentManager, "")
+                                            }
+
+                                            override fun deleteViewClickListener(clip: Clip) {
+                                                mainViewModel.deleteClip(clip)
+                                                myProfileAdapter.submitList(list)
+                                            }
+                                        })
+                                }
+                            } else {
+                                binding.emptyMsg.visibility = View.VISIBLE
+                                binding.favoriteRecyclerView.visibility = View.GONE
+                            }
+                        }
+                    }
+                    is Resource.Error -> {
+                        binding.favoriteRecyclerView.visibility = View.VISIBLE
+                        binding.progressbar.visibility = View.GONE
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> {
+                        binding.favoriteRecyclerView.visibility = View.GONE
+                        binding.progressbar.visibility = View.VISIBLE
+                    }
+                }
             }
-
-            context?.let {
-                myProfileAdapter.setListener(object :
-                        MyProfileAdapter.FavoriteItemClickListener {
-                        override fun thumbnailClickListener(url: String) {
-                            chromeCustomTabsManager.openChromeCustomTabs(it, url)
-                        }
-
-                        override fun <T> longClickListener(item: T, screen: ScreenType) {
-                            setFragmentResult(
-                                CUSTOM_DIALOG_KEY,
-                                bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
-                            )
-                            CustomBottomSheetDialog(
-                                mainViewModel::insertGetClip,
-                                mainViewModel::deleteClip
-                            ).show(parentFragmentManager, "")
-                        }
-
-                        override fun deleteViewClickListener(clip: Clip) {
-                            mainViewModel.deleteClip(clip)
-                            myProfileAdapter.submitList(favoriteList)
-                        }
-                    })
-            }
-        })
+        }
 
         receiveProfileEditDialogData()
 
