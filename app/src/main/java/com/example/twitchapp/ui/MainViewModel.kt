@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.example.twitchapp.di.NetworkModule.PAGE_SIZE
+import com.example.twitchapp.model.data.Games
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.clipdata.ClipResponse
 import com.example.twitchapp.model.repository.TwitchRepository
@@ -22,6 +23,8 @@ class MainViewModel @Inject constructor(
     private val _clips: MutableLiveData<Resource<ClipResponse>> = MutableLiveData()
     val clips: LiveData<Resource<ClipResponse>> get() = _clips
     val favoriteClips: LiveData<List<Clip>> = repository.getFavoriteClips().asLiveData()
+
+    val filterGame: MutableLiveData<Games> = MutableLiveData(Games.ALL)
 
     init {
         fetchClip("PUBG Mobile")

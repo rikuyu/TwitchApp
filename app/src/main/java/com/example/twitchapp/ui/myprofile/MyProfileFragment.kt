@@ -1,10 +1,12 @@
 package com.example.twitchapp.ui.myprofile
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -51,9 +53,9 @@ class MyProfileFragment : Fragment() {
 
         setupRecyclerView()
         loadProfileData()
+        context?.let { loadFilterGameData(it) }
 
         mainViewModel.favoriteClips.observe(viewLifecycleOwner, { favoriteList ->
-
             myProfileAdapter.submitList(favoriteList)
             binding.numLikes.text = favoriteList.size.toString()
 
@@ -100,11 +102,29 @@ class MyProfileFragment : Fragment() {
                 .show(childFragmentManager, ProfileEditCustomDialog::class.simpleName)
         }
 
-        receiveFilterDialogData()
-
         binding.btnFilter.setOnClickListener {
             FilterDialog().show(childFragmentManager, "")
         }
+
+        mainViewModel.filterGame.observe(viewLifecycleOwner, { game ->
+            context?.let {
+                when (game) {
+                    Games.PUBG_MOBILE -> setImageAndSaveGame(it, game.title)
+                    Games.APEX_LEGENDS -> setImageAndSaveGame(it, game.title)
+                    Games.AMONG_US -> setImageAndSaveGame(it, game.title)
+                    Games.GENSHIN -> setImageAndSaveGame(it, game.title)
+                    Games.FORTNITE -> setImageAndSaveGame(it, game.title)
+                    Games.MINECRAFT -> setImageAndSaveGame(it, game.title)
+                    Games.CALL_OF_DUTY -> setImageAndSaveGame(it, game.title)
+                    Games.LEAGUE_OF_LEGENDS -> setImageAndSaveGame(it, game.title)
+                    Games.ALL -> setImageAndSaveGame(it, game.title)
+                    null ->
+                        binding.filterGameImage.setImageDrawable(
+                            ContextCompat.getDrawable(it, R.drawable.game_icon)
+                        )
+                }
+            }
+        })
     }
 
     override fun onDestroyView() {
@@ -160,40 +180,51 @@ class MyProfileFragment : Fragment() {
         }
     }
 
-    private fun receiveFilterDialogData() {
-        childFragmentManager.setFragmentResultListener(FILTER_KEY, this) { _, bundle ->
-            val filterGame = bundle.getParcelable<Games>(GAME_KEY)
-            filterGame?.let { game ->
-                context?.let {
-                    when (game) {
-                        Games.PUBG_MOBILE -> binding.filterGameImage.setImageDrawable(
-                            UtilObject.getGameImage(it, game.title)
-                        )
-                        Games.APEX_LEGENDS -> binding.filterGameImage.setImageDrawable(
-                            UtilObject.getGameImage(it, game.title)
-                        )
-                        Games.AMONG_US -> binding.filterGameImage.setImageDrawable(
-                            UtilObject.getGameImage(it, game.title)
-                        )
-                        Games.GENSHIN -> binding.filterGameImage.setImageDrawable(
-                            UtilObject.getGameImage(it, game.title)
-                        )
-                        Games.FORTNITE -> binding.filterGameImage.setImageDrawable(
-                            UtilObject.getGameImage(it, game.title)
-                        )
-                        Games.MINECRAFT -> binding.filterGameImage.setImageDrawable(
-                            UtilObject.getGameImage(it, game.title)
-                        )
-                        Games.CALL_OF_DUTY -> binding.filterGameImage.setImageDrawable(
-                            UtilObject.getGameImage(it, game.title)
-                        )
-                        Games.LEAGUE_OF_LEGENDS -> binding.filterGameImage.setImageDrawable(
-                            UtilObject.getGameImage(it, game.title)
-                        )
-                        Games.ALL -> binding.filterGameImage.setImageDrawable(
-                            UtilObject.getGameImage(it, game.title)
-                        )
-                    }
+    private fun setImageAndSaveGame(context: Context, games: String) {
+        binding.filterGameImage.setImageDrawable(
+            UtilObject.getGameImage(context, games)
+        )
+        sharedPreferencesManager.saveFilterGame(context, games)
+    }
+
+    private fun loadFilterGameData(context: Context) {
+        binding.filterGameImage.apply {
+            when (val game = sharedPreferencesManager.getFilterGame(context)) {
+                Games.PUBG_MOBILE.title -> {
+                    setImageDrawable(UtilObject.getGameImage(context, game))
+                    mainViewModel.filterGame.value = Games.PUBG_MOBILE
+                }
+                Games.APEX_LEGENDS.title -> {
+                    setImageDrawable(UtilObject.getGameImage(context, game))
+                    mainViewModel.filterGame.value = Games.APEX_LEGENDS
+                }
+                Games.AMONG_US.title -> {
+                    setImageDrawable(UtilObject.getGameImage(context, game))
+                    mainViewModel.filterGame.value = Games.AMONG_US
+                }
+                Games.GENSHIN.title -> {
+                    setImageDrawable(UtilObject.getGameImage(context, game))
+                    mainViewModel.filterGame.value = Games.GENSHIN
+                }
+                Games.FORTNITE.title -> {
+                    setImageDrawable(UtilObject.getGameImage(context, game))
+                    mainViewModel.filterGame.value = Games.FORTNITE
+                }
+                Games.MINECRAFT.title -> {
+                    setImageDrawable(UtilObject.getGameImage(context, game))
+                    mainViewModel.filterGame.value = Games.MINECRAFT
+                }
+                Games.CALL_OF_DUTY.title -> {
+                    setImageDrawable(UtilObject.getGameImage(context, game))
+                    mainViewModel.filterGame.value = Games.CALL_OF_DUTY
+                }
+                Games.LEAGUE_OF_LEGENDS.title -> {
+                    setImageDrawable(UtilObject.getGameImage(context, game))
+                    mainViewModel.filterGame.value = Games.LEAGUE_OF_LEGENDS
+                }
+                Games.ALL.title -> {
+                    setImageDrawable(UtilObject.getGameImage(context, game))
+                    mainViewModel.filterGame.value = Games.ALL
                 }
             }
         }
@@ -205,7 +236,5 @@ class MyProfileFragment : Fragment() {
         private const val CUSTOM_DIALOG_KEY = "custom_bottom_dialog_key"
         private const val ITEM_KEY = "item_key"
         private const val SCREEN_KEY = "screen_type"
-        private const val FILTER_KEY = "filter_key"
-        private const val GAME_KEY = "game_key"
     }
 }

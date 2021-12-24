@@ -26,6 +26,13 @@ class SharedPreferencesManager {
         )
     }
 
+    fun getFilterGame(context: Context): String? {
+        return getSharedPreferences(context).getString(
+            SharedPreferencesKey.STORED_FILTER_GAME,
+            null
+        )
+    }
+
     fun saveProfileName(context: Context, name: String) {
         getSharedPreferences(context).edit()
             .putString(SharedPreferencesKey.STORED_PROFILE_NAME, name).apply()
@@ -34,5 +41,10 @@ class SharedPreferencesManager {
     fun saveProfileImageUrl(context: Context, url: String) {
         getSharedPreferences(context).edit()
             .putString(SharedPreferencesKey.STORED_PROFILE_IMAGE_URI, url).apply()
+    }
+
+    fun saveFilterGame(context: Context, game: String) {
+        getSharedPreferences(context).edit()
+            .putString(SharedPreferencesKey.STORED_FILTER_GAME, game).apply()
     }
 }

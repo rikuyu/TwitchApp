@@ -1,16 +1,19 @@
 package com.example.twitchapp.ui.myprofile
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.activityViewModels
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.FilterDialogBinding
 import com.example.twitchapp.model.data.Games
+import com.example.twitchapp.ui.MainViewModel
+import com.google.android.material.card.MaterialCardView
 
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,8 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class FilterDialog : DialogFragment() {
 
     private var _binding: FilterDialogBinding? = null
-    private var game: Games = Games.ALL
 
+    private val mainViewModel: MainViewModel by activityViewModels()
     private val binding
         get() = _binding!!
 
@@ -35,85 +38,65 @@ class FilterDialog : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.apply {
-            activity?.let {
-                pubgMobile.setOnClickListener {
-                    resetGameFrameColor()
-                    pubgMobileCard.apply {
-                        strokeColor = ContextCompat.getColor(it.context, R.color.teal_200)
-                        strokeWidth = 6
+        mainViewModel.filterGame.observe(viewLifecycleOwner, { filterGame ->
+            context?.let {
+                when (filterGame) {
+                    Games.PUBG_MOBILE -> {
+                        resetGameFrameColor()
+                        switchCardViewBorder(binding.pubgMobileCard, it)
                     }
-                    game = Games.PUBG_MOBILE
+                    Games.APEX_LEGENDS -> {
+                        resetGameFrameColor()
+                        switchCardViewBorder(binding.apexCard, it)
+                    }
+                    Games.AMONG_US -> {
+                        resetGameFrameColor()
+                        switchCardViewBorder(binding.amongusCard, it)
+                    }
+                    Games.GENSHIN -> {
+                        resetGameFrameColor()
+                        switchCardViewBorder(binding.genshinCard, it)
+                    }
+                    Games.FORTNITE -> {
+                        resetGameFrameColor()
+                        switchCardViewBorder(binding.fortniteCard, it)
+                    }
+                    Games.MINECRAFT -> {
+                        resetGameFrameColor()
+                        switchCardViewBorder(binding.minecraftCard, it)
+                    }
+                    Games.CALL_OF_DUTY -> {
+                        resetGameFrameColor()
+                        switchCardViewBorder(binding.callofdutyCard, it)
+                    }
+                    Games.LEAGUE_OF_LEGENDS -> {
+                        resetGameFrameColor()
+                        switchCardViewBorder(binding.lolCard, it)
+                    }
+                    Games.ALL -> {
+                        resetGameFrameColor()
+                        switchCardViewBorder(binding.allGameCard, it)
+                    }
+                    null -> {
+                        resetGameFrameColor()
+                        switchCardViewBorder(binding.allGameCard, it)
+                    }
                 }
-                apex.setOnClickListener {
-                    resetGameFrameColor()
-                    apexCard.apply {
-                        strokeColor = ContextCompat.getColor(it.context, R.color.teal_200)
-                        strokeWidth = 6
-                    }
-                    game = Games.APEX_LEGENDS
-                }
-                amongus.setOnClickListener {
-                    resetGameFrameColor()
-                    amongusCard.apply {
-                        strokeColor = ContextCompat.getColor(it.context, R.color.teal_200)
-                        strokeWidth = 6
-                    }
+            }
+        })
 
-                    game = Games.AMONG_US
-                }
-                genshin.setOnClickListener {
-                    resetGameFrameColor()
-                    genshinCard.apply {
-                        strokeColor = ContextCompat.getColor(it.context, R.color.teal_200)
-                        strokeWidth = 6
-                    }
-                    game = Games.GENSHIN
-                }
-                minecraft.setOnClickListener {
-                    resetGameFrameColor()
-                    minecraftCard.apply {
-                        strokeColor = ContextCompat.getColor(it.context, R.color.teal_200)
-                        strokeWidth = 6
-                    }
-                    game = Games.MINECRAFT
-                }
-                fortnite.setOnClickListener {
-                    resetGameFrameColor()
-                    fortniteCard.apply {
-                        strokeColor = ContextCompat.getColor(it.context, R.color.teal_200)
-                        strokeWidth = 6
-                    }
-                    game = Games.FORTNITE
-                }
-                callofduty.setOnClickListener {
-                    resetGameFrameColor()
-                    callofdutyCard.apply {
-                        strokeColor = ContextCompat.getColor(it.context, R.color.teal_200)
-                        strokeWidth = 6
-                    }
-                    game = Games.CALL_OF_DUTY
-                }
-                lol.setOnClickListener {
-                    resetGameFrameColor()
-                    lolCard.apply {
-                        strokeColor = ContextCompat.getColor(it.context, R.color.teal_200)
-                        strokeWidth = 6
-                    }
-                    game = Games.LEAGUE_OF_LEGENDS
-                }
-                allGame.setOnClickListener {
-                    resetGameFrameColor()
-                    allGameCard.apply {
-                        strokeColor = ContextCompat.getColor(it.context, R.color.teal_200)
-                        strokeWidth = 6
-                    }
-                    game = Games.ALL
-                }
-                btnOk.setOnClickListener {
-                    setFragmentResult(FILTER_KEY, bundleOf(GAME_KEY to game))
-                    dismiss()
-                }
+        binding.apply {
+            context?.let {
+                setListener(pubgMobile, pubgMobileCard, Games.PUBG_MOBILE, it)
+                setListener(apex, apexCard, Games.APEX_LEGENDS, it)
+                setListener(amongus, amongusCard, Games.AMONG_US, it)
+                setListener(genshin, genshinCard, Games.GENSHIN, it)
+                setListener(minecraft, minecraftCard, Games.MINECRAFT, it)
+                setListener(fortnite, fortniteCard, Games.FORTNITE, it)
+                setListener(callofduty, callofdutyCard, Games.CALL_OF_DUTY, it)
+                setListener(lol, lolCard, Games.LEAGUE_OF_LEGENDS, it)
+                setListener(allGame, allGameCard, Games.ALL, it)
+                btnOk.setOnClickListener { dismiss() }
             }
         }
     }
@@ -132,13 +115,28 @@ class FilterDialog : DialogFragment() {
         }
     }
 
+    private fun switchCardViewBorder(card: MaterialCardView, context: Context) {
+        card.apply {
+            strokeColor = ContextCompat.getColor(context, R.color.teal_200)
+            strokeWidth = 7
+        }
+    }
+
+    private fun setListener(
+        imageView: ImageView,
+        card: MaterialCardView,
+        games: Games,
+        context: Context
+    ) {
+        imageView.setOnClickListener {
+            resetGameFrameColor()
+            switchCardViewBorder(card, context)
+            mainViewModel.filterGame.value = games
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        private const val FILTER_KEY = "filter_key"
-        private const val GAME_KEY = "game_key"
     }
 }
