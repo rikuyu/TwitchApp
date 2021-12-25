@@ -47,6 +47,9 @@ class ClipAdapter(
                     listener.longClickListener(clip, ScreenType.CLIP)
                     return@setOnLongClickListener true
                 }
+                btnMenu.setOnClickListener {
+                    listener.menuClickListener(clip, ScreenType.CLIP)
+                }
                 Glide.with(context).load(clip.thumbnails.medium)
                     .into(thumbnail)
 

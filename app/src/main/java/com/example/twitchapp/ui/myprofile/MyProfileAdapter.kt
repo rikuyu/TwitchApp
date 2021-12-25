@@ -15,7 +15,7 @@ import com.example.twitchapp.util.UtilObject
 class MyProfileAdapter(private val context: Context) :
     ListAdapter<Clip, MyProfileAdapter.FavoriteHolder>(UtilObject.DIFF_CALLBACK) {
 
-    private var listener: FavoriteItemClickListener? = null
+    private var listener: ItemClickListener? = null
 
     inner class FavoriteHolder(private val binding: ItemFavoriteBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -24,19 +24,14 @@ class MyProfileAdapter(private val context: Context) :
             binding.apply {
                 clipItemTitle.text = clip.title
                 clipDuration.text = UtilObject.convertClipTime(clip.duration)
-
                 userName.text = clip.broadcaster.name
                 viewer.text = clip.views.toString()
-
                 Glide.with(context).load(clip.thumbnails.medium)
                     .into(thumbnail)
-
                 val gameImageDrawable = UtilObject.getGameImage(context, clip.game)
-
                 gameImageDrawable?.let {
                     gameImage.setImageDrawable(it)
                 }
-
                 thumbnail.apply {
                     setOnClickListener { listener?.thumbnailClickListener(clip.url) }
                     setOnLongClickListener {
@@ -44,14 +39,12 @@ class MyProfileAdapter(private val context: Context) :
                         return@setOnLongClickListener true
                     }
                 }
-
-                deleteView.setOnClickListener {
-                    listener?.deleteViewClickListener(clip)
-                }
-
                 itemFavorite.setOnLongClickListener {
                     listener?.longClickListener(clip, ScreenType.FAVORITE)
                     return@setOnLongClickListener true
+                }
+                btnMenu.setOnClickListener {
+                    listener?.menuClickListener(clip, ScreenType.FAVORITE)
                 }
             }
         }
@@ -68,14 +61,7 @@ class MyProfileAdapter(private val context: Context) :
         currentItem?.let { holder.bind(currentItem) }
     }
 
-    fun setListener(listener: FavoriteItemClickListener) {
+    fun setListener(listener: ItemClickListener) {
         this.listener = listener
-    }
-
-    interface FavoriteItemClickListener : ItemClickListener {
-        /*
-         * クリップをスライドしたときに現れるViewをクリックしたとき
-        */
-        fun deleteViewClickListener(clip: Clip)
     }
 }

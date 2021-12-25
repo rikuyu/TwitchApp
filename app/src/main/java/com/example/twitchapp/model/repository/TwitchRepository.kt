@@ -6,7 +6,10 @@ import com.example.twitchapp.model.api.TwitchApi
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.clipdata.ClipResponse
 import com.example.twitchapp.model.data.streamdata.Streams
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -30,7 +33,9 @@ class TwitchRepository @Inject constructor(
         db.twitchDao().deleteClip(clip)
     }
 
-    fun getFavoriteClips(): Flow<List<Clip>> {
-        return db.twitchDao().getAllClips()
+    fun getFavoriteGame(): Flow<List<Clip>> {
+        return flow {
+            emit(db.twitchDao().getAllClips())
+        }.flowOn(Dispatchers.IO)
     }
 }

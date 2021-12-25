@@ -1,25 +1,29 @@
 package com.example.twitchapp.ui.myprofile
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.FragmentMyProfileBinding
+import com.example.twitchapp.model.data.Games
 import com.example.twitchapp.model.data.NewProfileData
-import com.example.twitchapp.model.data.clipdata.Clip
+import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.ui.ScreenType
-import com.example.twitchapp.util.ChromeCustomTabsManager
-import com.example.twitchapp.util.CustomBottomSheetDialog
-import com.example.twitchapp.util.SharedPreferencesManager
+import com.example.twitchapp.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class MyProfileFragment : Fragment() {
@@ -49,45 +53,38 @@ class MyProfileFragment : Fragment() {
 
         setupRecyclerView()
         loadProfileData()
+        context?.let { loadFilterGameData(it) }
 
-        mainViewModel.favoriteClips.observe(viewLifecycleOwner, { favoriteList ->
-
-            myProfileAdapter.submitList(favoriteList)
-            binding.numLikes.text = favoriteList.size.toString()
-
-            if (favoriteList.isEmpty()) {
-                binding.emptyMsg.visibility = View.VISIBLE
-            } else {
-                binding.emptyMsg.visibility = View.INVISIBLE
+        lifecycleScope.launchWhenStarted {
+            mainViewModel.favoriteList.collect {
+                when (it) {
+                    is Resource.Success -> {
+                        binding.progressbar.visibility = View.GONE
+                        it.data?.let { list ->
+                            if (list.isNotEmpty()) {
+                                binding.emptyMsg.visibility = View.GONE
+                                binding.favoriteRecyclerView.visibility = View.VISIBLE
+                                myProfileAdapter.submitList(list)
+                            } else {
+                                binding.emptyMsg.visibility = View.VISIBLE
+                                binding.favoriteRecyclerView.visibility = View.GONE
+                            }
+                        }
+                    }
+                    is Resource.Error -> {
+                        binding.favoriteRecyclerView.visibility = View.VISIBLE
+                        binding.progressbar.visibility = View.GONE
+                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+                    is Resource.Loading -> {
+                        binding.favoriteRecyclerView.visibility = View.GONE
+                        binding.progressbar.visibility = View.VISIBLE
+                    }
+                }
             }
+        }
 
-            context?.let {
-                myProfileAdapter.setListener(object :
-                        MyProfileAdapter.FavoriteItemClickListener {
-                        override fun thumbnailClickListener(url: String) {
-                            chromeCustomTabsManager.openChromeCustomTabs(it, url)
-                        }
-
-                        override fun <T> longClickListener(item: T, screen: ScreenType) {
-                            setFragmentResult(
-                                CUSTOM_DIALOG_KEY,
-                                bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
-                            )
-                            CustomBottomSheetDialog(
-                                mainViewModel::insertGetClip,
-                                mainViewModel::deleteClip
-                            ).show(parentFragmentManager, "")
-                        }
-
-                        override fun deleteViewClickListener(clip: Clip) {
-                            mainViewModel.deleteClip(clip)
-                            myProfileAdapter.submitList(favoriteList)
-                        }
-                    })
-            }
-        })
-
-        receiveDialogData()
+        receiveProfileEditDialogData()
 
         binding.btnEdit.setOnClickListener {
             ProfileEditCustomDialog
@@ -97,6 +94,30 @@ class MyProfileFragment : Fragment() {
                 .build()
                 .show(childFragmentManager, ProfileEditCustomDialog::class.simpleName)
         }
+
+        binding.btnFilter.setOnClickListener {
+            FilterDialog().show(childFragmentManager, "")
+        }
+
+        mainViewModel.filterGame.observe(viewLifecycleOwner, { game ->
+            context?.let {
+                when (game) {
+                    Games.PUBG_MOBILE -> setImageAndSaveGame(it, game.title)
+                    Games.APEX_LEGENDS -> setImageAndSaveGame(it, game.title)
+                    Games.AMONG_US -> setImageAndSaveGame(it, game.title)
+                    Games.GENSHIN -> setImageAndSaveGame(it, game.title)
+                    Games.FORTNITE -> setImageAndSaveGame(it, game.title)
+                    Games.MINECRAFT -> setImageAndSaveGame(it, game.title)
+                    Games.CALL_OF_DUTY -> setImageAndSaveGame(it, game.title)
+                    Games.LEAGUE_OF_LEGENDS -> setImageAndSaveGame(it, game.title)
+                    Games.ALL -> setImageAndSaveGame(it, game.title)
+                    null ->
+                        binding.filterGameImage.setImageDrawable(
+                            ContextCompat.getDrawable(it, R.drawable.game_icon)
+                        )
+                }
+            }
+        })
     }
 
     override fun onDestroyView() {
@@ -110,6 +131,39 @@ class MyProfileFragment : Fragment() {
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = myProfileAdapter
+        }
+        context?.let {
+            myProfileAdapter.setListener(object :
+                    ItemClickListener {
+                    override fun thumbnailClickListener(url: String) {
+                        chromeCustomTabsManager.openChromeCustomTabs(it, url)
+                    }
+
+                    override fun <T> longClickListener(
+                        item: T,
+                        screen: ScreenType
+                    ) {
+                        setFragmentResult(
+                            CUSTOM_DIALOG_KEY,
+                            bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                        )
+                        CustomBottomSheetDialog(
+                            mainViewModel::insertGetClip,
+                            mainViewModel::deleteClip
+                        ).show(parentFragmentManager, "")
+                    }
+
+                    override fun <T> menuClickListener(item: T, screen: ScreenType) {
+                        setFragmentResult(
+                            CUSTOM_DIALOG_KEY,
+                            bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                        )
+                        CustomBottomSheetDialog(
+                            mainViewModel::insertGetClip,
+                            mainViewModel::deleteClip
+                        ).show(parentFragmentManager, "")
+                    }
+                })
         }
     }
 
@@ -128,7 +182,7 @@ class MyProfileFragment : Fragment() {
         }
     }
 
-    private fun receiveDialogData() {
+    private fun receiveProfileEditDialogData() {
         childFragmentManager.setFragmentResultListener(KEY_CLICKED, this) { _, bundle ->
             val newProfile = bundle.getParcelable<NewProfileData>(NEW_PROFILE_KEY)
 
@@ -147,6 +201,38 @@ class MyProfileFragment : Fragment() {
                 sharedPreferencesManager.apply {
                     saveProfileName(it, newProfile?.newProfileName ?: "No Name")
                     saveProfileImageUrl(it, newProfile?.newProfileImage ?: "")
+                }
+            }
+        }
+    }
+
+    private fun setImageAndSaveGame(context: Context, games: String) {
+        binding.filterGameImage.setImageDrawable(
+            UtilObject.getGameImage(context, games)
+        )
+        sharedPreferencesManager.saveFilterGame(context, games)
+    }
+
+    private fun loadFilterGameData(context: Context) {
+        binding.filterGameImage.apply {
+            val game = sharedPreferencesManager.getFilterGame(context)
+            game?.let {
+                if (game != Games.ALL.title) {
+                    mainViewModel.getSpecificFavoriteGame(it)
+                } else {
+                    mainViewModel.getFavoriteGame()
+                }
+                setImageDrawable(UtilObject.getGameImage(context, it))
+                when (game) {
+                    Games.PUBG_MOBILE.title -> mainViewModel.filterGame.value = Games.PUBG_MOBILE
+                    Games.APEX_LEGENDS.title -> mainViewModel.filterGame.value = Games.APEX_LEGENDS
+                    Games.AMONG_US.title -> mainViewModel.filterGame.value = Games.AMONG_US
+                    Games.GENSHIN.title -> mainViewModel.filterGame.value = Games.GENSHIN
+                    Games.FORTNITE.title -> mainViewModel.filterGame.value = Games.FORTNITE
+                    Games.MINECRAFT.title -> mainViewModel.filterGame.value = Games.MINECRAFT
+                    Games.CALL_OF_DUTY.title -> mainViewModel.filterGame.value = Games.CALL_OF_DUTY
+                    Games.LEAGUE_OF_LEGENDS.title -> mainViewModel.filterGame.value = Games.LEAGUE_OF_LEGENDS
+                    Games.ALL.title -> mainViewModel.filterGame.value = Games.ALL
                 }
             }
         }

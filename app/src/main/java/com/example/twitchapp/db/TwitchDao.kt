@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.twitchapp.model.data.clipdata.Clip
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TwitchDao {
@@ -17,5 +16,5 @@ interface TwitchDao {
     suspend fun deleteClip(clip: Clip)
 
     @Query("SELECT * FROM clips")
-    fun getAllClips(): Flow<List<Clip>>
+    fun getAllClips(): List<Clip>
 }
