@@ -43,6 +43,9 @@ class StreamAdapter(private val context: Context) :
                     listener?.longClickListener(stream, ScreenType.STREAM)
                     return@setOnLongClickListener true
                 }
+                btnMenu.setOnClickListener {
+                    listener?.menuClickListener(stream, ScreenType.STREAM)
+                }
             }
         }
     }

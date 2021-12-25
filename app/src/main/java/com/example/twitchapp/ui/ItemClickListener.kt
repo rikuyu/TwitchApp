@@ -13,6 +13,11 @@ interface ItemClickListener {
     * アイテムを長押ししたとき
     */
     fun <T> longClickListener(item: T, screen: ScreenType)
+
+    /*
+    * メニューアイコンを押ししたとき
+    */
+    fun <T> menuClickListener(item: T, screen: ScreenType)
 }
 
 @Parcelize

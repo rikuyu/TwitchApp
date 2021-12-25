@@ -61,6 +61,17 @@ class ClipFragment : Fragment() {
                     ).show(parentFragmentManager, "")
                 }
 
+                override fun <T> menuClickListener(item: T, screen: ScreenType) {
+                    setFragmentResult(
+                        CUSTOM_DIALOG_KEY,
+                        bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                    )
+                    CustomBottomSheetDialog(
+                        mainViewModel::insertGetClip,
+                        mainViewModel::deleteClip
+                    ).show(parentFragmentManager, "")
+                }
+
                 override fun userProfileClickListener(url: String) {
                     chromeCustomTabsManager.openChromeCustomTabs(it, url)
                 }

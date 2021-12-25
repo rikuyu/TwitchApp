@@ -98,7 +98,7 @@ class FilterDialog : DialogFragment() {
                 setListener(allGame, allGameCard, Games.ALL, it)
                 btnOk.setOnClickListener {
                     mainViewModel.filterGame.value?.let {
-                        mainViewModel.getSpecificFavotireGame(it.title)
+                        mainViewModel.getSpecificFavoriteGame(it.title)
                     }
                     dismiss()
                 }

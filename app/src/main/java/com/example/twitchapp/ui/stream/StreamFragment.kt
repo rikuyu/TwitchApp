@@ -15,6 +15,7 @@ import com.example.twitchapp.databinding.FragmentStreamBinding
 import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.ui.ScreenType
+import com.example.twitchapp.ui.clip.ClipFragment
 import com.example.twitchapp.util.ChromeCustomTabsManager
 import com.example.twitchapp.util.CustomBottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,6 +65,17 @@ class StreamFragment : Fragment() {
                 }
 
                 override fun <T> longClickListener(item: T, screen: ScreenType) {
+                    setFragmentResult(
+                        CUSTOM_DIALOG_KEY,
+                        bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                    )
+                    CustomBottomSheetDialog(
+                        mainViewModel::insertGetClip,
+                        mainViewModel::deleteClip
+                    ).show(parentFragmentManager, "")
+                }
+
+                override fun <T> menuClickListener(item: T, screen: ScreenType) {
                     setFragmentResult(
                         CUSTOM_DIALOG_KEY,
                         bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)

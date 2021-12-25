@@ -58,7 +58,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getFavoriteGame() {
+    private fun getFavoriteGame() {
         viewModelScope.launch {
             repository.getFavoriteGame().catch {
                 _favoriteList.value = Resource.Error("flow error")
@@ -86,7 +86,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getSpecificFavotireGame(game: String) {
+    fun getSpecificFavoriteGame(game: String) {
         viewModelScope.launch {
             repository.getFavoriteGame().catch {
                 _favoriteList.value = Resource.Error("flow error")
