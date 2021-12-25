@@ -40,47 +40,18 @@ class FilterDialog : DialogFragment() {
 
         mainViewModel.filterGame.observe(viewLifecycleOwner, { filterGame ->
             context?.let {
+                resetGameFrameColor()
                 when (filterGame) {
-                    Games.PUBG_MOBILE -> {
-                        resetGameFrameColor()
-                        switchCardViewBorder(binding.pubgMobileCard, it)
-                    }
-                    Games.APEX_LEGENDS -> {
-                        resetGameFrameColor()
-                        switchCardViewBorder(binding.apexCard, it)
-                    }
-                    Games.AMONG_US -> {
-                        resetGameFrameColor()
-                        switchCardViewBorder(binding.amongusCard, it)
-                    }
-                    Games.GENSHIN -> {
-                        resetGameFrameColor()
-                        switchCardViewBorder(binding.genshinCard, it)
-                    }
-                    Games.FORTNITE -> {
-                        resetGameFrameColor()
-                        switchCardViewBorder(binding.fortniteCard, it)
-                    }
-                    Games.MINECRAFT -> {
-                        resetGameFrameColor()
-                        switchCardViewBorder(binding.minecraftCard, it)
-                    }
-                    Games.CALL_OF_DUTY -> {
-                        resetGameFrameColor()
-                        switchCardViewBorder(binding.callofdutyCard, it)
-                    }
-                    Games.LEAGUE_OF_LEGENDS -> {
-                        resetGameFrameColor()
-                        switchCardViewBorder(binding.lolCard, it)
-                    }
-                    Games.ALL -> {
-                        resetGameFrameColor()
-                        switchCardViewBorder(binding.allGameCard, it)
-                    }
-                    null -> {
-                        resetGameFrameColor()
-                        switchCardViewBorder(binding.allGameCard, it)
-                    }
+                    Games.PUBG_MOBILE -> switchCardViewBorder(binding.pubgMobileCard, it)
+                    Games.APEX_LEGENDS -> switchCardViewBorder(binding.apexCard, it)
+                    Games.AMONG_US -> switchCardViewBorder(binding.amongusCard, it)
+                    Games.GENSHIN -> switchCardViewBorder(binding.genshinCard, it)
+                    Games.FORTNITE -> switchCardViewBorder(binding.fortniteCard, it)
+                    Games.MINECRAFT -> switchCardViewBorder(binding.minecraftCard, it)
+                    Games.CALL_OF_DUTY -> switchCardViewBorder(binding.callofdutyCard, it)
+                    Games.LEAGUE_OF_LEGENDS -> switchCardViewBorder(binding.lolCard, it)
+                    Games.ALL -> switchCardViewBorder(binding.allGameCard, it)
+                    null -> switchCardViewBorder(binding.allGameCard, it)
                 }
             }
         })
@@ -97,8 +68,8 @@ class FilterDialog : DialogFragment() {
                 setListener(lol, lolCard, Games.LEAGUE_OF_LEGENDS, it)
                 setListener(allGame, allGameCard, Games.ALL, it)
                 btnOk.setOnClickListener {
-                    mainViewModel.filterGame.value?.let {
-                        mainViewModel.getSpecificFavoriteGame(it.title)
+                    mainViewModel.filterGame.value?.let { game ->
+                        mainViewModel.getSpecificFavoriteGame(game.title)
                     }
                     dismiss()
                 }

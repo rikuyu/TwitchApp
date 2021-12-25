@@ -18,11 +18,9 @@ import com.example.twitchapp.R
 import com.example.twitchapp.databinding.FragmentMyProfileBinding
 import com.example.twitchapp.model.data.Games
 import com.example.twitchapp.model.data.NewProfileData
-import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.ui.ScreenType
-import com.example.twitchapp.ui.clip.ClipFragment
 import com.example.twitchapp.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -136,36 +134,36 @@ class MyProfileFragment : Fragment() {
         }
         context?.let {
             myProfileAdapter.setListener(object :
-                ItemClickListener {
-                override fun thumbnailClickListener(url: String) {
-                    chromeCustomTabsManager.openChromeCustomTabs(it, url)
-                }
+                    ItemClickListener {
+                    override fun thumbnailClickListener(url: String) {
+                        chromeCustomTabsManager.openChromeCustomTabs(it, url)
+                    }
 
-                override fun <T> longClickListener(
-                    item: T,
-                    screen: ScreenType
-                ) {
-                    setFragmentResult(
-                        CUSTOM_DIALOG_KEY,
-                        bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
-                    )
-                    CustomBottomSheetDialog(
-                        mainViewModel::insertGetClip,
-                        mainViewModel::deleteClip
-                    ).show(parentFragmentManager, "")
-                }
+                    override fun <T> longClickListener(
+                        item: T,
+                        screen: ScreenType
+                    ) {
+                        setFragmentResult(
+                            CUSTOM_DIALOG_KEY,
+                            bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                        )
+                        CustomBottomSheetDialog(
+                            mainViewModel::insertGetClip,
+                            mainViewModel::deleteClip
+                        ).show(parentFragmentManager, "")
+                    }
 
-                override fun <T> menuClickListener(item: T, screen: ScreenType) {
-                    setFragmentResult(
-                        CUSTOM_DIALOG_KEY,
-                        bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
-                    )
-                    CustomBottomSheetDialog(
-                        mainViewModel::insertGetClip,
-                        mainViewModel::deleteClip
-                    ).show(parentFragmentManager, "")
-                }
-            })
+                    override fun <T> menuClickListener(item: T, screen: ScreenType) {
+                        setFragmentResult(
+                            CUSTOM_DIALOG_KEY,
+                            bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                        )
+                        CustomBottomSheetDialog(
+                            mainViewModel::insertGetClip,
+                            mainViewModel::deleteClip
+                        ).show(parentFragmentManager, "")
+                    }
+                })
         }
     }
 
@@ -217,42 +215,24 @@ class MyProfileFragment : Fragment() {
 
     private fun loadFilterGameData(context: Context) {
         binding.filterGameImage.apply {
-            when (val game = sharedPreferencesManager.getFilterGame(context)) {
-                Games.PUBG_MOBILE.title -> {
-                    setImageDrawable(UtilObject.getGameImage(context, game))
-                    mainViewModel.filterGame.value = Games.PUBG_MOBILE
+            val game = sharedPreferencesManager.getFilterGame(context)
+            game?.let {
+                if (game != Games.ALL.title) {
+                    mainViewModel.getSpecificFavoriteGame(it)
+                } else {
+                    mainViewModel.getFavoriteGame()
                 }
-                Games.APEX_LEGENDS.title -> {
-                    setImageDrawable(UtilObject.getGameImage(context, game))
-                    mainViewModel.filterGame.value = Games.APEX_LEGENDS
-                }
-                Games.AMONG_US.title -> {
-                    setImageDrawable(UtilObject.getGameImage(context, game))
-                    mainViewModel.filterGame.value = Games.AMONG_US
-                }
-                Games.GENSHIN.title -> {
-                    setImageDrawable(UtilObject.getGameImage(context, game))
-                    mainViewModel.filterGame.value = Games.GENSHIN
-                }
-                Games.FORTNITE.title -> {
-                    setImageDrawable(UtilObject.getGameImage(context, game))
-                    mainViewModel.filterGame.value = Games.FORTNITE
-                }
-                Games.MINECRAFT.title -> {
-                    setImageDrawable(UtilObject.getGameImage(context, game))
-                    mainViewModel.filterGame.value = Games.MINECRAFT
-                }
-                Games.CALL_OF_DUTY.title -> {
-                    setImageDrawable(UtilObject.getGameImage(context, game))
-                    mainViewModel.filterGame.value = Games.CALL_OF_DUTY
-                }
-                Games.LEAGUE_OF_LEGENDS.title -> {
-                    setImageDrawable(UtilObject.getGameImage(context, game))
-                    mainViewModel.filterGame.value = Games.LEAGUE_OF_LEGENDS
-                }
-                Games.ALL.title -> {
-                    setImageDrawable(UtilObject.getGameImage(context, game))
-                    mainViewModel.filterGame.value = Games.ALL
+                setImageDrawable(UtilObject.getGameImage(context, it))
+                when (game) {
+                    Games.PUBG_MOBILE.title -> mainViewModel.filterGame.value = Games.PUBG_MOBILE
+                    Games.APEX_LEGENDS.title -> mainViewModel.filterGame.value = Games.APEX_LEGENDS
+                    Games.AMONG_US.title -> mainViewModel.filterGame.value = Games.AMONG_US
+                    Games.GENSHIN.title -> mainViewModel.filterGame.value = Games.GENSHIN
+                    Games.FORTNITE.title -> mainViewModel.filterGame.value = Games.FORTNITE
+                    Games.MINECRAFT.title -> mainViewModel.filterGame.value = Games.MINECRAFT
+                    Games.CALL_OF_DUTY.title -> mainViewModel.filterGame.value = Games.CALL_OF_DUTY
+                    Games.LEAGUE_OF_LEGENDS.title -> mainViewModel.filterGame.value = Games.LEAGUE_OF_LEGENDS
+                    Games.ALL.title -> mainViewModel.filterGame.value = Games.ALL
                 }
             }
         }

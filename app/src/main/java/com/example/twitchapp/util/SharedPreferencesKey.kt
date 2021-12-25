@@ -13,4 +13,7 @@ object SharedPreferencesKey {
 
     // フィルターするゲーム
     const val STORED_FILTER_GAME = "filter_game"
+
+    // フィルターするゲーム
+    const val STORED_CLIP_FETCH_GAME = "clip_fetch_game"
 }

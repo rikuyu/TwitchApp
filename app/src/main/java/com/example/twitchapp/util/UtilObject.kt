@@ -2,20 +2,13 @@ package com.example.twitchapp.util
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import com.example.twitchapp.model.data.Games.*
-import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.R
 import com.example.twitchapp.model.data.clipdata.Clip
 
 object UtilObject {
-    fun createGameButton(view: View, vm: MainViewModel, gameTitle: String) {
-        view.setOnClickListener {
-            vm.fetchClip(gameTitle)
-        }
-    }
 
     fun getGameImage(context: Context, gameTitle: String): Drawable? {
         return when (gameTitle) {

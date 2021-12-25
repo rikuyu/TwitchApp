@@ -31,11 +31,6 @@ class MainViewModel @Inject constructor(
     private val _favoriteList: MutableStateFlow<Resource<List<Clip>>> = MutableStateFlow(Resource.Loading())
     val favoriteList: StateFlow<Resource<List<Clip>>> get() = _favoriteList
 
-    init {
-        fetchClip("PUBG Mobile")
-        getFavoriteGame()
-    }
-
     val streamFlow = Pager(
         PagingConfig(pageSize = PAGE_SIZE, initialLoadSize = PAGE_SIZE)
     ) {
@@ -58,7 +53,7 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    private fun getFavoriteGame() {
+    fun getFavoriteGame() {
         viewModelScope.launch {
             repository.getFavoriteGame().catch {
                 _favoriteList.value = Resource.Error("flow error")

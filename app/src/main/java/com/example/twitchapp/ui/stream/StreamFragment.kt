@@ -15,7 +15,6 @@ import com.example.twitchapp.databinding.FragmentStreamBinding
 import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.ui.ScreenType
-import com.example.twitchapp.ui.clip.ClipFragment
 import com.example.twitchapp.util.ChromeCustomTabsManager
 import com.example.twitchapp.util.CustomBottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint

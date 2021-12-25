@@ -2,33 +2,42 @@
 <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/menu_game"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/Theme.MaterialComponents"
     app:layout_constraintBottom_toTopOf="@+id/medium_line"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/top_line"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content">
+    app:layout_constraintTop_toBottomOf="@+id/top_line">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/game_icon"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="4dp"
-            android:contentDescription="@string/image_desc"
-            android:src="@drawable/game_icon" />
-
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="15dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/all_game_card"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginHorizontal="4dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="25dp">
+
+            <ImageView
+                android:id="@+id/all_game"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/image_desc"
+                android:src="@drawable/game_icon" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/pubg_mobile_card"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="15dp">
 
             <ImageView
                 android:id="@+id/pubg_mobile"
@@ -36,15 +45,16 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/image_desc"
                 android:src="@drawable/pubg_mobile" />
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="15dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/apex_card"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginHorizontal="4dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="15dp">
 
             <ImageView
                 android:id="@+id/apex"
@@ -52,15 +62,16 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/image_desc"
                 android:src="@drawable/apex" />
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="15dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/amongus_card"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginHorizontal="4dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="15dp">
 
             <ImageView
                 android:id="@+id/amongus"
@@ -68,15 +79,16 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/image_desc"
                 android:src="@drawable/among" />
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="15dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/genshin_card"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginHorizontal="4dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="15dp">
 
             <ImageView
                 android:id="@+id/genshin"
@@ -84,15 +96,16 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/image_desc"
                 android:src="@drawable/genshin" />
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="15dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/minecraft_card"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginHorizontal="4dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="15dp">
 
             <ImageView
                 android:id="@+id/minecraft"
@@ -100,15 +113,16 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/image_desc"
                 android:src="@drawable/minecraft" />
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="15dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/fortnite_card"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginHorizontal="4dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="15dp">
 
             <ImageView
                 android:id="@+id/fortnite"
@@ -116,15 +130,16 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/image_desc"
                 android:src="@drawable/fortnite" />
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="15dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/callofduty_card"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginHorizontal="4dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="15dp">
 
             <ImageView
                 android:id="@+id/callofduty"
@@ -132,15 +147,16 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/image_desc"
                 android:src="@drawable/callofduty" />
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
-            app:cardCornerRadius="15dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/lol_card"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginHorizontal="4dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="4dp"
+            app:cardCornerRadius="15dp">
 
             <ImageView
                 android:id="@+id/lol"
@@ -148,7 +164,7 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/image_desc"
                 android:src="@drawable/lol" />
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 
