@@ -1,4 +1,4 @@
-package com.example.twitchapp.util
+package com.example.twitchapp.ui
 
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -12,7 +12,8 @@ import android.widget.Toast
 import com.example.twitchapp.databinding.CustomBottomSheetDialogBinding
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.streamdata.Stream
-import com.example.twitchapp.ui.ScreenType
+import com.example.twitchapp.util.BottomSheetDialogListenr
+import com.example.twitchapp.util.ChromeCustomTabsManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class CustomBottomSheetDialog(
@@ -56,11 +57,11 @@ class CustomBottomSheetDialog(
     }
 
     override fun favorite(clip: Clip) {
-        favoriteClip(clip)
+        favoriteClip.invoke(clip)
     }
 
     override fun delete(clip: Clip) {
-        deleteClip(clip)
+        deleteClip.invoke(clip)
     }
 
     override fun copy(url: String) {

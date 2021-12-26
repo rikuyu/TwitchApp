@@ -9,7 +9,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/twich_nav_host"
-        android:name="com.example.twitchapp.util.CustomNavHostFragment"
+        android:name="com.example.twitchapp.ui.CustomNavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:defaultNavHost="true"

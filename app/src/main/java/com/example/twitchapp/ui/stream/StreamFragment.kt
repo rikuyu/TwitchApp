@@ -16,7 +16,7 @@ import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.ui.ScreenType
 import com.example.twitchapp.util.ChromeCustomTabsManager
-import com.example.twitchapp.util.CustomBottomSheetDialog
+import com.example.twitchapp.ui.CustomBottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

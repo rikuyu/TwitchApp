@@ -18,6 +18,7 @@ import com.example.twitchapp.R
 import com.example.twitchapp.databinding.FragmentMyProfileBinding
 import com.example.twitchapp.model.data.Games
 import com.example.twitchapp.model.data.NewProfileData
+import com.example.twitchapp.ui.CustomBottomSheetDialog
 import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.ui.ScreenType
@@ -65,6 +66,7 @@ class MyProfileFragment : Fragment() {
                                 binding.emptyMsg.visibility = View.GONE
                                 binding.favoriteRecyclerView.visibility = View.VISIBLE
                                 myProfileAdapter.submitList(list)
+                                binding.numLikes.text = list.size.toString()
                             } else {
                                 binding.emptyMsg.visibility = View.VISIBLE
                                 binding.favoriteRecyclerView.visibility = View.GONE
