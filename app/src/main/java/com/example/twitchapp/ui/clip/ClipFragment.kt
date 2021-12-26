@@ -17,6 +17,7 @@ import com.example.twitchapp.R
 import com.example.twitchapp.databinding.FragmentClipBinding
 import com.example.twitchapp.model.data.Games
 import com.example.twitchapp.model.data.clipdata.Clip
+import com.example.twitchapp.ui.CustomBottomSheetDialog
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.ui.ScreenType
 import com.example.twitchapp.util.*
@@ -50,9 +51,13 @@ class ClipFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         context?.let {
-            sharedPreferencesManager.getClipFetchGame(it)?.let { gameTitle ->
+            val gameTitle = sharedPreferencesManager.getClipFetchGame(it)
+            if (gameTitle != null) {
                 loadClipFetchGame(gameTitle)
                 mainViewModel.fetchClip(gameTitle)
+            } else {
+                switchCardViewBorder(binding.gameTitlesTopbar.pubgMobileCard, it)
+                mainViewModel.fetchClip(Games.PUBG_MOBILE.title)
             }
 
             clipItemClickListener = object : ClipAdapter.ClipItemClickListener {

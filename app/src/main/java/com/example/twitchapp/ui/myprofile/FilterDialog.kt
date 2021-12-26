@@ -94,7 +94,7 @@ class FilterDialog : DialogFragment() {
     private fun switchCardViewBorder(card: MaterialCardView, context: Context) {
         card.apply {
             strokeColor = ContextCompat.getColor(context, R.color.teal_200)
-            strokeWidth = 7
+            strokeWidth = 8
         }
     }
 
