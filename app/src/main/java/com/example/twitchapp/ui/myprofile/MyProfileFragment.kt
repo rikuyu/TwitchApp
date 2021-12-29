@@ -12,7 +12,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResult
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.FragmentMyProfileBinding
@@ -25,6 +27,7 @@ import com.example.twitchapp.ui.ScreenType
 import com.example.twitchapp.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MyProfileFragment : Fragment() {
@@ -56,31 +59,32 @@ class MyProfileFragment : Fragment() {
         loadProfileData()
         context?.let { loadFilterGameData(it) }
 
-        lifecycleScope.launchWhenStarted {
-            mainViewModel.favoriteList.collect {
-                when (it) {
-                    is Resource.Success -> {
-                        binding.progressbar.visibility = View.GONE
-                        it.data?.let { list ->
-                            if (list.isNotEmpty()) {
-                                binding.emptyMsg.visibility = View.GONE
-                                binding.favoriteRecyclerView.visibility = View.VISIBLE
-                                myProfileAdapter.submitList(list)
-                                binding.numLikes.text = list.size.toString()
-                            } else {
-                                binding.emptyMsg.visibility = View.VISIBLE
-                                binding.favoriteRecyclerView.visibility = View.GONE
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainViewModel.favoriteList.collect {
+                    when (it) {
+                        is Resource.Success -> {
+                            binding.progressbar.visibility = View.GONE
+                            it.data?.let { list ->
+                                if (list.isNotEmpty()) {
+                                    binding.emptyMsg.visibility = View.GONE
+                                    binding.favoriteRecyclerView.visibility = View.VISIBLE
+                                    myProfileAdapter.submitList(list)
+                                } else {
+                                    binding.emptyMsg.visibility = View.VISIBLE
+                                    binding.favoriteRecyclerView.visibility = View.GONE
+                                }
                             }
                         }
-                    }
-                    is Resource.Error -> {
-                        binding.favoriteRecyclerView.visibility = View.VISIBLE
-                        binding.progressbar.visibility = View.GONE
-                        Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                    }
-                    is Resource.Loading -> {
-                        binding.favoriteRecyclerView.visibility = View.GONE
-                        binding.progressbar.visibility = View.VISIBLE
+                        is Resource.Error -> {
+                            binding.favoriteRecyclerView.visibility = View.VISIBLE
+                            binding.progressbar.visibility = View.GONE
+                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                        }
+                        is Resource.Loading -> {
+                            binding.favoriteRecyclerView.visibility = View.GONE
+                            binding.progressbar.visibility = View.VISIBLE
+                        }
                     }
                 }
             }

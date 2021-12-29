@@ -67,7 +67,13 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 repository.insertClip(clip)
-                getFavoriteGame()
+                if (filterGame.value == Games.ALL || filterGame.value == null) {
+                    getFavoriteGame()
+                    return@withContext
+                }
+                filterGame.value?.let {
+                    getSpecificFavoriteGame(it.title)
+                }
             }
         }
     }
@@ -76,7 +82,13 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 repository.deleteClip(clip)
-                getFavoriteGame()
+                if (filterGame.value == Games.ALL || filterGame.value == null) {
+                    getFavoriteGame()
+                    return@withContext
+                }
+                filterGame.value?.let {
+                    getSpecificFavoriteGame(it.title)
+                }
             }
         }
     }
