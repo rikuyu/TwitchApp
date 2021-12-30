@@ -70,6 +70,7 @@ class MyProfileFragment : Fragment() {
                                     binding.emptyMsg.visibility = View.GONE
                                     binding.favoriteRecyclerView.visibility = View.VISIBLE
                                     myProfileAdapter.submitList(list)
+                                    binding.numLikes.text = list.size.toString()
                                 } else {
                                     binding.emptyMsg.visibility = View.VISIBLE
                                     binding.favoriteRecyclerView.visibility = View.GONE
