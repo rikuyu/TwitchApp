@@ -36,7 +36,7 @@ abstract class AppModule {
             return Room.databaseBuilder(
                 appContext,
                 TwitchDatabase::class.java,
-                "twitch_database"
+                DATABASE_NAME
             ).allowMainThreadQueries().build()
         }
 
@@ -52,5 +52,6 @@ abstract class AppModule {
 
         private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         private const val BASE_URL = "https://api.twitch.tv/kraken/"
+        private const val DATABASE_NAME = "twitch_database"
     }
 }

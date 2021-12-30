@@ -1,6 +1,5 @@
 package com.example.twitchapp.model.repository
 
-import android.nfc.tech.MifareUltralight.PAGE_SIZE
 import com.example.twitchapp.db.TwitchDatabase
 import com.example.twitchapp.model.api.TwitchApi
 import com.example.twitchapp.model.data.clipdata.Clip
@@ -38,5 +37,9 @@ class TwitchRepositoryImpl @Inject constructor(
         return flow {
             emit(db.twitchDao().getAllClips())
         }.flowOn(Dispatchers.IO)
+    }
+
+    companion object {
+        private const val PAGE_SIZE = 7
     }
 }
