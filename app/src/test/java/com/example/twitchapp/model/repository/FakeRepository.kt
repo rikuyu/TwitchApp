@@ -16,16 +16,19 @@ import kotlinx.coroutines.flow.flowOn
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.mock.MockRetrofit
+import retrofit2.mock.NetworkBehavior
 
 class FakeRepository : TwitchRepository {
 
     private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
-    private var streamApi: TwitchApi = Retrofit.Builder()
+    private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .build()
-        .create(TwitchApi::class.java)
+
+    var streamApi: TwitchApi = retrofit.create(TwitchApi::class.java)
 
     var twitchDatabase: TwitchDatabase = Room.databaseBuilder(
         ApplicationProvider.getApplicationContext(),
@@ -33,7 +36,12 @@ class FakeRepository : TwitchRepository {
         DATABASE_NAME
     ).allowMainThreadQueries().build()
 
-    override suspend fun fetchStreamPaging(page: Int): Response<Streams> {
+    val behavior = NetworkBehavior.create()
+
+    val delegate = MockRetrofit.Builder(retrofit).networkBehavior(behavior).build()
+        .create(TwitchApi::class.java)
+
+    override suspend fun fetchStream(page: Int): Response<Streams> {
         return streamApi.fetchStream(PAGE_SIZE, page)
     }
 

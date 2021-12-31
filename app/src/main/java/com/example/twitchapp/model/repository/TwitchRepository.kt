@@ -8,7 +8,7 @@ import retrofit2.Response
 
 interface TwitchRepository {
 
-    suspend fun fetchStreamPaging(page: Int): Response<Streams>
+    suspend fun fetchStream(page: Int): Response<Streams>
 
     suspend fun fetchClip(gameTitle: String): Response<ClipResponse>
 

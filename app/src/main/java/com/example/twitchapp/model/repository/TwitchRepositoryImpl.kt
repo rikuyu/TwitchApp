@@ -17,7 +17,7 @@ class TwitchRepositoryImpl @Inject constructor(
     private val streamApi: TwitchApi
 ) : TwitchRepository {
 
-    override suspend fun fetchStreamPaging(page: Int): Response<Streams> {
+    override suspend fun fetchStream(page: Int): Response<Streams> {
         return streamApi.fetchStream(PAGE_SIZE, page)
     }
 

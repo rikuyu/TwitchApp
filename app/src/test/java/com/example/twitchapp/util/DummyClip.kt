@@ -45,4 +45,9 @@ object DummyClip {
         views = 10,
         vod = dummyVod
     )
+
+    val dummyClipResponse = ClipResponse(
+        _cursor = "_cursor",
+        clips = listOf(dummyClip)
+    )
 }
