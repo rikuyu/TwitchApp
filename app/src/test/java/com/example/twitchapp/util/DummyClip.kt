@@ -1,33 +1,35 @@
-package com.example.twitchapp
+package com.example.twitchapp.util
 
 import com.example.twitchapp.model.data.clipdata.*
 
-object Dummy {
+object DummyClip {
 
     private val dummyBroadcaster = Broadcaster(
         channel_url = "dummy_url",
         display_name = null,
         id = null,
         logo = null,
-        name = "dummy_broadcaster_name"
+        name = null
     )
 
     private val dummyVod = Vod(id = "dummy_id", url = null)
+
     private val dummyCurator = Curator(
-        channel_url = null,
-        display_name = null,
-        id = null,
-        logo = null,
+        channel_url = "dummy_channel_url",
+        display_name = "dummy_display_name",
+        id = "dummy_id",
+        logo = "dummy_logo",
         name = "dummy_name"
     )
+
     private val dummyThumbnails = Thumbnails(
-        medium = "dummy_thumbnail",
-        small = null,
-        tiny = null
+        medium = "dummy_medium",
+        small = "dummy_small",
+        tiny = "dummy_tiny"
     )
 
     val dummyClip = Clip(
-        tracking_id = "dummy_clip_tracking_id",
+        tracking_id = "dummy_id_1",
         broadcaster = dummyBroadcaster,
         created_at = "dummy_string",
         curator = dummyCurator,
@@ -42,5 +44,10 @@ object Dummy {
         url = "dummy_string",
         views = 10,
         vod = dummyVod
+    )
+
+    val dummyClipResponse = ClipResponse(
+        _cursor = "_cursor",
+        clips = listOf(dummyClip)
     )
 }

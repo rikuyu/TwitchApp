@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import com.example.twitchapp.di.NetworkModule.PAGE_SIZE
 import com.example.twitchapp.model.data.Games
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.clipdata.ClipResponse
@@ -108,5 +107,9 @@ class MainViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    companion object {
+        private const val PAGE_SIZE = 7
     }
 }
