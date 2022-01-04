@@ -3,8 +3,9 @@ package com.example.twitchapp.ui.myprofile
 import android.app.Activity.RESULT_OK
 import android.app.Dialog
 import android.content.Intent
-import android.net.Uri
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Base64
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.os.bundleOf
@@ -13,14 +14,16 @@ import androidx.fragment.app.setFragmentResult
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.EditProfileDialogBinding
 import com.example.twitchapp.model.data.NewProfileData
+import com.example.twitchapp.util.UtilObject
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.ByteArrayOutputStream
 
 @AndroidEntryPoint
 class ProfileEditCustomDialog private constructor() : DialogFragment() {
 
     private var currentName: String? = null
-    private var currentProfileImageUri: String? = null
-    private var newImageUriStringFromGallery: String? = null
+    private var currentProfileImage: String? = null
+    private var newImageStringFromGallery: String? = null
     private var _binding: EditProfileDialogBinding? = null
 
     private lateinit var launcher: ActivityResultLauncher<Intent>
@@ -59,17 +62,25 @@ class ProfileEditCustomDialog private constructor() : DialogFragment() {
         launcher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 if (result.resultCode == RESULT_OK) {
-                    val imageUri = result.data?.data
-                    if (imageUri != null) {
-                        newImageUriStringFromGallery = imageUri.toString()
-                        binding.editProfileImage.setImageURI(imageUri)
-                        currentProfileImageUri = newImageUriStringFromGallery
-                    } else {
-                        if (currentProfileImageUri != null) {
-                            binding.editProfileImage.setImageURI(Uri.parse(currentProfileImageUri))
-                        } else {
-                            binding.editProfileImage.setImageResource(R.drawable.no_profile_image)
+                    val intentData = result.data
+                    if (intentData != null) {
+                        intentData.data?.let { contentUri ->
+                            context?.let {
+                                val bitmap = UtilObject.getBitmapOrNull(it.contentResolver, contentUri)
+                                if (bitmap != null) {
+                                    binding.editProfileImage.setImageBitmap(bitmap)
+                                    val outputStream = ByteArrayOutputStream()
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                                    val bitmapString = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT)
+                                    newImageStringFromGallery = bitmapString
+                                    currentProfileImage = bitmapString
+                                } else {
+                                    binding.editProfileImage.setImageResource(R.drawable.no_profile_image)
+                                }
+                            }
                         }
+                    } else {
+                        binding.editProfileImage.setImageResource(R.drawable.no_profile_image)
                     }
                 }
             }
@@ -91,7 +102,7 @@ class ProfileEditCustomDialog private constructor() : DialogFragment() {
                         getString(R.string.dialog_error_over_label, 10)
                 }
                 else -> {
-                    val newProfileImageUri = currentProfileImageUri.toString()
+                    val newProfileImageUri = currentProfileImage.toString()
                     val newProfile = NewProfileData(newProfileName, newProfileImageUri)
                     setFragmentResult(KEY_CLICKED, bundleOf(NEW_PROFILE_KEY to newProfile))
                     dismiss()
@@ -108,13 +119,18 @@ class ProfileEditCustomDialog private constructor() : DialogFragment() {
     private fun loadProfileData() {
         arguments?.let {
             currentName = it.getString(NAME_KEY, "No Name")
-            currentProfileImageUri = it.getString(IMAGE_KEY)
+            currentProfileImage = it.getString(IMAGE_KEY)
         }
         binding.dialogProfileName.setText(currentName)
-        currentProfileImageUri?.let {
+        currentProfileImage?.let {
+            val bitmap = UtilObject.decodeBitmapFromBase64(it)
             binding.editProfileImage.apply {
                 setImageURI(null)
-                setImageURI(Uri.parse(it))
+                if (bitmap == null) {
+                    setImageResource(R.drawable.no_profile_image)
+                } else {
+                    setImageBitmap(bitmap)
+                }
             }
         }
     }

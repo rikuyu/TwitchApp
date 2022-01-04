@@ -1,7 +1,15 @@
 package com.example.twitchapp.util
 
+import android.content.ContentResolver
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
+import android.util.Base64
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import com.example.twitchapp.model.data.Games.*
@@ -47,5 +55,21 @@ object UtilObject {
 
         override fun areContentsTheSame(oldItem: Clip, newItem: Clip) =
             oldItem == newItem
+    }
+
+    fun getBitmapOrNull(contentResolver: ContentResolver, uri: Uri): Bitmap? {
+        return kotlin.runCatching {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                val source = ImageDecoder.createSource(contentResolver, uri)
+                ImageDecoder.decodeBitmap(source)
+            } else {
+                MediaStore.Images.Media.getBitmap(contentResolver, uri)
+            }
+        }.getOrNull()
+    }
+
+    fun decodeBitmapFromBase64(base64Text: String): Bitmap? {
+        val bytes = Base64.decode(base64Text, Base64.DEFAULT)
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
     }
 }
