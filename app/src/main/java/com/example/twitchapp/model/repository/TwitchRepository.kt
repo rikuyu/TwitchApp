@@ -1,41 +1,20 @@
 package com.example.twitchapp.model.repository
 
-import com.example.twitchapp.db.TwitchDatabase
-import com.example.twitchapp.di.NetworkModule.PAGE_SIZE
-import com.example.twitchapp.model.api.TwitchApi
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.model.data.clipdata.ClipResponse
 import com.example.twitchapp.model.data.streamdata.Streams
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import retrofit2.Response
-import javax.inject.Inject
 
-class TwitchRepository @Inject constructor(
-    private val db: TwitchDatabase,
-    private val streamApi: TwitchApi
-) {
-    suspend fun fetchStreamPaging(page: Int): Response<Streams> {
-        return streamApi.fetchStream(PAGE_SIZE, page)
-    }
+interface TwitchRepository {
 
-    suspend fun fetchClip(gameTitle: String): Response<ClipResponse> {
-        return streamApi.fetchClip(gameTitle = gameTitle)
-    }
+    suspend fun fetchStream(page: Int): Response<Streams>
 
-    suspend fun insertClip(clip: Clip) {
-        db.twitchDao().insertClip(clip)
-    }
+    suspend fun fetchClip(gameTitle: String): Response<ClipResponse>
 
-    suspend fun deleteClip(clip: Clip) {
-        db.twitchDao().deleteClip(clip)
-    }
+    suspend fun insertClip(clip: Clip)
 
-    fun getFavoriteGame(): Flow<List<Clip>> {
-        return flow {
-            emit(db.twitchDao().getAllClips())
-        }.flowOn(Dispatchers.IO)
-    }
+    suspend fun deleteClip(clip: Clip)
+
+    fun getFavoriteGame(): Flow<List<Clip>>
 }

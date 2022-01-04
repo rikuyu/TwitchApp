@@ -1,7 +1,6 @@
 package com.example.twitchapp.ui.myprofile
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -34,7 +33,7 @@ class MyProfileFragment : Fragment() {
 
     private lateinit var myProfileAdapter: MyProfileAdapter
 
-    private var profileImageUri: String? = null
+    private var profileImageString: String? = null
     private var _binding: FragmentMyProfileBinding? = null
 
     private val mainViewModel: MainViewModel by activityViewModels()
@@ -70,6 +69,7 @@ class MyProfileFragment : Fragment() {
                                     binding.emptyMsg.visibility = View.GONE
                                     binding.favoriteRecyclerView.visibility = View.VISIBLE
                                     myProfileAdapter.submitList(list)
+                                    binding.numLikes.text = list.size.toString()
                                 } else {
                                     binding.emptyMsg.visibility = View.VISIBLE
                                     binding.favoriteRecyclerView.visibility = View.GONE
@@ -96,7 +96,7 @@ class MyProfileFragment : Fragment() {
             ProfileEditCustomDialog
                 .Builder()
                 .setName(binding.myProfileName.text.toString())
-                .setAvatarImage(profileImageUri)
+                .setAvatarImage(profileImageString)
                 .build()
                 .show(childFragmentManager, ProfileEditCustomDialog::class.simpleName)
         }
@@ -182,8 +182,13 @@ class MyProfileFragment : Fragment() {
                 binding.myProfileName.text = name
             }
             profileImage?.let { uriString ->
-                binding.myProfileImage.setImageURI(Uri.parse(uriString))
-                profileImageUri = uriString
+                val bitmap = UtilObject.decodeBitmapFromBase64(uriString)
+                if (bitmap == null) {
+                    binding.myProfileImage.setImageResource(R.drawable.no_profile_image)
+                } else {
+                    binding.myProfileImage.setImageBitmap(bitmap)
+                }
+                profileImageString = uriString
             }
         }
     }
@@ -196,8 +201,13 @@ class MyProfileFragment : Fragment() {
             binding.myProfileImage.apply {
                 setImageURI(null)
                 if (newProfile != null) {
-                    setImageURI(Uri.parse(newProfile.newProfileImage))
-                    profileImageUri = newProfile.newProfileImage
+                    val bitmap = UtilObject.decodeBitmapFromBase64(newProfile.newProfileImage)
+                    if (bitmap == null) {
+                        binding.myProfileImage.setImageResource(R.drawable.no_profile_image)
+                    } else {
+                        binding.myProfileImage.setImageBitmap(bitmap)
+                    }
+                    profileImageString = newProfile.newProfileImage
                 } else {
                     setImageResource(R.drawable.no_profile_image)
                 }

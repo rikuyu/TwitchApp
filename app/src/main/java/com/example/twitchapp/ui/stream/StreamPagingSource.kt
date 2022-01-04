@@ -10,7 +10,7 @@ class StreamPagingSource(private val repository: TwitchRepository) : PagingSourc
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Stream> {
         return try {
             val page = params.key ?: 1
-            val response = repository.fetchStreamPaging(page = page)
+            val response = repository.fetchStream(page = page)
 
             val streamList = response.body()!!.streams
             if (streamList != null) {
