@@ -11,13 +11,15 @@ import com.example.twitchapp.databinding.ItemClipBinding
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.ScreenType
-import com.example.twitchapp.util.UtilObject
+import com.example.twitchapp.util.DIFF_CALLBACK
+import com.example.twitchapp.util.convertClipTime
+import com.example.twitchapp.util.getGameImage
 
 class ClipAdapter(
     private val context: Context,
     private val listener: ClipItemClickListener
 ) :
-    ListAdapter<Clip, ClipAdapter.ClipHolder>(UtilObject.DIFF_CALLBACK) {
+    ListAdapter<Clip, ClipAdapter.ClipHolder>(DIFF_CALLBACK) {
 
     inner class ClipHolder(private val binding: ItemClipBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -29,7 +31,7 @@ class ClipAdapter(
                 clipTitle.text = clip.title
                 lang.text = clip.language
                 viewer.text = clip.views.toString()
-                clipDuration.text = UtilObject.convertClipTime(clip.duration)
+                clipDuration.text = convertClipTime(clip.duration)
                 thumbnail.apply {
                     setOnClickListener { listener.thumbnailClickListener(clip.url) }
                     setOnLongClickListener {
@@ -57,7 +59,7 @@ class ClipAdapter(
                     .apply(RequestOptions.circleCropTransform())
                     .into(userProfileImage)
 
-                UtilObject.getGameImage(context, clip.game)?.let {
+                getGameImage(context, clip.game)?.let {
                     gameIcon.setImageDrawable(it)
                 }
             }

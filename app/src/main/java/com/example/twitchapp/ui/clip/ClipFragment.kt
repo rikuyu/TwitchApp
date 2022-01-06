@@ -173,7 +173,7 @@ class ClipFragment : Fragment() {
             resetGameFrameColor()
             context?.let {
                 sharedPreferencesManager.saveClipFetchGame(it, game.title)
-                binding.fetchGameIcon.setImageDrawable(UtilObject.getGameImage(it, game.title))
+                binding.fetchGameIcon.setImageDrawable(getGameImage(it, game.title))
                 binding.gameTitlesTopbar.apply {
                     when (game) {
                         Games.PUBG_MOBILE -> switchCardViewBorder(pubgMobileCard, it)
@@ -215,7 +215,7 @@ class ClipFragment : Fragment() {
     private fun loadClipFetchGame(gameTitle: String) {
         binding.apply {
             context?.let {
-                fetchGameIcon.setImageDrawable(UtilObject.getGameImage(it, gameTitle))
+                fetchGameIcon.setImageDrawable(getGameImage(it, gameTitle))
                 when (gameTitle) {
                     Games.PUBG_MOBILE.title -> switchCardViewBorder(gameTitlesTopbar.pubgMobileCard, it)
                     Games.APEX_LEGENDS.title -> switchCardViewBorder(gameTitlesTopbar.apexCard, it)

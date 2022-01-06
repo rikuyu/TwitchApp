@@ -6,6 +6,8 @@ plugins {
     id 'kotlin-parcelize'
 }
 
+apply from: '../dependencies.gradle'
+
 def getApiKey() {
     def propFile = project.rootProject.file('local.properties')
     def properties = new Properties()
@@ -65,104 +67,51 @@ configurations {
 
 dependencies {
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.0'
-    implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.ar:core:1.29.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation uiDependencies.appCompat
+    implementation uiDependencies.material
+    implementation uiDependencies.constraintlayout
 
-    // LiveData
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
-    implementation "android.arch.lifecycle:extensions:1.1.1"
-    testImplementation "android.arch.core:core-testing:1.1.1"
+    implementation livedataDependencies.lifecycleLivedataKtx
+    implementation livedataDependencies.lifecycleExtensions
 
-    // Retrofit
-    def retrofit_version = "2.9.0"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-    testImplementation "com.squareup.retrofit2:retrofit-mock:$retrofit_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
+    implementation apiDependencies.retrofit
+    implementation apiDependencies.moshiConverter
+    implementation apiDependencies.loggingInterceptor
+    implementation apiDependencies.moshi
+    implementation apiDependencies.moshiKotlin
 
-    // Moshi
-    def moshi_version = "1.11.0"
-    implementation "com.squareup.moshi:moshi:$moshi_version"
-    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
+    implementation uiDependencies.glide
+    implementation uiDependencies.recyclerView
+    implementation uiDependencies.activityKtx
+    implementation uiDependencies.fragmentKtx
+    implementation uiDependencies.circleImageView
+    implementation uiDependencies.chromeCustomTabs
+    implementation uiDependencies.paging
 
-    // Glide
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation dbDependencies.roomRuntime
+    kapt dbDependencies.roomCompiler
+    implementation dbDependencies.roomKtx
 
-    // RecyclerView
-    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation coroutinesDependencies.coroutinesCore
+    implementation coroutinesDependencies.lifecycleRuntimeKtx
 
-    // Room
-    def room_version = "2.4.0"
-    implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
+    implementation navigationDependencies.navigationFragment
+    implementation navigationDependencies.navigationUi
+    implementation navigationDependencies.navigationFragmentKtx
+    implementation navigationDependencies.navigationUiKtx
 
-    // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
+    implementation diDependencies.hilt
+    kapt diDependencies.hiltAndroidCompiler
+    implementation diDependencies.hiltLifecycleViewModel
+    kapt diDependencies.hiltCompiler
 
-    // Navigation
-    def navigation_x_version = "2.3.5"
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_x_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigation_x_version"
-    def navigtion_version = "1.0.0"
-    implementation "android.arch.navigation:navigation-fragment:$navigtion_version"
-    implementation "android.arch.navigation:navigation-ui:$navigtion_version"
-
-    // fragment-ktx
-    implementation "androidx.fragment:fragment-ktx:1.4.0"
-
-    // Activity Result API
-    implementation 'androidx.activity:activity-ktx:1.4.0'
-
-    // CircleImageView
-    implementation 'de.hdodenhof:circleimageview:3.1.0'
-
-    // Dagger-Hilt
-    implementation "com.google.dagger:hilt-android:2.38.1"
-    kapt "com.google.dagger:hilt-android-compiler:2.38.1"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
-    kapt "androidx.hilt:hilt-compiler:1.0.0"
-
-    androidTestImplementation "com.google.dagger:hilt-android-testing:1.0.0"
-    kaptAndroidTest "com.google.dagger:hilt-android-compiler:2.38.1"
-
-    // Chrome Custom Tabs
-    implementation "androidx.browser:browser:1.4.0"
-
-    // Paging
-    implementation "androidx.paging:paging-runtime-ktx:3.1.0"
-
-    // Unit Test
-    testImplementation "androidx.test.ext:junit-ktx:1.1.3"
-    testImplementation "androidx.test:core-ktx:1.4.0"
-    testImplementation "org.robolectric:robolectric:4.7.3"
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2"
-    testImplementation 'com.google.dagger:hilt-android-testing:2.28-alpha'
-
-    // instrumented unit tests
-    androidTestImplementation "junit:junit:4.13.2"
-    debugImplementation "androidx.fragment:fragment-testing:1.4.0"
-
-    testImplementation 'org.robolectric:robolectric:4.7.3'
-
-    // For instrumented tests.
-    androidTestImplementation 'com.google.dagger:hilt-android-testing:2.28-alpha'
-    kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.38.1'
-
-    // Truth
-    testImplementation "com.google.truth:truth:1.1.3"
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2"
-    testImplementation "androidx.arch.core:core-testing:2.1.0"
+    testImplementation testDependencies.junitKtx
+    testImplementation testDependencies.coreKtx
+    testImplementation testDependencies.robolectric
+    testImplementation testDependencies.coreTesting
+    testImplementation testDependencies.coroutinesTest
+    testImplementation testDependencies.truth
+    testImplementation apiDependencies.retrofitMock
 
     // ktlint
     ktlint("com.pinterest:ktlint:0.42.1")

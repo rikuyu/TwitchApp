@@ -10,10 +10,12 @@ import com.example.twitchapp.databinding.ItemFavoriteBinding
 import com.example.twitchapp.model.data.clipdata.Clip
 import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.ScreenType
-import com.example.twitchapp.util.UtilObject
+import com.example.twitchapp.util.DIFF_CALLBACK
+import com.example.twitchapp.util.convertClipTime
+import com.example.twitchapp.util.getGameImage
 
 class MyProfileAdapter(private val context: Context) :
-    ListAdapter<Clip, MyProfileAdapter.FavoriteHolder>(UtilObject.DIFF_CALLBACK) {
+    ListAdapter<Clip, MyProfileAdapter.FavoriteHolder>(DIFF_CALLBACK) {
 
     private var listener: ItemClickListener? = null
 
@@ -23,12 +25,12 @@ class MyProfileAdapter(private val context: Context) :
         fun bind(clip: Clip) {
             binding.apply {
                 clipItemTitle.text = clip.title
-                clipDuration.text = UtilObject.convertClipTime(clip.duration)
+                clipDuration.text = convertClipTime(clip.duration)
                 userName.text = clip.broadcaster.name
                 viewer.text = clip.views.toString()
                 Glide.with(context).load(clip.thumbnails.medium)
                     .into(thumbnail)
-                val gameImageDrawable = UtilObject.getGameImage(context, clip.game)
+                val gameImageDrawable = getGameImage(context, clip.game)
                 gameImageDrawable?.let {
                     gameImage.setImageDrawable(it)
                 }

@@ -14,7 +14,8 @@ import androidx.fragment.app.setFragmentResult
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.EditProfileDialogBinding
 import com.example.twitchapp.model.data.NewProfileData
-import com.example.twitchapp.util.UtilObject
+import com.example.twitchapp.util.decodeBitmapFromBase64
+import com.example.twitchapp.util.getBitmapOrNull
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 
@@ -66,7 +67,7 @@ class ProfileEditCustomDialog private constructor() : DialogFragment() {
                     if (intentData != null) {
                         intentData.data?.let { contentUri ->
                             context?.let {
-                                val bitmap = UtilObject.getBitmapOrNull(it.contentResolver, contentUri)
+                                val bitmap = contentUri.getBitmapOrNull(it.contentResolver)
                                 if (bitmap != null) {
                                     binding.editProfileImage.setImageBitmap(bitmap)
                                     val outputStream = ByteArrayOutputStream()
@@ -123,7 +124,7 @@ class ProfileEditCustomDialog private constructor() : DialogFragment() {
         }
         binding.dialogProfileName.setText(currentName)
         currentProfileImage?.let {
-            val bitmap = UtilObject.decodeBitmapFromBase64(it)
+            val bitmap = decodeBitmapFromBase64(it)
             binding.editProfileImage.apply {
                 setImageURI(null)
                 if (bitmap == null) {

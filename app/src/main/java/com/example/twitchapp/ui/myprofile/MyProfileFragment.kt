@@ -182,7 +182,7 @@ class MyProfileFragment : Fragment() {
                 binding.myProfileName.text = name
             }
             profileImage?.let { uriString ->
-                val bitmap = UtilObject.decodeBitmapFromBase64(uriString)
+                val bitmap = decodeBitmapFromBase64(uriString)
                 if (bitmap == null) {
                     binding.myProfileImage.setImageResource(R.drawable.no_profile_image)
                 } else {
@@ -201,7 +201,7 @@ class MyProfileFragment : Fragment() {
             binding.myProfileImage.apply {
                 setImageURI(null)
                 if (newProfile != null) {
-                    val bitmap = UtilObject.decodeBitmapFromBase64(newProfile.newProfileImage)
+                    val bitmap = decodeBitmapFromBase64(newProfile.newProfileImage)
                     if (bitmap == null) {
                         binding.myProfileImage.setImageResource(R.drawable.no_profile_image)
                     } else {
@@ -224,7 +224,7 @@ class MyProfileFragment : Fragment() {
 
     private fun setImageAndSaveGame(context: Context, games: String) {
         binding.filterGameImage.setImageDrawable(
-            UtilObject.getGameImage(context, games)
+            getGameImage(context, games)
         )
         sharedPreferencesManager.saveFilterGame(context, games)
     }
@@ -238,7 +238,7 @@ class MyProfileFragment : Fragment() {
                 } else {
                     mainViewModel.getFavoriteGame()
                 }
-                setImageDrawable(UtilObject.getGameImage(context, it))
+                setImageDrawable(getGameImage(context, it))
                 when (game) {
                     Games.PUBG_MOBILE.title -> mainViewModel.filterGame.value = Games.PUBG_MOBILE
                     Games.APEX_LEGENDS.title -> mainViewModel.filterGame.value = Games.APEX_LEGENDS
