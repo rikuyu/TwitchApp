@@ -1,6 +1,7 @@
 package com.example.twitchapp.util
 
 import com.example.twitchapp.model.data.clipdata.*
+import com.example.twitchapp.model.data.streamdata.Thumbnail
 
 object DummyClip {
 
@@ -9,22 +10,14 @@ object DummyClip {
         name = "dummy_name"
     )
 
-    private val dummyCurator = Curator(name = "dummy_name")
-
-    private val dummyThumbnails = Thumbnails(
-        medium = "dummy_medium",
-        small = "dummy_small",
-        tiny = "dummy_tiny"
-    )
-
     val dummyClip = Clip(
         trackingId = "dummy_id_1",
         broadcaster = dummyBroadcaster,
-        curator = dummyCurator,
+        curator = Curator(name = "dummy_name"),
         duration = 10.0,
         game = "dummy_string",
         language = "dummy_string",
-        thumbnails = dummyThumbnails,
+        thumbnails = Thumbnail(medium = "dummy_medium"),
         title = "dummy_string",
         url = "dummy_string",
         views = 10,

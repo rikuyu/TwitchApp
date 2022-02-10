@@ -7,13 +7,6 @@ import com.example.twitchapp.model.data.streamdata.Thumbnail
 
 object DummyStream {
 
-    private val dummyThumbnail = Thumbnail(
-        large = "dummy_large",
-        medium = "dummy_medium",
-        small = "dummy_small",
-        template = "dummy_template"
-    )
-
     private val dummyChannel = Channel(
         language = "dummy_language",
         logo = "dummy_logo",
@@ -24,6 +17,7 @@ object DummyStream {
     private val dummyStream = Stream(
         id = 1,
         channel = dummyChannel,
+        preview = Thumbnail(medium = "dummy_medium"),
         game = "dummy_game",
         viewers = 10
     )

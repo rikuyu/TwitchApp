@@ -107,23 +107,24 @@ class ClipFragment : Fragment() {
             adapter = clipAdapter
         }
 
-        mainViewModel.clips.observeNonNull(viewLifecycleOwner, { response ->
-            when (response) {
-                is Resource.Success -> {
-                    hideProgressBar()
-                    response.data?.let { clipAdapter.submitList(it.clips) }
+        mainViewModel.clips.observeNonNull(
+            viewLifecycleOwner, { response ->
+                when (response) {
+                    is Resource.Success -> {
+                        hideProgressBar()
+                        response.data?.let { clipAdapter.submitList(it.clips) }
+                    }
+                    is Resource.Error -> {
+                        hideProgressBar()
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.clip_get_error),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    is Resource.Loading -> showProgressBar()
                 }
-                is Resource.Error -> {
-                    hideProgressBar()
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.clip_get_error),
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-                is Resource.Loading -> showProgressBar()
             }
-        }
         )
 
         setupTopMenu()

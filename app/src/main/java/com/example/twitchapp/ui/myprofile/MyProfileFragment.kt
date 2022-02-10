@@ -130,36 +130,36 @@ class MyProfileFragment : Fragment() {
         }
         context?.let {
             myProfileAdapter.setListener(object :
-                ItemClickListener {
-                override fun thumbnailClickListener(url: String) {
-                    chromeCustomTabsManager.openChromeCustomTabs(it, url)
-                }
+                    ItemClickListener {
+                    override fun thumbnailClickListener(url: String) {
+                        chromeCustomTabsManager.openChromeCustomTabs(it, url)
+                    }
 
-                override fun <T> longClickListener(
-                    item: T,
-                    screen: ScreenType
-                ) {
-                    setFragmentResult(
-                        CUSTOM_DIALOG_KEY,
-                        bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
-                    )
-                    CustomBottomSheetDialog(
-                        mainViewModel::insertGetClip,
-                        mainViewModel::deleteClip
-                    ).show(parentFragmentManager, "")
-                }
+                    override fun <T> longClickListener(
+                        item: T,
+                        screen: ScreenType
+                    ) {
+                        setFragmentResult(
+                            CUSTOM_DIALOG_KEY,
+                            bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                        )
+                        CustomBottomSheetDialog(
+                            mainViewModel::insertGetClip,
+                            mainViewModel::deleteClip
+                        ).show(parentFragmentManager, "")
+                    }
 
-                override fun <T> menuClickListener(item: T, screen: ScreenType) {
-                    setFragmentResult(
-                        CUSTOM_DIALOG_KEY,
-                        bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
-                    )
-                    CustomBottomSheetDialog(
-                        mainViewModel::insertGetClip,
-                        mainViewModel::deleteClip
-                    ).show(parentFragmentManager, "")
-                }
-            })
+                    override fun <T> menuClickListener(item: T, screen: ScreenType) {
+                        setFragmentResult(
+                            CUSTOM_DIALOG_KEY,
+                            bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                        )
+                        CustomBottomSheetDialog(
+                            mainViewModel::insertGetClip,
+                            mainViewModel::deleteClip
+                        ).show(parentFragmentManager, "")
+                    }
+                })
         }
     }
 
