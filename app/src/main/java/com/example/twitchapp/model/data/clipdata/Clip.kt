@@ -4,27 +4,22 @@ import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.twitchapp.model.data.streamdata.Thumbnail
+import com.squareup.moshi.Json
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity(tableName = "clips")
 data class Clip(
-    @PrimaryKey val tracking_id: String,
-    @Embedded(prefix = "broadcaster_")
-    val broadcaster: Broadcaster,
-    val created_at: String,
-    @Embedded(prefix = "curator_")
-    val curator: Curator,
+    @PrimaryKey
+    @Json(name = "tracking_id") val trackingId: String,
+    @Embedded(prefix = "broadcaster_") val broadcaster: Broadcaster,
+    @Embedded(prefix = "curator_") val curator: Curator,
+    @Embedded val thumbnails: Thumbnail,
     val duration: Double,
-    val embed_html: String,
-    val embed_url: String,
     val game: String,
     val language: String,
-    val slug: String,
-    @Embedded val thumbnails: Thumbnails,
     val title: String,
     val url: String,
     val views: Int,
-    @Embedded(prefix = "vod_")
-    val vod: Vod? = null
 ) : Parcelable

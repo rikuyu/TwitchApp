@@ -56,7 +56,7 @@ class MyProfileFragment : Fragment() {
 
         setupRecyclerView()
         loadProfileData()
-        context?.let { loadFilterGameData(it) }
+        loadFilterGameData(requireContext())
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -64,15 +64,16 @@ class MyProfileFragment : Fragment() {
                     when (it) {
                         is Resource.Success -> {
                             binding.progressbar.visibility = View.GONE
-                            it.data?.let { list ->
-                                if (list.isNotEmpty()) {
+                            if (it.data != null) {
+                                if (it.data.isNotEmpty()) {
                                     binding.emptyMsg.visibility = View.GONE
                                     binding.favoriteRecyclerView.visibility = View.VISIBLE
-                                    myProfileAdapter.submitList(list)
-                                    binding.numLikes.text = list.size.toString()
+                                    myProfileAdapter.submitList(it.data)
+                                    binding.numLikes.text = it.data.size.toString()
                                 } else {
                                     binding.emptyMsg.visibility = View.VISIBLE
                                     binding.favoriteRecyclerView.visibility = View.GONE
+                                    binding.progressbar.visibility = View.GONE
                                 }
                             }
                         }
@@ -106,23 +107,12 @@ class MyProfileFragment : Fragment() {
         }
 
         mainViewModel.filterGame.observe(viewLifecycleOwner, { game ->
-            context?.let {
-                when (game) {
-                    Games.PUBG_MOBILE -> setImageAndSaveGame(it, game.title)
-                    Games.APEX_LEGENDS -> setImageAndSaveGame(it, game.title)
-                    Games.AMONG_US -> setImageAndSaveGame(it, game.title)
-                    Games.GENSHIN -> setImageAndSaveGame(it, game.title)
-                    Games.FORTNITE -> setImageAndSaveGame(it, game.title)
-                    Games.MINECRAFT -> setImageAndSaveGame(it, game.title)
-                    Games.CALL_OF_DUTY -> setImageAndSaveGame(it, game.title)
-                    Games.LEAGUE_OF_LEGENDS -> setImageAndSaveGame(it, game.title)
-                    Games.ALL -> setImageAndSaveGame(it, game.title)
-                    null ->
-                        binding.filterGameImage.setImageDrawable(
-                            ContextCompat.getDrawable(it, R.drawable.game_icon)
-                        )
-                }
+            if (game == null) {
+                binding.filterGameImage.setImageDrawable(
+                    ContextCompat.getDrawable(requireContext(), R.drawable.game_icon)
+                )
             }
+            setImageAndSaveGame(requireContext(), game.title)
         })
     }
 
@@ -140,56 +130,54 @@ class MyProfileFragment : Fragment() {
         }
         context?.let {
             myProfileAdapter.setListener(object :
-                    ItemClickListener {
-                    override fun thumbnailClickListener(url: String) {
-                        chromeCustomTabsManager.openChromeCustomTabs(it, url)
-                    }
+                ItemClickListener {
+                override fun thumbnailClickListener(url: String) {
+                    chromeCustomTabsManager.openChromeCustomTabs(it, url)
+                }
 
-                    override fun <T> longClickListener(
-                        item: T,
-                        screen: ScreenType
-                    ) {
-                        setFragmentResult(
-                            CUSTOM_DIALOG_KEY,
-                            bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
-                        )
-                        CustomBottomSheetDialog(
-                            mainViewModel::insertGetClip,
-                            mainViewModel::deleteClip
-                        ).show(parentFragmentManager, "")
-                    }
+                override fun <T> longClickListener(
+                    item: T,
+                    screen: ScreenType
+                ) {
+                    setFragmentResult(
+                        CUSTOM_DIALOG_KEY,
+                        bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                    )
+                    CustomBottomSheetDialog(
+                        mainViewModel::insertGetClip,
+                        mainViewModel::deleteClip
+                    ).show(parentFragmentManager, "")
+                }
 
-                    override fun <T> menuClickListener(item: T, screen: ScreenType) {
-                        setFragmentResult(
-                            CUSTOM_DIALOG_KEY,
-                            bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
-                        )
-                        CustomBottomSheetDialog(
-                            mainViewModel::insertGetClip,
-                            mainViewModel::deleteClip
-                        ).show(parentFragmentManager, "")
-                    }
-                })
+                override fun <T> menuClickListener(item: T, screen: ScreenType) {
+                    setFragmentResult(
+                        CUSTOM_DIALOG_KEY,
+                        bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                    )
+                    CustomBottomSheetDialog(
+                        mainViewModel::insertGetClip,
+                        mainViewModel::deleteClip
+                    ).show(parentFragmentManager, "")
+                }
+            })
         }
     }
 
     private fun loadProfileData() {
-        context?.let {
-            val profileName = sharedPreferencesManager.getProfileName(it)
-            val profileImage = sharedPreferencesManager.getProfileImage(it)
+        val profileName = sharedPreferencesManager.getProfileName(requireContext())
+        val profileImage = sharedPreferencesManager.getProfileImage(requireContext())
 
-            profileName?.let { name ->
-                binding.myProfileName.text = name
+        profileName?.let { name ->
+            binding.myProfileName.text = name
+        }
+        profileImage?.let { uriString ->
+            val bitmap = decodeBitmapFromBase64(uriString)
+            if (bitmap == null) {
+                binding.myProfileImage.setImageResource(R.drawable.no_profile_image)
+            } else {
+                binding.myProfileImage.setImageBitmap(bitmap)
             }
-            profileImage?.let { uriString ->
-                val bitmap = decodeBitmapFromBase64(uriString)
-                if (bitmap == null) {
-                    binding.myProfileImage.setImageResource(R.drawable.no_profile_image)
-                } else {
-                    binding.myProfileImage.setImageBitmap(bitmap)
-                }
-                profileImageString = uriString
-            }
+            profileImageString = uriString
         }
     }
 
@@ -213,11 +201,9 @@ class MyProfileFragment : Fragment() {
                 }
             }
 
-            context?.let {
-                sharedPreferencesManager.apply {
-                    saveProfileName(it, newProfile?.newProfileName ?: "No Name")
-                    saveProfileImageUrl(it, newProfile?.newProfileImage ?: "")
-                }
+            sharedPreferencesManager.apply {
+                saveProfileName(requireContext(), newProfile?.newProfileName ?: "No Name")
+                saveProfileImageUrl(requireContext(), newProfile?.newProfileImage ?: "")
             }
         }
     }
@@ -239,16 +225,17 @@ class MyProfileFragment : Fragment() {
                     mainViewModel.getFavoriteGame()
                 }
                 setImageDrawable(getGameImage(context, it))
-                when (game) {
-                    Games.PUBG_MOBILE.title -> mainViewModel.filterGame.value = Games.PUBG_MOBILE
-                    Games.APEX_LEGENDS.title -> mainViewModel.filterGame.value = Games.APEX_LEGENDS
-                    Games.AMONG_US.title -> mainViewModel.filterGame.value = Games.AMONG_US
-                    Games.GENSHIN.title -> mainViewModel.filterGame.value = Games.GENSHIN
-                    Games.FORTNITE.title -> mainViewModel.filterGame.value = Games.FORTNITE
-                    Games.MINECRAFT.title -> mainViewModel.filterGame.value = Games.MINECRAFT
-                    Games.CALL_OF_DUTY.title -> mainViewModel.filterGame.value = Games.CALL_OF_DUTY
-                    Games.LEAGUE_OF_LEGENDS.title -> mainViewModel.filterGame.value = Games.LEAGUE_OF_LEGENDS
-                    Games.ALL.title -> mainViewModel.filterGame.value = Games.ALL
+                mainViewModel.filterGame.value = when (game) {
+                    Games.PUBG_MOBILE.title -> Games.PUBG_MOBILE
+                    Games.APEX_LEGENDS.title -> Games.APEX_LEGENDS
+                    Games.AMONG_US.title -> Games.AMONG_US
+                    Games.GENSHIN.title -> Games.GENSHIN
+                    Games.FORTNITE.title -> Games.FORTNITE
+                    Games.MINECRAFT.title -> Games.MINECRAFT
+                    Games.CALL_OF_DUTY.title -> Games.CALL_OF_DUTY
+                    Games.LEAGUE_OF_LEGENDS.title -> Games.LEAGUE_OF_LEGENDS
+                    Games.ALL.title -> Games.ALL
+                    else -> Games.ALL
                 }
             }
         }

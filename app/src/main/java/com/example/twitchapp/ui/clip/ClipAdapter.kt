@@ -40,7 +40,7 @@ class ClipAdapter(
                     }
                 }
                 userProfileImage.setOnClickListener {
-                    listener.userProfileClickListener(clip.broadcaster.channel_url)
+                    listener.userProfileClickListener(clip.broadcaster.channelUrl)
                 }
                 heartIcon.setOnClickListener {
                     listener.favoriteIconClickListener(clip)
