@@ -6,8 +6,6 @@ plugins {
     id 'kotlin-parcelize'
 }
 
-apply from: '../dependencies.gradle'
-
 def getApiKey() {
     def propFile = project.rootProject.file('local.properties')
     def properties = new Properties()
