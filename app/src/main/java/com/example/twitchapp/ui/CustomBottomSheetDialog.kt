@@ -10,8 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.twitchapp.databinding.CustomBottomSheetDialogBinding
-import com.example.twitchapp.model.data.clipdata.Clip
-import com.example.twitchapp.model.data.streamdata.Stream
+import com.example.twitchapp.model.data.clip_data.Clip
+import com.example.twitchapp.model.data.stream_data.Stream
 import com.example.twitchapp.util.BottomSheetDialogListenr
 import com.example.twitchapp.util.ChromeCustomTabsManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

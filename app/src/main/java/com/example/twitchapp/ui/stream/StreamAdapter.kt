@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.databinding.ItemStreamBinding
-import com.example.twitchapp.model.data.streamdata.Stream
+import com.example.twitchapp.model.data.stream_data.Stream
 import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.ScreenType
 

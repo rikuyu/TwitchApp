@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.databinding.ItemClipBinding
-import com.example.twitchapp.model.data.clipdata.Clip
+import com.example.twitchapp.model.data.clip_data.Clip
 import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.ScreenType
 import com.example.twitchapp.util.DIFF_CALLBACK

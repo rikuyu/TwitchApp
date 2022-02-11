@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.FragmentClipBinding
 import com.example.twitchapp.model.data.Games
-import com.example.twitchapp.model.data.clipdata.Clip
+import com.example.twitchapp.model.data.clip_data.Clip
 import com.example.twitchapp.ui.CustomBottomSheetDialog
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.ui.ScreenType
@@ -110,11 +110,11 @@ class ClipFragment : Fragment() {
         mainViewModel.clips.observeNonNull(
             viewLifecycleOwner, { response ->
                 when (response) {
-                    is Resource.Success -> {
+                    is Status.Success -> {
                         hideProgressBar()
-                        response.data?.let { clipAdapter.submitList(it.clips) }
+                        response.data.let { clipAdapter.submitList(it) }
                     }
-                    is Resource.Error -> {
+                    is Status.Error -> {
                         hideProgressBar()
                         Toast.makeText(
                             requireContext(),
@@ -122,7 +122,7 @@ class ClipFragment : Fragment() {
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                    is Resource.Loading -> showProgressBar()
+                    is Status.Loading -> showProgressBar()
                 }
             }
         )

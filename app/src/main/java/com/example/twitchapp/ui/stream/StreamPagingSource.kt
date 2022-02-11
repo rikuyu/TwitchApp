@@ -2,7 +2,7 @@ package com.example.twitchapp.ui.stream
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.twitchapp.model.data.streamdata.Stream
+import com.example.twitchapp.model.data.stream_data.Stream
 import com.example.twitchapp.model.repository.TwitchRepository
 
 class StreamPagingSource(private val repository: TwitchRepository) : PagingSource<Int, Stream>() {

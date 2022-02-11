@@ -1,7 +1,7 @@
 package com.example.twitchapp.util
 
 import android.content.Context
-import com.example.twitchapp.model.data.clipdata.Clip
+import com.example.twitchapp.model.data.clip_data.Clip
 
 interface BottomSheetDialogListenr {
     /*

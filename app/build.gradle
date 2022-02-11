@@ -111,7 +111,8 @@ dependencies {
     testImplementation testDependencies.coreTesting
     testImplementation testDependencies.coroutinesTest
     testImplementation testDependencies.truth
-    testImplementation apiDependencies.retrofitMock
+    testImplementation testDependencies.mockk
+    testImplementation testDependencies.mockkAgentJvm
 
     // ktlint
     ktlint("com.pinterest:ktlint:0.42.1")

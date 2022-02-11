@@ -62,7 +62,7 @@ class MyProfileFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainViewModel.favoriteList.collect {
                     when (it) {
-                        is Resource.Success -> {
+                        is Status.Success -> {
                             binding.progressbar.visibility = View.GONE
                             if (it.data != null) {
                                 if (it.data.isNotEmpty()) {
@@ -77,12 +77,12 @@ class MyProfileFragment : Fragment() {
                                 }
                             }
                         }
-                        is Resource.Error -> {
+                        is Status.Error -> {
                             binding.favoriteRecyclerView.visibility = View.VISIBLE
                             binding.progressbar.visibility = View.GONE
-                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), it.throwable.message, Toast.LENGTH_SHORT).show()
                         }
-                        is Resource.Loading -> {
+                        is Status.Loading -> {
                             binding.favoriteRecyclerView.visibility = View.GONE
                             binding.progressbar.visibility = View.VISIBLE
                         }

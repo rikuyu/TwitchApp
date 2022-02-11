@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import com.example.twitchapp.R
 import com.example.twitchapp.model.data.Games
-import com.example.twitchapp.model.data.clipdata.Clip
+import com.example.twitchapp.model.data.clip_data.Clip
 
 fun getGameImage(context: Context, gameTitle: String): Drawable? {
 
