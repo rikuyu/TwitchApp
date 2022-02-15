@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.twitchapp.R
 import com.example.twitchapp.databinding.FragmentClipBinding
 import com.example.twitchapp.model.data.Games
-import com.example.twitchapp.model.data.clipdata.Clip
+import com.example.twitchapp.model.data.clip_data.Clip
 import com.example.twitchapp.ui.CustomBottomSheetDialog
 import com.example.twitchapp.ui.MainViewModel
 import com.example.twitchapp.ui.ScreenType
@@ -50,88 +50,77 @@ class ClipFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        context?.let {
-            val gameTitle = sharedPreferencesManager.getClipFetchGame(it)
-            if (gameTitle != null) {
-                loadClipFetchGame(gameTitle)
-                mainViewModel.fetchClip(gameTitle)
-            } else {
-                switchCardViewBorder(binding.gameTitlesTopbar.pubgMobileCard, it)
-                mainViewModel.fetchClip(Games.PUBG_MOBILE.title)
+        val gameTitle = sharedPreferencesManager.getClipFetchGame(requireContext())
+        if (gameTitle != null) {
+            loadClipFetchGame(gameTitle)
+            mainViewModel.fetchClip(gameTitle)
+        } else {
+            switchCardViewBorder(binding.gameTitlesTopbar.pubgMobileCard, requireContext())
+            mainViewModel.fetchClip(Games.PUBG_MOBILE.title)
+        }
+
+        clipItemClickListener = object : ClipAdapter.ClipItemClickListener {
+            override fun thumbnailClickListener(url: String) {
+                chromeCustomTabsManager.openChromeCustomTabs(requireContext(), url)
             }
 
-            clipItemClickListener = object : ClipAdapter.ClipItemClickListener {
-                override fun thumbnailClickListener(url: String) {
-                    chromeCustomTabsManager.openChromeCustomTabs(it, url)
-                }
-
-                override fun <T> longClickListener(item: T, screen: ScreenType) {
-                    setFragmentResult(
-                        CUSTOM_DIALOG_KEY,
-                        bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
-                    )
-                    CustomBottomSheetDialog(
-                        mainViewModel::insertGetClip,
-                        mainViewModel::deleteClip
-                    ).show(parentFragmentManager, "")
-                }
-
-                override fun <T> menuClickListener(item: T, screen: ScreenType) {
-                    setFragmentResult(
-                        CUSTOM_DIALOG_KEY,
-                        bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
-                    )
-                    CustomBottomSheetDialog(
-                        mainViewModel::insertGetClip,
-                        mainViewModel::deleteClip
-                    ).show(parentFragmentManager, "")
-                }
-
-                override fun userProfileClickListener(url: String) {
-                    chromeCustomTabsManager.openChromeCustomTabs(it, url)
-                }
-
-                override fun favoriteIconClickListener(clip: Clip) {
-                    mainViewModel.insertGetClip(clip)
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.clip_save),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+            override fun <T> longClickListener(item: T, screen: ScreenType) {
+                setFragmentResult(
+                    CUSTOM_DIALOG_KEY,
+                    bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                )
+                CustomBottomSheetDialog(
+                    mainViewModel::insertGetClip,
+                    mainViewModel::deleteClip
+                ).show(parentFragmentManager, "")
             }
 
-            clipAdapter = ClipAdapter(it, clipItemClickListener)
-            binding.clipRecyclerView.apply {
-                layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                adapter = clipAdapter
+            override fun <T> menuClickListener(item: T, screen: ScreenType) {
+                setFragmentResult(
+                    CUSTOM_DIALOG_KEY,
+                    bundleOf(ITEM_KEY to item, SCREEN_KEY to screen)
+                )
+                CustomBottomSheetDialog(
+                    mainViewModel::insertGetClip,
+                    mainViewModel::deleteClip
+                ).show(parentFragmentManager, "")
+            }
+
+            override fun userProfileClickListener(url: String) {
+                chromeCustomTabsManager.openChromeCustomTabs(requireContext(), url)
+            }
+
+            override fun favoriteIconClickListener(clip: Clip) {
+                mainViewModel.insertGetClip(clip)
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.clip_save),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
-        mainViewModel.clips.observe(
-            viewLifecycleOwner,
-            { response ->
+        clipAdapter = ClipAdapter(requireContext(), clipItemClickListener)
+        binding.clipRecyclerView.apply {
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            adapter = clipAdapter
+        }
+
+        mainViewModel.clips.observeNonNull(
+            viewLifecycleOwner, { response ->
                 when (response) {
-                    is Resource.Success -> {
-                        hideProgressBar()
-                        response.data?.let { res ->
-                            res.clips.let { list ->
-                                clipAdapter.submitList(list)
-                            }
-                        }
+                    is Status.Success -> {
+                        response.data.let { clipAdapter.submitList(it) }
                     }
-                    is Resource.Error -> {
-                        hideProgressBar()
+                    is Status.Error -> {
                         Toast.makeText(
                             requireContext(),
                             getString(R.string.clip_get_error),
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                    is Resource.Loading -> {
-                        showProgressBar()
-                    }
+                    is Status.Loading -> { }
                 }
             }
         )
@@ -145,14 +134,6 @@ class ClipFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun hideProgressBar() {
-        binding.progressbar.visibility = View.INVISIBLE
-    }
-
-    private fun showProgressBar() {
-        binding.progressbar.visibility = View.VISIBLE
     }
 
     private fun setupTopMenu() {
@@ -175,17 +156,18 @@ class ClipFragment : Fragment() {
                 sharedPreferencesManager.saveClipFetchGame(it, game.title)
                 binding.fetchGameIcon.setImageDrawable(getGameImage(it, game.title))
                 binding.gameTitlesTopbar.apply {
-                    when (game) {
-                        Games.PUBG_MOBILE -> switchCardViewBorder(pubgMobileCard, it)
-                        Games.APEX_LEGENDS -> switchCardViewBorder(apexCard, it)
-                        Games.AMONG_US -> switchCardViewBorder(amongusCard, it)
-                        Games.GENSHIN -> switchCardViewBorder(genshinCard, it)
-                        Games.FORTNITE -> switchCardViewBorder(fortniteCard, it)
-                        Games.MINECRAFT -> switchCardViewBorder(minecraftCard, it)
-                        Games.CALL_OF_DUTY -> switchCardViewBorder(callofdutyCard, it)
-                        Games.LEAGUE_OF_LEGENDS -> switchCardViewBorder(lolCard, it)
+                    val gameCard = when (game) {
+                        Games.PUBG_MOBILE -> pubgMobileCard
+                        Games.APEX_LEGENDS -> apexCard
+                        Games.AMONG_US -> amongusCard
+                        Games.GENSHIN -> genshinCard
+                        Games.FORTNITE -> fortniteCard
+                        Games.MINECRAFT -> minecraftCard
+                        Games.CALL_OF_DUTY -> callofdutyCard
+                        Games.LEAGUE_OF_LEGENDS -> lolCard
                         Games.ALL -> return@apply
                     }
+                    switchCardViewBorder(gameCard, it)
                 }
             }
             vm.fetchClip(game.title)
@@ -216,16 +198,18 @@ class ClipFragment : Fragment() {
         binding.apply {
             context?.let {
                 fetchGameIcon.setImageDrawable(getGameImage(it, gameTitle))
-                when (gameTitle) {
-                    Games.PUBG_MOBILE.title -> switchCardViewBorder(gameTitlesTopbar.pubgMobileCard, it)
-                    Games.APEX_LEGENDS.title -> switchCardViewBorder(gameTitlesTopbar.apexCard, it)
-                    Games.AMONG_US.title -> switchCardViewBorder(gameTitlesTopbar.amongusCard, it)
-                    Games.GENSHIN.title -> switchCardViewBorder(gameTitlesTopbar.genshinCard, it)
-                    Games.FORTNITE.title -> switchCardViewBorder(gameTitlesTopbar.fortniteCard, it)
-                    Games.MINECRAFT.title -> switchCardViewBorder(gameTitlesTopbar.minecraftCard, it)
-                    Games.CALL_OF_DUTY.title -> switchCardViewBorder(gameTitlesTopbar.callofdutyCard, it)
-                    Games.LEAGUE_OF_LEGENDS.title -> switchCardViewBorder(gameTitlesTopbar.lolCard, it)
+                val gameCard = when (gameTitle) {
+                    Games.PUBG_MOBILE.title -> gameTitlesTopbar.pubgMobileCard
+                    Games.APEX_LEGENDS.title -> gameTitlesTopbar.apexCard
+                    Games.AMONG_US.title -> gameTitlesTopbar.amongusCard
+                    Games.GENSHIN.title -> gameTitlesTopbar.genshinCard
+                    Games.FORTNITE.title -> gameTitlesTopbar.fortniteCard
+                    Games.MINECRAFT.title -> gameTitlesTopbar.minecraftCard
+                    Games.CALL_OF_DUTY.title -> gameTitlesTopbar.callofdutyCard
+                    Games.LEAGUE_OF_LEGENDS.title -> gameTitlesTopbar.lolCard
+                    else -> return
                 }
+                switchCardViewBorder(gameCard, it)
             }
         }
     }

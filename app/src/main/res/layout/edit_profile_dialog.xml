@@ -1,109 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/dialog_title"
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/dialog_title"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/edit_profile_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="wrap_content">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/edit_profile_image"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="12dp"
-        android:contentDescription="@string/image_desc"
-        android:src="@drawable/no_profile_image"
-        app:layout_constraintBottom_toTopOf="@+id/edit_my_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
-
-    <ImageView
-        android:id="@+id/edit_avater_icon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:contentDescription="@string/image_desc"
-        android:src="@drawable/ic_change_avatar"
-        app:layout_constraintBottom_toBottomOf="@+id/edit_profile_image"
-        app:layout_constraintEnd_toEndOf="@+id/edit_profile_image" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/edit_my_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        app:counterEnabled="true"
-        app:counterMaxLength="10"
-        app:errorEnabled="true"
-        app:layout_constraintBottom_toTopOf="@+id/edit_line"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_profile_image">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/dialog_profile_name"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="@string/dialog_input_label"
-            android:inputType="text" />
+            android:layout_marginTop="8dp"
+            android:text="@string/dialog_title"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/edit_profile_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/edit_profile_image"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="12dp"
+            android:contentDescription="@string/image_desc"
+            android:src="@drawable/no_profile_image"
+            app:layout_constraintBottom_toTopOf="@+id/edit_my_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
 
-    <View
-        android:id="@+id/edit_line"
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/theme"
-        app:layout_constraintBottom_toTopOf="@+id/line_vertical_center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_my_name" />
+        <ImageView
+            android:id="@+id/edit_avater_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:contentDescription="@string/image_desc"
+            android:src="@drawable/ic_change_avatar"
+            app:layout_constraintBottom_toBottomOf="@+id/edit_profile_image"
+            app:layout_constraintEnd_toEndOf="@+id/edit_profile_image" />
 
-    <View
-        android:id="@+id/line_vertical_center"
-        android:layout_width="1dp"
-        android:layout_height="0dp"
-        android:background="@color/theme"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/edit_line" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edit_my_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="10"
+            app:errorEnabled="true"
+            app:layout_constraintBottom_toTopOf="@+id/edit_line"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_profile_image">
 
-    <TextView
-        android:id="@+id/btn_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:text="@string/dialog_btn_ok"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/line_vertical_center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_line" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dialog_profile_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/dialog_input_label"
+                android:inputType="text" />
 
-    <TextView
-        android:id="@+id/btn_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:text="@string/dialog_btn_cancel"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/line_vertical_center"
-        app:layout_constraintTop_toBottomOf="@+id/edit_line" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/edit_line"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/theme"
+            app:layout_constraintBottom_toTopOf="@+id/line_vertical_center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_my_name" />
+
+        <View
+            android:id="@+id/line_vertical_center"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:background="@color/theme"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/edit_line" />
+
+        <TextView
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:text="@string/dialog_btn_ok"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/line_vertical_center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_line" />
+
+        <TextView
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:text="@string/dialog_btn_cancel"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/line_vertical_center"
+            app:layout_constraintTop_toBottomOf="@+id/edit_line" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

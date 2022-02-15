@@ -1,218 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:theme="@style/Theme.MaterialComponents">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:id="@+id/filter_dialog_title"
+    <data>
+
+    </data>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:text="@string/dialog_filter"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:gravity="center"
+        android:orientation="vertical"
+        android:theme="@style/Theme.MaterialComponents">
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:background="@color/theme" />
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/pubg_mobile_card"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="15dp"
-            app:layout_constraintEnd_toStartOf="@+id/apex_card"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/pubg_mobile"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/image_desc"
-                android:src="@drawable/pubg_mobile" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/apex_card"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="15dp"
-            app:layout_constraintBottom_toBottomOf="@id/pubg_mobile_card"
-            app:layout_constraintEnd_toStartOf="@+id/amongus_card"
-            app:layout_constraintStart_toEndOf="@+id/pubg_mobile_card"
-            app:layout_constraintTop_toTopOf="@id/pubg_mobile_card">
-
-            <ImageView
-                android:id="@+id/apex"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/image_desc"
-                android:src="@drawable/apex" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/amongus_card"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="15dp"
-            app:layout_constraintBottom_toBottomOf="@+id/pubg_mobile_card"
+        <TextView
+            android:id="@+id/filter_dialog_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:text="@string/dialog_filter"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/apex_card"
-            app:layout_constraintTop_toTopOf="@+id/pubg_mobile_card">
-
-            <ImageView
-                android:id="@+id/amongus"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/image_desc"
-                android:src="@drawable/among" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/genshin_card"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="15dp"
-            app:layout_constraintBottom_toTopOf="@+id/callofduty_card"
-            app:layout_constraintEnd_toStartOf="@+id/minecraft_card"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pubg_mobile_card">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/genshin"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/image_desc"
-                android:src="@drawable/genshin" />
-        </com.google.android.material.card.MaterialCardView>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@color/theme" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/minecraft_card"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="15dp"
-            app:layout_constraintBottom_toBottomOf="@+id/genshin_card"
-            app:layout_constraintEnd_toStartOf="@id/fortnite_card"
-            app:layout_constraintStart_toEndOf="@+id/genshin_card"
-            app:layout_constraintTop_toTopOf="@+id/genshin_card">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/minecraft"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/image_desc"
-                android:src="@drawable/minecraft" />
-        </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/pubg_mobile_card"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="15dp"
+                app:layout_constraintEnd_toStartOf="@+id/apex_card"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/fortnite_card"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="15dp"
-            app:layout_constraintBottom_toBottomOf="@+id/genshin_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/minecraft_card"
-            app:layout_constraintTop_toTopOf="@+id/genshin_card">
+                <ImageView
+                    android:id="@+id/pubg_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/image_desc"
+                    android:src="@drawable/pubg_mobile" />
+            </com.google.android.material.card.MaterialCardView>
 
-            <ImageView
-                android:id="@+id/fortnite"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/image_desc"
-                android:src="@drawable/fortnite" />
-        </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/apex_card"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="15dp"
+                app:layout_constraintBottom_toBottomOf="@id/pubg_mobile_card"
+                app:layout_constraintEnd_toStartOf="@+id/amongus_card"
+                app:layout_constraintStart_toEndOf="@+id/pubg_mobile_card"
+                app:layout_constraintTop_toTopOf="@id/pubg_mobile_card">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/callofduty_card"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="15dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/genshin_card"
-            app:layout_constraintStart_toStartOf="@id/genshin_card">
+                <ImageView
+                    android:id="@+id/apex"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/image_desc"
+                    android:src="@drawable/apex" />
+            </com.google.android.material.card.MaterialCardView>
 
-            <ImageView
-                android:id="@+id/callofduty"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/image_desc"
-                android:src="@drawable/callofduty" />
-        </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/amongus_card"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/pubg_mobile_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/apex_card"
+                app:layout_constraintTop_toTopOf="@+id/pubg_mobile_card">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/lol_card"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="15dp"
-            app:layout_constraintBottom_toBottomOf="@+id/callofduty_card"
-            app:layout_constraintEnd_toEndOf="@+id/minecraft_card"
-            app:layout_constraintStart_toStartOf="@id/minecraft_card"
-            app:layout_constraintTop_toTopOf="@+id/callofduty_card">
+                <ImageView
+                    android:id="@+id/amongus"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/image_desc"
+                    android:src="@drawable/among" />
+            </com.google.android.material.card.MaterialCardView>
 
-            <ImageView
-                android:id="@+id/lol"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/image_desc"
-                android:src="@drawable/lol" />
-        </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/genshin_card"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="15dp"
+                app:layout_constraintBottom_toTopOf="@+id/callofduty_card"
+                app:layout_constraintEnd_toStartOf="@+id/minecraft_card"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pubg_mobile_card">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/all_game_card"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="25dp"
-            app:layout_constraintBottom_toBottomOf="@+id/callofduty_card"
-            app:layout_constraintEnd_toEndOf="@+id/fortnite_card"
-            app:layout_constraintStart_toStartOf="@+id/fortnite_card"
-            app:layout_constraintTop_toTopOf="@+id/callofduty_card">
+                <ImageView
+                    android:id="@+id/genshin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/image_desc"
+                    android:src="@drawable/genshin" />
+            </com.google.android.material.card.MaterialCardView>
 
-            <ImageView
-                android:id="@+id/all_game"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/image_desc"
-                android:src="@drawable/game_icon" />
-        </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/minecraft_card"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/genshin_card"
+                app:layout_constraintEnd_toStartOf="@id/fortnite_card"
+                app:layout_constraintStart_toEndOf="@+id/genshin_card"
+                app:layout_constraintTop_toTopOf="@+id/genshin_card">
+
+                <ImageView
+                    android:id="@+id/minecraft"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/image_desc"
+                    android:src="@drawable/minecraft" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/fortnite_card"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/genshin_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/minecraft_card"
+                app:layout_constraintTop_toTopOf="@+id/genshin_card">
+
+                <ImageView
+                    android:id="@+id/fortnite"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/image_desc"
+                    android:src="@drawable/fortnite" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/callofduty_card"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/genshin_card"
+                app:layout_constraintStart_toStartOf="@id/genshin_card">
+
+                <ImageView
+                    android:id="@+id/callofduty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/image_desc"
+                    android:src="@drawable/callofduty" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/lol_card"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="15dp"
+                app:layout_constraintBottom_toBottomOf="@+id/callofduty_card"
+                app:layout_constraintEnd_toEndOf="@+id/minecraft_card"
+                app:layout_constraintStart_toStartOf="@id/minecraft_card"
+                app:layout_constraintTop_toTopOf="@+id/callofduty_card">
+
+                <ImageView
+                    android:id="@+id/lol"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/image_desc"
+                    android:src="@drawable/lol" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/all_game_card"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="12dp"
+                app:cardCornerRadius="25dp"
+                app:layout_constraintBottom_toBottomOf="@+id/callofduty_card"
+                app:layout_constraintEnd_toEndOf="@+id/fortnite_card"
+                app:layout_constraintStart_toStartOf="@+id/fortnite_card"
+                app:layout_constraintTop_toTopOf="@+id/callofduty_card">
+
+                <ImageView
+                    android:id="@+id/all_game"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/image_desc"
+                    android:src="@drawable/game_icon" />
+            </com.google.android.material.card.MaterialCardView>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:background="@color/theme" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@color/theme" />
 
-    <TextView
-        android:id="@+id/btn_ok"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="8dp"
-        android:text="@string/dialog_btn_ok"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@id/lol_card"
-        app:layout_constraintStart_toStartOf="@+id/lol_card"
-        app:layout_constraintTop_toBottomOf="@+id/lol_card" />
+        <TextView
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:text="@string/dialog_btn_ok"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@id/lol_card"
+            app:layout_constraintStart_toStartOf="@+id/lol_card"
+            app:layout_constraintTop_toBottomOf="@+id/lol_card" />
 
-</LinearLayout>
+    </LinearLayout>
+</layout>

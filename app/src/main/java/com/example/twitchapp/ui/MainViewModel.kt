@@ -5,10 +5,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import com.example.twitchapp.model.data.Games
-import com.example.twitchapp.model.data.clipdata.Clip
-import com.example.twitchapp.model.data.clipdata.ClipResponse
+import com.example.twitchapp.model.data.clip_data.Clip
 import com.example.twitchapp.model.repository.TwitchRepository
-import com.example.twitchapp.util.Resource
+import com.example.twitchapp.util.Status
 import com.example.twitchapp.ui.stream.StreamPagingSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -22,13 +21,14 @@ class MainViewModel @Inject constructor(
     private val repository: TwitchRepository
 ) : ViewModel() {
 
-    private val _clips: MutableLiveData<Resource<ClipResponse>> = MutableLiveData()
-    val clips: LiveData<Resource<ClipResponse>> get() = _clips
+    private val _clips: MutableLiveData<Status<List<Clip>>> = MutableLiveData()
+    val clips: LiveData<Status<List<Clip>>> get() = _clips
+    // val clips: LiveData<Status<ClipResponse>> = _clips.distinctUntilChanged()
 
     val filterGame: MutableLiveData<Games> = MutableLiveData(Games.ALL)
 
-    private val _favoriteList: MutableStateFlow<Resource<List<Clip>>> = MutableStateFlow(Resource.Loading())
-    val favoriteList: StateFlow<Resource<List<Clip>>> get() = _favoriteList
+    private val _favoriteList: MutableStateFlow<Status<List<Clip>>> = MutableStateFlow(Status.Loading)
+    val favoriteList: StateFlow<Status<List<Clip>>> get() = _favoriteList
 
     val streamFlow = Pager(
         PagingConfig(pageSize = PAGE_SIZE, initialLoadSize = PAGE_SIZE)
@@ -36,29 +36,27 @@ class MainViewModel @Inject constructor(
         StreamPagingSource(repository)
     }.flow.cachedIn(viewModelScope)
 
-    fun fetchClip(gameTitle: String) {
-        viewModelScope.launch {
-            _clips.value = Resource.Loading()
-            val cliplist = repository.fetchClip(gameTitle)
-            cliplist.let { list ->
-                if (list.isSuccessful) {
-                    list.body()?.let {
-                        _clips.value = Resource.Success(it)
-                    }
-                } else {
-                    _clips.value = Resource.Error("取得失敗")
-                }
+    fun fetchClip(gameTitle: String) = viewModelScope.launch {
+        _clips.value = Status.Loading
+        runCatching {
+            withContext(Dispatchers.IO) {
+                val res = repository.fetchClip(gameTitle)
+                if (!res.isSuccessful || res.body() == null) throw Throwable()
+                return@withContext res.body()!!.clips
             }
+        }.onSuccess {
+            _clips.value = Status.Success(it)
+        }.onFailure {
+            _clips.value = Status.Error(it)
         }
     }
 
-    fun getFavoriteGame() {
-        viewModelScope.launch {
-            repository.getFavoriteGame().catch {
-                _favoriteList.value = Resource.Error("flow error")
-            }.collect {
-                _favoriteList.value = Resource.Success(it)
-            }
+    fun getFavoriteGame() = viewModelScope.launch {
+        _favoriteList.value = Status.Loading
+        repository.getFavoriteGame().catch {
+            _favoriteList.value = Status.Error(it)
+        }.collect {
+            _favoriteList.value = Status.Success(it)
         }
     }
 
@@ -92,19 +90,15 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getSpecificFavoriteGame(game: String) {
-        viewModelScope.launch {
-            repository.getFavoriteGame().catch {
-                _favoriteList.value = Resource.Error("flow error")
-            }.collect { list ->
-                if (game != Games.ALL.title) {
-                    val filteredList = list.filter {
-                        it.game == game
-                    }
-                    _favoriteList.value = Resource.Success(filteredList)
-                } else {
-                    _favoriteList.value = Resource.Success(list)
-                }
+    fun getSpecificFavoriteGame(game: String) = viewModelScope.launch {
+        repository.getFavoriteGame().catch {
+            _favoriteList.value = Status.Error(it)
+        }.collect { list ->
+            if (game != Games.ALL.title) {
+                val filteredList = list.filter { it.game == game }
+                _favoriteList.value = Status.Success(filteredList)
+            } else {
+                _favoriteList.value = Status.Success(list)
             }
         }
     }

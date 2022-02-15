@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.twitchapp.databinding.ItemStreamBinding
-import com.example.twitchapp.model.data.streamdata.Stream
+import com.example.twitchapp.model.data.stream_data.Stream
 import com.example.twitchapp.ui.ItemClickListener
 import com.example.twitchapp.ui.ScreenType
 
@@ -25,7 +25,7 @@ class StreamAdapter(private val context: Context) :
                 userName.text = stream.channel.name
                 viewer.text = stream.viewers.toString()
                 Glide.with(context)
-                    .load(stream.preview.large)
+                    .load(stream.preview.medium)
                     .into(thumbnail)
                 Glide.with(context).load(stream.channel.logo)
                     .apply(RequestOptions.circleCropTransform())
@@ -67,7 +67,7 @@ class StreamAdapter(private val context: Context) :
     companion object {
         val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Stream>() {
             override fun areItemsTheSame(oldItem: Stream, newItem: Stream) =
-                oldItem._id == newItem._id
+                oldItem.id == newItem.id
 
             override fun areContentsTheSame(oldItem: Stream, newItem: Stream) =
                 oldItem == newItem

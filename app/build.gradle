@@ -47,7 +47,7 @@ android {
         abortOnError false
     }
     buildFeatures {
-        viewBinding true
+        dataBinding true
     }
     packagingOptions {
         exclude 'META-INF/AL2.0'
@@ -109,7 +109,9 @@ dependencies {
     testImplementation testDependencies.coreTesting
     testImplementation testDependencies.coroutinesTest
     testImplementation testDependencies.truth
-    testImplementation apiDependencies.retrofitMock
+
+    testImplementation "io.mockk:mockk:1.12.2"
+    testImplementation "io.mockk:mockk-agent-jvm:1.12.2"
 
     // ktlint
     ktlint("com.pinterest:ktlint:0.42.1")

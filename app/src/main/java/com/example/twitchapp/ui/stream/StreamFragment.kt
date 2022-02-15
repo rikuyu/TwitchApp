@@ -45,9 +45,7 @@ class StreamFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        context?.let {
-            streamAdapter = StreamAdapter(it)
-        }
+        streamAdapter = StreamAdapter(requireContext())
 
         binding.streamRecyclerView.apply {
             adapter =

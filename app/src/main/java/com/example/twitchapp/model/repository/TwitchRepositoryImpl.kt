@@ -2,9 +2,9 @@ package com.example.twitchapp.model.repository
 
 import com.example.twitchapp.db.TwitchDatabase
 import com.example.twitchapp.model.api.TwitchApi
-import com.example.twitchapp.model.data.clipdata.Clip
-import com.example.twitchapp.model.data.clipdata.ClipResponse
-import com.example.twitchapp.model.data.streamdata.Streams
+import com.example.twitchapp.model.data.clip_data.Clip
+import com.example.twitchapp.model.data.clip_data.ClipResponse
+import com.example.twitchapp.model.data.stream_data.Streams
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

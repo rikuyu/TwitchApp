@@ -1,8 +1,8 @@
 package com.example.twitchapp.model.api
 
 import com.example.twitchapp.BuildConfig
-import com.example.twitchapp.model.data.clipdata.ClipResponse
-import com.example.twitchapp.model.data.streamdata.Streams
+import com.example.twitchapp.model.data.clip_data.ClipResponse
+import com.example.twitchapp.model.data.stream_data.Streams
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers

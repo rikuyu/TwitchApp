@@ -10,25 +10,29 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Base64
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import com.example.twitchapp.R
 import com.example.twitchapp.model.data.Games
-import com.example.twitchapp.model.data.clipdata.Clip
+import com.example.twitchapp.model.data.clip_data.Clip
 
 fun getGameImage(context: Context, gameTitle: String): Drawable? {
-    return when (gameTitle) {
-        Games.PUBG_MOBILE.title -> ContextCompat.getDrawable(context, R.drawable.pubg_mobile)
-        Games.AMONG_US.title -> ContextCompat.getDrawable(context, R.drawable.among)
-        Games.APEX_LEGENDS.title -> ContextCompat.getDrawable(context, R.drawable.apex)
-        Games.GENSHIN.title -> ContextCompat.getDrawable(context, R.drawable.genshin)
-        Games.FORTNITE.title -> ContextCompat.getDrawable(context, R.drawable.fortnite)
-        Games.MINECRAFT.title -> ContextCompat.getDrawable(context, R.drawable.minecraft)
-        Games.CALL_OF_DUTY.title -> ContextCompat.getDrawable(context, R.drawable.callofduty)
-        Games.LEAGUE_OF_LEGENDS.title -> ContextCompat.getDrawable(context, R.drawable.lol)
-        Games.ALL.title -> ContextCompat.getDrawable(context, R.drawable.game_icon)
-        else -> ContextCompat.getDrawable(context, R.drawable.ic_no_game)
+
+    @DrawableRes
+    val gameImageId = when (gameTitle) {
+        Games.PUBG_MOBILE.title -> R.drawable.pubg_mobile
+        Games.AMONG_US.title -> R.drawable.among
+        Games.APEX_LEGENDS.title -> R.drawable.apex
+        Games.GENSHIN.title -> R.drawable.genshin
+        Games.FORTNITE.title -> R.drawable.fortnite
+        Games.MINECRAFT.title -> R.drawable.minecraft
+        Games.CALL_OF_DUTY.title -> R.drawable.callofduty
+        Games.LEAGUE_OF_LEGENDS.title -> R.drawable.lol
+        Games.ALL.title -> R.drawable.game_icon
+        else -> R.drawable.ic_no_game
     }
+    return ContextCompat.getDrawable(context, gameImageId)
 }
 
 // Clipに100分以上の動画はない
