@@ -63,29 +63,20 @@ class MyProfileFragment : Fragment() {
                 mainViewModel.favoriteList.collect {
                     when (it) {
                         is Status.Success -> {
-                            binding.progressbar.visibility = View.GONE
-                            if (it.data != null) {
-                                if (it.data.isNotEmpty()) {
-                                    binding.emptyMsg.visibility = View.GONE
-                                    binding.favoriteRecyclerView.visibility = View.VISIBLE
-                                    myProfileAdapter.submitList(it.data)
-                                    binding.numLikes.text = it.data.size.toString()
-                                } else {
-                                    binding.emptyMsg.visibility = View.VISIBLE
-                                    binding.favoriteRecyclerView.visibility = View.GONE
-                                    binding.progressbar.visibility = View.GONE
-                                }
+                            if (it.data.isNotEmpty()) {
+                                binding.emptyMsg.visibility = View.GONE
+                                binding.favoriteRecyclerView.visibility = View.VISIBLE
+                                myProfileAdapter.submitList(it.data)
+                                binding.numLikes.text = it.data.size.toString()
+                            } else {
+                                binding.emptyMsg.visibility = View.VISIBLE
+                                binding.favoriteRecyclerView.visibility = View.GONE
                             }
                         }
                         is Status.Error -> {
-                            binding.favoriteRecyclerView.visibility = View.VISIBLE
-                            binding.progressbar.visibility = View.GONE
                             Toast.makeText(requireContext(), it.throwable.message, Toast.LENGTH_SHORT).show()
                         }
-                        is Status.Loading -> {
-                            binding.favoriteRecyclerView.visibility = View.GONE
-                            binding.progressbar.visibility = View.VISIBLE
-                        }
+                        is Status.Loading -> { }
                     }
                 }
             }

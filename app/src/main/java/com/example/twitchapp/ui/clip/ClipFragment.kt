@@ -111,18 +111,16 @@ class ClipFragment : Fragment() {
             viewLifecycleOwner, { response ->
                 when (response) {
                     is Status.Success -> {
-                        hideProgressBar()
                         response.data.let { clipAdapter.submitList(it) }
                     }
                     is Status.Error -> {
-                        hideProgressBar()
                         Toast.makeText(
                             requireContext(),
                             getString(R.string.clip_get_error),
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                    is Status.Loading -> showProgressBar()
+                    is Status.Loading -> { }
                 }
             }
         )
@@ -136,14 +134,6 @@ class ClipFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun hideProgressBar() {
-        binding.progressbar.visibility = View.INVISIBLE
-    }
-
-    private fun showProgressBar() {
-        binding.progressbar.visibility = View.VISIBLE
     }
 
     private fun setupTopMenu() {
